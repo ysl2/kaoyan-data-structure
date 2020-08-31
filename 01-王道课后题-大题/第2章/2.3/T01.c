@@ -3,9 +3,9 @@ void delete(LinkList &L, ElemType x) {
         return ;
     }
     if (L->data == x) {
-        LinkNode *p = L;
+        LinkNode *temp = L;
         L = L->next;
-        free(p);
+        free(temp);
         delete(L, x);
     } else {
         delete(L->next, x);
