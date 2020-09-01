@@ -1,12 +1,15 @@
 void reverse(LinkList &L) {
-    LinkNode *p, *r;
-    p = L->next;
+    LinkNode *p = L->next;
     L->next = NULL;
     while (p != NULL) {
-        r = p->next;
-        p->next = L->next;
-        L->next = p;
-        p = r;
+        headInsert(L, p);
     }
+}
+
+void headInsert(LinkList &L, LinkNode *&p) {
+    LinkNode *temp = p->next;
+    p->next = L->next;
+    L->next = p;
+    p = temp;
 }
 

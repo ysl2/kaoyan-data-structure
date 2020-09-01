@@ -1,7 +1,8 @@
-void recursive(LinkList L) {
-    if (L->next != NULL) {
-        recursive(L->next);
+void recur(LinkList L) {
+    if (L == NULL) {
+        return ;
     }
-    visit(L->data);
+    recur(L->next);
+    visit(L);
 }
 
