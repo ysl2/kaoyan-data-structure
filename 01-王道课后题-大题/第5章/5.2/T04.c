@@ -11,13 +11,17 @@ typedef struct VexNode {
 typedef struct {
     VexNode *vertex;  // 这里加了*号，因为将来会是一个数组（动态分配）
     int arcnum, vexnum;
-} AdjacentList;
+} *AdjacentList;  
+// 如果这里没有加*号，那么下面的应该是L.vexnum
+// 如果这里加了*号，那么下面的应该是L->vexnum
 
-//转换。这个算法中，引用方式(.和->)可能存在错误。
+AdjacentList L;  // 定义全局变量。如果不写这一句，下面的形参&会报错
+
+//转换
 int **converse(AdjacentList &L) {
 	// 采用动态方式申请数组a。静态申请也可以。
     int a[][] = createMatrix(L->vexnum, L->vexnum);
-    for (int i = 0; i < L->vexnum; i++) {
+    for (int i = 0; i < L.vexnum; i++) {
         ArcNode *temp = (L->vertex[i]).first;
         while (temp != NULL) {
             a[i][temp->index] = 1;
@@ -36,6 +40,4 @@ int **createMatrix(int m, int n) {
     }
     return a;
 }
-
-
 
