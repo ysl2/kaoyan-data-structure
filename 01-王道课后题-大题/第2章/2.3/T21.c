@@ -1,6 +1,6 @@
 // 2020-09-02 第二次修订
 typedef int ElemType;
-typedef struct LinkNode{
+typedef struct LinkNode {
     ElemType data;
     struct LinkNode *next;
 } LinkNode, *LinkList;
@@ -15,11 +15,12 @@ ElemType getK(LinkList &L, int k) {
 // 快慢指针，pre是慢指针，p是快指针
     if (L == NULL || L->next == NULL) return NULL;
     LinkNode *pre = L->next, *p = L->next;
-    while(k >= 0 && p != NULL) {
+    while(k > 0 && p != NULL) {
         p = p->next;
         k--;
     }
-    // if (p == NULL) return L->next->data; 这一句可以不用写
+	if (k > 0) return NULL;  // 链表长度不够k个，不能继续查找
+    // if (p == NULL) return L->next->data; 这一句可以不用写，下面的情况包括了
     while (p != NULL) {
         p = p->next;
         pre = pre->next;
