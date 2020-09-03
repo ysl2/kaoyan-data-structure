@@ -29,15 +29,17 @@ bool topologicalSort(Graph G) {
     }
     int count = 0;  // 计数，记录当前已经输出的顶点数
     while (!StackEmpty(S)) {  // 栈不空，则存在入度为0的顶点
-        int i;
-        Pop(S, i);  // 栈顶元素出栈
-        print[count++] = i;  // 输出顶点i
-        for (ArcNode *p = G.vertex[i].first; p != NULL; p = p->next) {
-            // 将所有i指向的顶点的入度减1，并且将入度减为0的顶点压入栈S
-            int v = p->index;
-            G.indegree[v]--;
-            if (G.indegree[v] == 0) {
-                Push(S, v);  // 入度为0，则入栈
+        int v;
+        Pop(S, v);  // 栈顶元素出栈
+        print[count++] = v;  // 输出顶点v
+        // 下面这个for是把FirstNeighbor和NextNeighbor的具体实现暴露在外面了
+        // 如果嫌麻烦的话，这里照样可以写FirstNeighbor和NextNeighbor
+        // 但是这时候w就是int类型了。
+        for (ArcNode *w = G.vertex[v].first; w != NULL; w = w->next) {
+            // 将所有v指向的顶点的入度减1，并且将入度减为0的顶点压入栈S
+            G.indegree[w->index]--;
+            if (G.indegree[w->index] == 0) {
+                Push(S, w->index);  // 入度为0，则入栈
             }
         }
     }  // while
