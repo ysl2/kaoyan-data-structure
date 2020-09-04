@@ -1,5 +1,5 @@
-LinkList crack(LinkList L) {
-// L表相当于C表和A表
+LinkList seprate(LinkList L) {
+// L表相当于题中的C表和A表。A表（L表）尾插，B表头插
     LinkList B = (LinkList) malloc(sizeof(LinkNode));
     B->next = NULL;
     LinkNode *p = L->next;
