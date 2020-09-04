@@ -1,3 +1,40 @@
+// 2020-09-04 第二次修订
+#include <string.h>  // memset的库
+#define maxSize 100
+
+int output[maxSize];
+
+bool topologicalSort(Graph G) {
+    Queue Q;  // 拓扑排序用栈或者队列都行
+    InitQueue(Q);
+    memset(output, -1, sizeof(int) * maxSize);  // 初始化数组所有值为-1
+    for (int i = 0; i < G.vexnum; i++) {
+        if (G.indegree[i] == 0) {
+            EnQueue(Q, i);
+        }
+    }
+    int count = 0;
+    while (!QueueEmpty(Q)) {
+        int v;
+        DeQueue(Q, v);
+        output[count++] = v;
+        for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
+            G.indegree[w]--;
+            if (G.indegree[w] == 0) {
+                EnQueue(Q, w);
+            }
+        }
+    }
+    return count == G.vexnum;
+}
+
+
+------------------------------------------------------------
+// 补充说明：下面这个版本是针对邻接表的拓扑排序。
+// 上面第二次修订的是邻接矩阵和邻接表通用的
+// 因为邻接矩阵和邻接表仅在FirstNeighbor和NextNeighbor的内部实现不同
+// 而第二次修订的版本隐藏了内部实现
+
 #define maxSize 100  // 图中顶点数目的最大值
 #define DEFAULT 9999  // 存储结果的数组的元素默认值
 typedef int VexType;

@@ -1,3 +1,39 @@
+// 2020-09-04 第三次修订
+#define maxSize 100
+#define INFINITY 9999
+
+bool selected[maxSize];
+int minDist[maxSize];
+int parent[maxSize];
+Queue(Q);
+
+void BFS(Graph G, int v0) {
+    InitQueue(Q);
+    for (int i = 0; i < maxSize; i++) {
+        selected[i] = false;
+        minDist[i] = INFINITY;
+    }
+    selected[v0] = true;
+    minDist[v0] = 0;
+    parent[v0] = -1;
+    EnQueue (Q, v0);
+
+    while (!QueueEmpty(Q)) {
+        int v;
+        DeQueue(Q, v);
+        for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
+            if (!selected[w]) {
+                minDist[w] = minDist[v] + 1;
+                parent[w] = v;
+                selected[w] = true;
+                EnQueue(w);
+            }
+        }
+    }
+}
+
+
+-----------------------------------------------------
 //第二次修订：2020/08/19
 ---
 const int INFINITY = 9999;
