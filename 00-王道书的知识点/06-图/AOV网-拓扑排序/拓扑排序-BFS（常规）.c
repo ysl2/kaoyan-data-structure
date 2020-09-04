@@ -4,7 +4,12 @@
 
 int output[maxSize];
 
+// 基于BFS的拓扑排序
 bool topologicalSort(Graph G) {
+// 在此方法中，表示入度的数组indegree[]默认在G的结构体中定义了
+// 因此当G传进来的时候，已经包含了所有的结点入度信息
+// 如果不想包含在结构体中也可以，
+// 但是需要遍历G，把所有结点的入度信息传到indegree[]数组里
     Queue Q;  // 拓扑排序用栈或者队列都行
     InitQueue(Q);
     memset(output, -1, sizeof(int) * maxSize);  // 初始化数组所有值为-1
@@ -22,6 +27,9 @@ bool topologicalSort(Graph G) {
             G.indegree[w]--;
             if (G.indegree[w] == 0) {
                 EnQueue(Q, w);
+				// 这里不用考虑重复入队的问题。
+				// 因为在indegree--的时候，如果之前结点已经访问过，那么入度必然会是负数
+				// 而这里只有为0的时候，才会入队，因此之前访问过的结点不会再入队了
             }
         }
     }
