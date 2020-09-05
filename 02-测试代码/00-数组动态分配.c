@@ -33,17 +33,17 @@ void outPut1(int **a, int m, int n) {
 }
 
 // outPut2仍然有问题：
-// void outPut2(int *a[4], int m) {
-//     for (int i = 0; i < m; i++) {
-//         for (int j = 0; j < 4; j++) {
-//             printf("%d\t", *((int *)a + i * 4 + j));  
-//             // 对于传入**a的和传入a[row][column]的有不同的访问方式。
-//             // 传入**a的必须通过这种方式（见上面参考资料）
-//         }
-//         printf("\n");
-//     }
-//     printf("\n");
-// }
+void outPut2(int a[][4], int m) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%d\t", *((int *)a + i * m + j));  
+            // 对于传入**a的和传入a[row][column]的有不同的访问方式。
+            // 传入**a的必须通过这种方式（见上面参考资料）
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
 void test() {
     int m = 5, n = 4;
