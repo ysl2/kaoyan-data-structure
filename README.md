@@ -42,7 +42,7 @@ void outPut1(int **a, int m, int n) {
         for (int j = 0; j < n; j++) {
             printf("%d\t", *(*(a + i) + j));  
             // 对于传入**a的和传入a[row][column]的有不同的访问方式。
-            // 传入**a的必须通过这种方式（见上面参考资料）
+            // 传入**a的必须通过这种方式（见上面C语言文件）
         }
         printf("\n");
     }
