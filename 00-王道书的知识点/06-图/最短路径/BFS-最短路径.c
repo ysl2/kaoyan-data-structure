@@ -5,7 +5,7 @@
 bool selected[maxSize];
 int minDist[maxSize];
 int parent[maxSize];
-Queue(Q);
+Queue Q;
 
 void BFS(Graph G, int v0) {
     InitQueue(Q);
@@ -13,9 +13,9 @@ void BFS(Graph G, int v0) {
         selected[i] = false;
         minDist[i] = INFINITY;
     }
-    selected[v0] = true;
     minDist[v0] = 0;
     parent[v0] = -1;
+	selected[v0] = true;
     EnQueue (Q, v0);
 
     while (!QueueEmpty(Q)) {

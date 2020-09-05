@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void outPut(int *a, int n) {
+void outPut(int a[], int n) {  // 一维数组形参可以用*a，也可以用a[]
     for (int i = 0; i < n; i++) {
         printf("%d\t", a[i]);
     }
@@ -26,3 +26,6 @@ int main() {
     test();
     return 0;
 }
+
+// 运行结果：
+// 0	0	0	1	0

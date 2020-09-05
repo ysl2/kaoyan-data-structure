@@ -15,10 +15,7 @@ void getCommon(LinkList &A, LinkList &B) {
             LinkNode *temp = q->next;
             free(q);
             q = temp;
-			continue; // ★这个continue必须要加，否则下面的代码还会跑
-        }
-        // 下面这两个if，表示只要不是交集的结点，就全删掉
-        if (P->data < q->data) {
+        } else if (P->data < q->data) { // 下面这两个if，表示只要不是交集的结点，就全删掉
             LinkNode *temp = p->next;
             free(p);
             p = temp;
