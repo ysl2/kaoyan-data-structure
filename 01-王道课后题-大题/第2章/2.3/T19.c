@@ -1,13 +1,12 @@
 // 2020.08.30 第二次修订
-void delete(CLinkList &L) {
-    // pre和minpre都是前驱结点。
-    // 因为是单链表，不能直接拿当前结点。否则连不上了，只能拿前驱
-    CLinkNode *pre;
-    CLinkNode *minpre;
+// 双指针：
+void outPut(CLinkList &L) {
     // L是循环单链表，注意循环退出条件
     while (L->next != L) {
-        pre = L;
-        minpre = L;
+		// pre和minpre都是前驱结点。
+		// 因为是单链表，不能直接拿当前结点。否则连不上了，只能拿前驱
+        CLinkNode *pre = L;
+        CLinkNode *minpre = L;
         while (pre->next != L) {
             if (pre->next->data < minpre->next->data) {
                 minpre = pre;  // 捕获最小值
@@ -15,7 +14,7 @@ void delete(CLinkList &L) {
             pre = pre->next;  //继续筛查
         }
         // 访问最小值结点
-        visit(minpre->next->data);
+        visit(minpre->next);
         // 重连最小值结点的前驱和后继。目的是把最小值结点摘下来
         CLinkNode *temp = minpre->next;
         minpre->next = minpre->next->next;
@@ -26,11 +25,11 @@ void delete(CLinkList &L) {
     free(L);
 }
 ----------------------------------------------
-void delAll(LinkList &L) {
-    LinkNode *p, *pre, *minp, *minpre;
+// 四指针：
+void outPut(CLinkList &L) {
     while (L->next != L) {
-        p = L->next; minp = p;
-        pre = L; minpre = pre;
+        CLinkNode *pre = L, *p = L->next;
+        CLinkNode *minpre = L, *minp = L->next;
         while (p != L) {
             if (p->data < minp->data) {
                 minp = p;
@@ -39,9 +38,9 @@ void delAll(LinkList &L) {
             pre = p;
             p = p->next;
         }
-        visit(minp->data);
+        visit(minp);
         minpre->next = minp->next;
-        free(p);
+        free(minp);
     }
     free(L);
 }

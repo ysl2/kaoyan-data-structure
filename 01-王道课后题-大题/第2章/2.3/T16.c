@@ -1,3 +1,4 @@
+// 注意：本题假定无头结点
 bool pattern(LinkList A, LinkList B) {
 	if (A == NULL || B == NULL) return false;
     LinkNode *p = A, *pre = A;
