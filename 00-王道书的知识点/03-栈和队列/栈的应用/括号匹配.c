@@ -22,7 +22,7 @@ bool isMatched(char left, char right) {
     bool flag = false;
     if ((left == '(' && right == ')') || 
 		(left == '[' && right == ']') || 
-		(left == '{' && right == '}')) {
+	    (left == '{' && right == '}')) {
         flag = true;
 	}
     return flag;
