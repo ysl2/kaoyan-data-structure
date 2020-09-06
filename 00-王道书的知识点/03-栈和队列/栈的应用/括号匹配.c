@@ -5,8 +5,9 @@ bool bracketCheck(char str[]) {
         if (str[i] == '(' || str[i] == '[' || str[i] == '{') {
             Push(S, str[i]);
         } else {
-            if (StackEmpty(S))
-                return false;
+            if (StackEmpty(S)) {
+				return false;
+			}
             char topElem;
             Pop(S, topElem);
             if (!isMatched(topElem, str[i])) {
@@ -19,12 +20,11 @@ bool bracketCheck(char str[]) {
 
 bool isMatched(char left, char right) {
     bool flag = false;
-    if (left == '(' && right == ')')
+    if ((left == '(' && right == ')') || 
+		(left == '[' && right == ']') || 
+		(left == '{' && right == '}')) {
         flag = true;
-    if (left == '[' && right == ']')
-        flag = true;
-    if (left == '{' && right == '}')
-        flag = true;
+	}
     return flag;
 }
 
