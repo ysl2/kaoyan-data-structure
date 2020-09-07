@@ -1,4 +1,4 @@
-// 2020-09-03 第二次修订
+// 2020-09-07 第三次修订
 #include <stdlib.h>  // abs函数的库声明
 #include <string.h>  // memset函数的库声明
 
@@ -10,22 +10,23 @@ typedef struct LinkNode {
 
 LinkList L;
 
-void func(LinkList &L, int n) {
+void delete(LinkList &L, int n) {
+// abs(data) <= n，所以abs(data) ∈ [0, n]，一共n + 1个值
     int *B = (int *) malloc(sizeof(int) * (n + 1));
-    memset(B, 0, malloc(sizeof(int) * (n + 1)));
-    LinkNode *p = L;
-    while (p->next != NULL) {
-        int index = abs(p->next->data);
-        if (B[index] == 0) {
+    memset(B, 0, malloc(sizeof(int) * (n + 1)));  // 给数组赋初值0
+    LinkNode *pre = L;  // 取前驱指针
+    while (pre->next != NULL) {
+        int index = abs(pre->next->data);
+        if (B[index] == 0) {  // 第一次出现
             B[index] = 1;
-			p = p->next;
-        } else {
-            LinkNode *temp = p->next;
-            p->next = temp->next;
+			pre = pre->next;
+        } else {  // 之前已经出现过，但是现在又出现了
+            LinkNode *temp = pre->next;
+            pre->next = temp->next;
             free(temp);
         }
     }
-    free(B);
+    free(B);  // 释放辅助空间
 }
 
 
