@@ -1,4 +1,7 @@
-参考资料：2020王道数据结构
+参考资料：
+
+* 2020王道数据结构
+* [数据结构&算法可视化网站](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html) 
 
 ---
 
