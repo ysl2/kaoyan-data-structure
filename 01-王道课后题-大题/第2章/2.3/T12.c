@@ -4,9 +4,9 @@ void delete(LinkList &L) {
     }
     LinkNode *p = L->next;
     while (p->next != NULL) {
-        LinkNode *temp = p->next;
-        if (p->data == temp->data) {
-            p->next = temp->next;
+		if (p->data == p->next->data) {
+			LinkNode *temp = p->next;
+			p->next = temp->next;
             free(temp);
         } else {
             p = p->next;
