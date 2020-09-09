@@ -1,6 +1,23 @@
 #include <iostream>
 #include <stack>
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
+
+void outPut(int *A, int length) {
+	static int i = 0;
+	cout << i++ << ":  ";
+	for (int i = 0; i < length; i++) {
+		cout << A[i] << " ";
+	}
+	cout << endl;
+}
+
+void swap(int *A, int i, int j) {
+	int temp = A[i];
+	A[i] = A[j];
+	A[j] = temp;
+}
 
 // 划分算法
 int partition(int A[], int low, int high) {
@@ -14,6 +31,26 @@ int partition(int A[], int low, int high) {
 	}
 	A[low] = pivot; // pivot的最终落点
 	return low;
+}
+
+// 划分算法2，每次随机选一个数作为pivot（此算法未启用）
+int partition2(int *A, int low, int high) {
+	srand((unsigned)time(NULL));  // 重新播种，使每次生成的随机数都不同
+	// rand, srand, time用法参考：http://c.biancheng.net/view/2043.html
+	int randIndex = low + rand() % (high - low + 1);
+	swap(A, randIndex, low);
+	outPut(A, high - low + 1);  // 测试语句
+	int pivot = A[low];
+	int i = low;
+	for (int j = low + 1; j <= high; j++) {
+		if (A[j] < pivot) {
+			swap(A[++i], A[j]);
+			outPut(A, high - low + 1);  // 测试语句
+		}
+	}
+	swap(A, i, low);
+	outPut(A, high - low + 1);  // 测试语句
+	return i;
 }
 
 // 非递归快排
