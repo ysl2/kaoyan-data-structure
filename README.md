@@ -2,6 +2,16 @@
 
 * 2020王道数据结构
 * [数据结构&算法可视化网站](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html) 
+* [leetcode-T912-排序数组](https://leetcode-cn.com/problems/sort-an-array/) 
+* [C语言中文网](http://c.biancheng.net/c/) 
+
+---
+
+## 2020-09-09：
+
+我把所有目录改成英文了。原因是在排序章节，我需要用vscode编译和调试代码。
+
+而如果文件中有中文路径，调试过程中会报错。因此我只能全部改成英文目录。
 
 ---
 
