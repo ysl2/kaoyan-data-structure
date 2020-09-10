@@ -1,3 +1,36 @@
+// 2020-09-10 第二次修订
+#define maxSize 10
+
+typedef int ElemType;
+typedef struct {
+	ElemType data[maxSize];
+	int top0 = -1, top1 = maxSize;
+} Stack;
+
+bool push(Stack &S, ElemType value, int index) {
+	if (S.top0 + 1 == S.top1)
+		return false;
+	if (index == 0) {
+		S.data[++S.top0] = value;
+		return true;
+	} else if (index == 1) {
+		S.data[--S.top1] = value;
+		return true;
+	}
+	return false;
+}
+
+bool pop(Stack &S, ElemType &value, int index) {
+	if (index != 0 && index != 1)
+		return false;
+	if ((index == 0 && S.top0 == -1) || (index == 1 && S.top1 == maxSize)) {
+		return false;
+	}
+	value = (index == 0) ? S.data[S.top0--] : S.data[S.top1++];
+	return true;
+}
+
+-------------------------------------------------------------
 #include <stdio.h>
 #define maxSize 10
 typedef int ElemType;

@@ -19,40 +19,33 @@ void swap(ElemType *A, int i, int j) {
 }
 
 int serPartition(int A[], int length) {
-	int _LOW = 0, _HIGH = length - 1;  // 保存边界值
-	int low = _LOW, high = _HIGH;
-	int k = length / 2;
-	int s1 = 0, s2 = 0;
-	bool flag = true;
-	int pivot;
-	while (flag == true) {  
-		pivot = A[low];  // 选择枢轴
+	int _LEFT = 0, _RIGHT = length - 1;  // 保存边界值
+	int low = _LEFT, high = _RIGHT;
+	while (true) {  
+		int pivot = A[low];  // 选择枢轴
 		while (low < high) {  // 基于枢轴对数据进行划分
 			while (low < high && A[high] >= pivot)
 				high--;
-			if (low != high)
-				A[low] = A[high];
+			A[low] = A[high];
 			while (low < high && A[low] <= pivot)
 				low++;
-			if (low != high)
-				A[high] = A[low];
+			A[high] = A[low];
 		}
 		A[low] = pivot;
-		if (low == k - 1)
-			flag = false;
-		else {
-			if (low < k - 1) {
-				_LOW = ++low;
-				high = _HIGH;
-			} else {
-				_HIGH = --high;
-				low = _LOW;
-			}
+		if (low == length / 2 - 1)
+			break;
+		if (low < length / 2 - 1) {
+			_LEFT = ++low;
+			high = _RIGHT;
+		} else {
+			_RIGHT = --high;
+			low = _LEFT;
 		}
 	}
-	for (int i = 0; i < k; i++)
+	int s1 = 0, s2 = 0;
+	for (int i = 0; i < length / 2; i++)
 		s1 += A[i];
-	for (int i = k; i < length; i++)
+	for (int i = length / 2; i < length; i++)
 		s2 += A[i];
 	return s2 - s1;
 }

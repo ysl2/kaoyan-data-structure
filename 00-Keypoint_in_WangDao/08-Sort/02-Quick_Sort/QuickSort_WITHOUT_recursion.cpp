@@ -20,38 +20,40 @@ void swap(int *A, int i, int j) {
 }
 
 // 划分算法
-int partition(int A[], int low, int high) {
+int partition(int *A, int low, int high) {
 	// 假设每次都以第一个元素作为枢轴值，进行一趟划分：
 	int pivot = A[low];
 	while (low < high) {
-		while (low < high && A[high] >= pivot) high--;
+		while (low < high && A[high] >= pivot) 
+			high--;
 		A[low] = A[high]; // 停下来做交换
-		while (low < high && A[low] <= pivot) low++;
+		while (low < high && A[low] <= pivot) 
+			low++;
 		A[high] = A[low]; // 停下来做交换
 	}
 	A[low] = pivot; // pivot的最终落点
 	return low;
 }
 
-// 划分算法2，每次随机选一个数作为pivot（此算法未启用）
-int partition2(int *A, int low, int high) {
-	srand((unsigned)time(NULL));  // 重新播种，使每次生成的随机数都不同
-	// rand, srand, time用法参考：http://c.biancheng.net/view/2043.html
-	int randIndex = low + rand() % (high - low + 1);
-	swap(A, randIndex, low);
-	outPut(A, high - low + 1);  // 测试语句
-	int pivot = A[low];
-	int i = low;
-	for (int j = low + 1; j <= high; j++) {
-		if (A[j] < pivot) {
-			swap(A[++i], A[j]);
-			outPut(A, high - low + 1);  // 测试语句
-		}
-	}
-	swap(A, i, low);
-	outPut(A, high - low + 1);  // 测试语句
-	return i;
-}
+// // 划分算法2，每次随机选一个数作为pivot（此算法未启用）
+// int partition2(int *A, int low, int high) {
+// 	srand((unsigned)time(NULL));  // 重新播种，使每次生成的随机数都不同
+// 	// rand, srand, time用法参考：http://c.biancheng.net/view/2043.html
+// 	int randIndex = low + rand() % (high - low + 1);
+// 	swap(A, randIndex, low);
+// 	outPut(A, high - low + 1);  // 测试语句
+// 	int pivot = A[low];
+// 	int i = low;
+// 	for (int j = low + 1; j <= high; j++) {
+// 		if (A[j] < pivot) {
+// 			swap(A[++i], A[j]);
+// 			outPut(A, high - low + 1);  // 测试语句
+// 		}
+// 	}
+// 	swap(A, i, low);
+// 	outPut(A, high - low + 1);  // 测试语句
+// 	return i;
+// }
 
 // 非递归快排
 void quickSort(int A[], int low, int high) {

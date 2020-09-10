@@ -19,6 +19,7 @@ void swap(ElemType *A, int i, int j) {
 }
 
 void flagArrange(int *A, int length) {
+	// j是工作指针，i之前的全部都是-1，k之后的全部都是1
 	int i = 0, j = 0, k = length - 1;
 	while (j <= k) {
 		if (A[j] == -1) {
@@ -26,11 +27,11 @@ void flagArrange(int *A, int length) {
 			// 注意i++和++i的区别。
 			// i++是先把i传入到swap里，然后执行完swap之后，i再自增
 			// ++i是i先自增，然后把自增后的i传入到swap里去执行
-		}
-		else if (A[j] == 0) {
+		} else if (A[j] == 0) {
 			j++;
 		} else {
 			swap(A, j, k--);
+			// 这里没有j++以防止交换后A[j]仍为1的情况
 		}
 	}
 }
