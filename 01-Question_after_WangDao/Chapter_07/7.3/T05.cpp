@@ -43,7 +43,7 @@ int main() {
 	ElemType A[] = {2, 4, 6, 8, 1, 3, 5, 7, 9};
 	int length = sizeof(A) / sizeof(int);
 	int answer = kthElem(A, 0, length - 1, 4);
-	outPut(A, length);  // 输出原始序列（第0趟）
+	outPut(A, length);  
 	cout << answer << endl;
 }
 
