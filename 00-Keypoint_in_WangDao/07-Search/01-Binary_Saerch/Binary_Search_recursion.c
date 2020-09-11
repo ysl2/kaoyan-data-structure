@@ -1,4 +1,4 @@
-#define maxSize;
+#define maxSize 10
 
 typedef int ElemType;
 typedef struct {
