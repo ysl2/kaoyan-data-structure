@@ -24,9 +24,9 @@ C语言和java有非常大的不同。尤其是指针比较难把握
 ```c
 int **createMatrix(int m, int n) {
 // 动态申请数组并置初值为0
-    int **a = (int **) malloc(sizeof(int *) * m);  // 申请列空间
+    int **a = (int **) malloc(sizeof(int *) * m);  // 申请列空间（竖向）
     for (int i = 0; i < m; i++) {
-        *(a + i) = (int *) malloc(sizeof(int) * n);  // 申请行空间
+        *(a + i) = (int *) malloc(sizeof(int) * n);  // 申请行空间（横向）
         memset(*(a + i), 0, sizeof(int) * n);  // 把整行置0
     }
     return a;
@@ -45,14 +45,14 @@ void test() {
 
 在C语言的**二维**数组的函数形参声明中，不能简单地声明为`a[][]`，必须：
 
-1. 传入`**a`，然后也传入行数列数信息`m`, `n`
+1. 传入`**a`，然后也传入行数列数信息`m`, `n`（`m` 表示竖向，`n`表示横向）
 
-此时在取值时应以`*(a + i) + j)`这种方式取（`i`, `j`为数组行下标与列下标）
+此时在取值时应以`*(a + i) + j)`这种方式取（`i`, `j`为数组竖向下标与横向下标）
 
 ```c
 void outPut1(int **a, int m, int n) {
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 0; i < m; i++) {  // i对应m，表示竖向
+        for (int j = 0; j < n; j++) {  // j对应n，表示横向
             printf("%d\t", *(*(a + i) + j));  
             // 对于传入**a的和传入a[row][column]的有不同的访问方式。
             // 传入**a的必须通过这种方式（见上面C语言文件）

@@ -49,8 +49,7 @@ int main() {
 	ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
 	int length = sizeof(A) / sizeof(int);
 	quickSort(A, 0, length - 1);
-	outPut(A, length);  // 输出原始序列（第0趟）
-	outPut(A, length);  // 输出原始序列（第0趟）
+	outPut(A, length);  
 }
 
 // 输出结果：
