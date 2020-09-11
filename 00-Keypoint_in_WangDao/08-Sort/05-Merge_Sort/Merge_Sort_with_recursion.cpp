@@ -52,6 +52,7 @@ int main() {
     int length = sizeof(A) / sizeof(int);
     mergeSort(A, 0, length - 1);
     outPut(A, length);
+    return 0;
 }
 
 // 输出结果：

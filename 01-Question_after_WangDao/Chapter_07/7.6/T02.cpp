@@ -18,11 +18,11 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-void insertSort(int A[], int length) {
-    for (int i = 2; i < length; i++) {
+void insertSort(ElemType A[], int m, int n) {
+    int i, j;
+    for (i = m + 1; i < m + n + 1; i++) {
         A[0] = A[i];
-        int j;
-        for (j = i - 1; A[0] < A[j]; j--) {  // 从后往前找待插入位置
+        for (j = i - 1; j >= 0 && A[j] > A[0]; j--) {
             A[j + 1] = A[j];
         }
         A[j + 1] = A[0];
@@ -30,13 +30,12 @@ void insertSort(int A[], int length) {
 }
 
 int main() {
-    ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+    ElemType A[] = {-1, 1, 3, 5, 7, 9, 0, 2, 4, 6, 8};
     int length = sizeof(A) / sizeof(int);
-    // A[0]是哨兵
-    insertSort(A, length);
+    insertSort(A, 5, 5);
     outPut(A, length);
     return 0;
 }
 
 // 输出结果：
-// 0:  9 1 2 3 4 5 6 7 8 9
+// 0:  8 0 1 2 3 4 5 6 7 8 9
