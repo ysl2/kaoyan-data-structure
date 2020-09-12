@@ -1,3 +1,12 @@
+bool isMatched(char left, char right) {
+    bool flag = false;
+    if ((left == '(' && right == ')') ||
+        (left == '[' && right == ']') ||
+        (left == '{' && right == '}'))
+        flag = true;
+    return flag;
+}
+
 bool bracketCheck(char str[]) {
     SqStack S;
     InitStack(S);
@@ -18,15 +27,3 @@ bool bracketCheck(char str[]) {
     }
     return StackEmpty(S);
 }
-
-bool isMatched(char left, char right) {
-    bool flag = false;
-    if (left == '(' && right == ')')
-        flag = true;
-    if (left == '[' && right == ']')
-        flag = true;
-    if (left == '{' && right == '}')
-        flag = true;
-    return flag;
-}
-
