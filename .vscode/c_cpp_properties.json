@@ -1,42 +1,22 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "MinGW",
             "intelliSenseMode": "clang-x64",
+            "compilerPath": "C:/Program Files/LLVM/bin/gcc.exe",
             "includePath": [
-                "${workspaceFolder}",
-                "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
-                "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
-                "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
-                "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
-                "D:/ProgramFiles/LLVM/include",
-                "D:/ProgramFiles/LLVM/x86_64-w64-mingw32/include",
-                "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed",
-                "D:/ProgramFiles/LLVM/include/clang-c"
+                "${workspaceFolder}"
             ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "__GNUC__=7",
-                "__cdecl=__attribute__((__cdecl__))"
-            ],
+            "defines": [],
             "browse": {
                 "path": [
-                    "${workspaceFolder}",
-                    "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
-                    "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
-                    "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
-                    "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
-                    "D:/ProgramFiles/LLVM/include",
-                    "D:/ProgramFiles/LLVM/x86_64-w64-mingw32/include",
-                    "D:/ProgramFiles/LLVM/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"
+                    "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
             },
             "cStandard": "c11",
-            "cppStandard": "c++14",
-            "compilerPath": "D:\\ProgramFiles\\LLVM\\bin\\gcc.exe"
+            "cppStandard": "c++14"
         }
     ],
     "version": 4
