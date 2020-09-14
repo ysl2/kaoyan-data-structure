@@ -4,7 +4,7 @@
 
 typedef int ElemType;
 typedef struct {
-    ElemType data[maxSize];  // 注意，我这种方式是对的，山大那种不对
+    ElemType data[maxSize];
     int length;
 } SqList;
 
@@ -19,11 +19,11 @@ void outPut(SqList L) {
         std::cout << L.data[i] << " ";
 }
 
-bool insertList(SqList &L, int index, ElemType x) {  // index表示数组下标（下标从0开始算），而不是位序（位序从1开始算）
-    if (L.length == 0 || index < 0 || index >= L.length)
+bool insertList(SqList &L, int index, ElemType x) {            // index表示数组下标（下标从0开始算），而不是位序（位序从1开始算）
+    if (index < 0 || index > L.length || L.length >= maxSize)  // 删除考虑下溢出，插入考虑上溢出。无论插入还是删除，都需要考虑index的上界和下界的合法范围
         return false;
     int j;
-    for (j = L.length + 1; j > index; j--)
+    for (j = L.length; j > index; j--)
         L.data[j] = L.data[j - 1];
     L.data[j] = x;
     L.length++;
