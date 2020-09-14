@@ -18,25 +18,23 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-void directlyInsertSortWITHOUTGuard(int A[], int length) {
-    for (int i = 2; i < length; i++) {
-        A[0] = A[i];
+void directlyInsertSortWITHOUTGuard(int a[], int length) {
+    for (int i = 1; i < length; i++) {
+        int temp = a[i];
         int j;
-        for (j = i - 1; A[0] < A[j]; j--) {  // 从后往前找待插入位置
-            A[j + 1] = A[j];
-        }
-        A[j + 1] = A[0];
+        for (j = i - 1; j >= 0 && a[j] > temp; j--)
+            a[j + 1] = a[j];
+        a[j + 1] = temp;
     }
 }
 
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
-    // A[0]是哨兵
     directlyInsertSortWITHOUTGuard(A, length);
     outPut(A, length);
     return 0;
 }
 
 // 输出结果：
-// 0:  9 1 2 3 4 5 6 7 8 9
+// 0:  0 1 2 3 4 5 6 7 8 9
