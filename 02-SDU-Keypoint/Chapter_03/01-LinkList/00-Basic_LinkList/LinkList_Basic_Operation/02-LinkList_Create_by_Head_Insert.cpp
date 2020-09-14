@@ -17,7 +17,7 @@ void outPut(LinkList L) {
 
 void headInsert(LinkList &L, ElemType x) {
     if (L == NULL) {
-        L = new LinkNode;  // 这种方式与下面的纯C语言动态申请的效果相同。注意：这里new的是LinkNode（是正确的），而下面malloc的空间则最终强制转换为了（LinkNode *
+        L = new LinkNode;  // 这种方式与下面的纯C语言动态申请的效果相同。注意：这里new的是LinkNode（是正确的），而下面malloc的空间则最终强制转换为了（LinkNode *)
         L->next = NULL;
     }
     LinkNode *s = (LinkNode *)malloc(sizeof(LinkNode));
