@@ -2,7 +2,7 @@
 #define maxSize 100
 typedef int ElemType;
 typedef struct {
-    ElemType *data;  // 注意，我这种方式是对的，山大那种不对
+    ElemType *data;  // 注意，我这种方式是对的，山大那种不对。原因是山大采用动态初始化了。
     int length;
 } SqList;
 
