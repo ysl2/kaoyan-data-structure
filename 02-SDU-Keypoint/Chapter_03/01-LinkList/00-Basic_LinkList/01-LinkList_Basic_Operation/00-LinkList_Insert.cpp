@@ -5,7 +5,8 @@ typedef struct LinkNode {
     struct LinkNode *next;
 } LinkNode, *LinkList;
 
-bool insertList(LinkList &L, LinkNode *pre, LinkNode *s) {  // pre是待插入位置结点的前驱
+// pre是待插入位置结点的前驱
+bool insertList(LinkList &L, LinkNode *pre, LinkNode *s) {
     if (L == NULL || pre == NULL)  //如果L是带头结点的，这应该还要加一句L->next == NULL。先简单在这里这么写，等考试的时候灵活处理
         return false;
     s->next = pre->next;
