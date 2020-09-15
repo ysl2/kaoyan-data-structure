@@ -60,13 +60,13 @@ void test(ElemType *arr, int length) {
 
 int main() {
     ElemType arr1[] = {5, 4, 3, 2, 1};
-    int length1 = sizeof(arr1) / sizeof(int);
+    int length1 = sizeof(arr1) / sizeof(ElemType);
     ElemType arr2[] = {1, 3, 5, 7, 9, 8, 6, 4, 2};
-    int length2 = sizeof(arr2) / sizeof(int);
+    int length2 = sizeof(arr2) / sizeof(ElemType);
     ElemType arr3[] = {};
-    int length3 = sizeof(arr3) / sizeof(int);
+    int length3 = sizeof(arr3) / sizeof(ElemType);
     ElemType arr4[] = {0};
-    int length4 = sizeof(arr4) / sizeof(int);
+    int length4 = sizeof(arr4) / sizeof(ElemType);
 
     test(arr1, length1);
 
