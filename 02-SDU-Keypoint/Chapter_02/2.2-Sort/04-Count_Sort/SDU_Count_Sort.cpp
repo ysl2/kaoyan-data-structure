@@ -21,8 +21,8 @@ void swap(ElemType *A, int i, int j) {
 
 template <class T>
 void ranks(T a[], int length, int *&r) {
-// 注意有没有&是不一样的。如果想在ranks里面初始化main里面定义的r数组，就要带着&。否则只是形参传入，出了函数之后，r依然是NULL
-// 而对于a数组，如果前面带了&，就会直接报错
+    // 注意有没有&是不一样的。如果想在ranks里面初始化main里面定义的r数组，就要带着&。否则只是形参传入，出了函数之后，r依然是NULL
+    // 而对于a数组，如果前面带了&，就会直接报错
     r = new int[length];
     memset(r, 0, sizeof(int) * length);
     for (int i = 1; i < length; i++) {

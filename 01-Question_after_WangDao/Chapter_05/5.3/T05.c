@@ -17,6 +17,13 @@ AdjacentGraph G;
 bool visited[maxSize];
 int path[maxSize];
 
+void outPut(int *path, int distance) {
+    for (int i = 0; i <= distance; i++) {
+        printf("%d ", path[i]);
+    }
+}
+
+// 这个是我改过之后的
 // 基于递归的深度优先遍历，输出从a到b的简单路径
 void findPath(AdjacentGraph &G, int a, int b, int distance) {
     path[++distance] = a;  // distance初值为-1
@@ -25,7 +32,7 @@ void findPath(AdjacentGraph &G, int a, int b, int distance) {
 	// 当执行结束一层递归时，在弹栈过程中就相当于distance自减了
     visited[a] = true;
     if (a == b) {  // 如果成功找到一条路径，则输出，然后接着找另一条
-        outPut(path);
+        outPut(path, distance);
     }
     for (ArcNode *w = (G->vertex[a]).first; w != NULL; w = w->next) {
         if (!visited[w->index]) {  // 若顶点w未访问，递归访问它
@@ -36,7 +43,7 @@ void findPath(AdjacentGraph &G, int a, int b, int distance) {
 }
 
 
-----------------------------------------------------------------------
+// ----------------------------------------------------------------------
 //基于递归的深度优先遍历
 void findPath(AdjacentGraph &G, int u, int v, int path[], int d) {
     int w, i;
