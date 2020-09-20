@@ -12,7 +12,6 @@ typedef struct BiTNode {
 BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
         return NULL;
-
     //先根遍历（前序遍历）的第一个值就是根节点的键值
     ElemType rootKey = preOrder[0];
     BiTree T = new BiTNode;
@@ -20,7 +19,6 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     T->lchild = T->rchild = NULL;
     if (len == 1 && *preOrder == *midOrder)  //只有一个节点
         return T;
-
     //在中根遍历（中序遍历）中找到根节点的值
     ElemType *rootMidOrder = midOrder;
     int leftLen = 0;  //左子树节点数
@@ -30,7 +28,6 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     }
     if (*rootMidOrder != rootKey)  //在中根序列未找到根节点,输入错误
         return NULL;
-
     if (leftLen > 0) {  //构建左子树
         T->lchild = construct(preOrder + 1, midOrder, leftLen);
     }
@@ -65,4 +62,4 @@ int main() {
 }
 
 // 运行结果：
-// F E G H D C B 
+// F E G H D C B

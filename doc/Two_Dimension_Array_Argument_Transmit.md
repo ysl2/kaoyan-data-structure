@@ -35,7 +35,7 @@ void test() {
 void outPut1(int **a, int m, int n) {
     for (int i = 0; i < m; i++) {  // i对应m，表示竖向
         for (int j = 0; j < n; j++) {  // j对应n，表示横向
-            printf("%d\t", *(*(a + i) + j));  
+            printf("%d\t", *(*(a + i) + j));
             // 对于传入**a的和传入a[row][column]的有不同的访问方式。
             // 传入**a的必须通过这种方式（见上面C语言文件）
         }
@@ -52,7 +52,7 @@ void outPut1(int **a, int m, int n) {
 void outPut2(int a[][4], int m) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < 4; j++) {
-            printf("%d\t", *((int *)a + i * m + j));  
+            printf("%d\t", *((int *)a + i * m + j));
         }
         printf("\n");
     }
