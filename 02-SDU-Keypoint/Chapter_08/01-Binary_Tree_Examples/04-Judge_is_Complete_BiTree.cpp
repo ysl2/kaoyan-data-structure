@@ -1,3 +1,5 @@
+// 这个代码是我自己写的版本，第一次没有发现。后来发现代码写的不对。我的思路有问题
+
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -70,32 +72,34 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-bool judgeIsCompleteTree(BiTree T) {
-    if (T == NULL)
-        return true;
-    if (T->lchild == NULL && T->rchild == NULL)
-        return true;
-    return T->rchild != NULL;
-}
+// 这两个代码写的有问题，不要看了
 
-bool LevelOrder(BiTree T) {
-    queue<BiTNode *> q;
-    if (T == NULL)
-        return true;
-    q.push(T);
-    BiTNode *p = NULL;
-    while (!q.empty()) {
-        p = q.front();
-        q.pop();
-        if (!judgeIsCompleteTree(p))
-            return false;
-        if (p->lchild != NULL)
-            q.push(p->lchild);
-        if (p->rchild != NULL)
-            q.push(p->rchild);
-    }
-    return true;
-}
+// bool judgeIsCompleteTree(BiTree T) {
+//     if (T == NULL)
+//         return true;
+//     if (T->lchild == NULL && T->rchild == NULL)
+//         return true;
+//     return !(T->rchild != NULL);  // 走到这里只能是二选一：要么左边是空，要么右边是空。如果左边是空，说明右边不是空。只要右边不是空，就返回false
+// }
+
+// bool LevelOrder(BiTree T) {
+//     queue<BiTNode *> q;
+//     if (T == NULL)
+//         return true;
+//     q.push(T);
+//     BiTNode *p = NULL;
+//     while (!q.empty()) {
+//         p = q.front();
+//         q.pop();
+//         if (!judgeIsCompleteTree(p))
+//             return false;
+//         if (p->lchild != NULL)
+//             q.push(p->lchild);
+//         if (p->rchild != NULL)
+//             q.push(p->rchild);
+//     }
+//     return true;
+// }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
@@ -139,10 +143,7 @@ int main() {
 // 70 69 71 72 68 67 66
 // false
 
-
 // 66 69 70 72 67 71 68
 // 70 69 72 66 71 67 68
 // 70 72 69 71 68 67 66
 // true
-
-

@@ -1,40 +1,38 @@
 // 第三次修订
-void Print(BiTree T, ElemType x) {
-    InitStack(S);
-    BiTNode *p = T;
-    BiTNode *r = NULL;
+void PostOrder(BiTree T, ElemType x) {
+    initStack(S);
+    BiTree p = T;
+    BiTree r = NULL;
     while (p != NULL || !StackEmpty(S)) {
         if (p != NULL) {
             Push(S, p);
-            p = p->lchild;
-            continue;
+            p = p->lchlid;
+        } else {
+            GetTop(S, p);
+            if (p->rchlid != NULL && p->rchild != r)
+                p = p->rchild;
+            else {
+                Pop(S, p);
+                if (visit(S, p, x) == true) {
+                    exit(0);
+                }
+                r = p;
+                p = NULL;
+            }
         }
-        GetTop(S, p);
-        if (p->rchild != NULL && p->rchlid != r) {
-            p = p->rchild;
-            continue;
-        }
-        Pop(S, p);
-        if (visit(S, p) == 1) {
-            exit(0);
-        }
-        r = p;
-        p = NULL;
     }
 }
 
-int visit(Stack S, BiTNode *p, ElemType x) {
-    if (p->data != x) {
-        return 0;
-    }
-    BiTNode *temp;
+bool visit(Stack S, BiTree p, ElemType x) {
+    if (p->data != x)
+        return false;
     while (!StackEmpty(S)) {
+        BiTNode *temp;
         Pop(S, temp);
-        printf("%d\t", temp->data);
+        cout << temp->data << " ";
     }
-    return 1;
+    return true;
 }
-
 
 ------------------------------------------------------------------
 // 第二次修订

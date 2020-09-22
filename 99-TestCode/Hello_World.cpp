@@ -8,7 +8,7 @@ int main() {
 
 // #include <stdio.h>
 
-// int main() {
+// int main() {asd
 //     char s;
 //     for (int i = 0; i < 5; i++)
 //         printf("hello 你好");
