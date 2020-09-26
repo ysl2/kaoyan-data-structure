@@ -4,12 +4,10 @@ typedef struct CSTNode {
 } *CSTree;
 
 int getLeaves(CSTree T) {
-    if (T == NULL) {
+    if (T == NULL)
         return 0;
-    }
-    if (T->lchild == NULL) {
+    if (T->lchild == NULL)
         return getLeaves(T->rbro) + 1;
-    }
     return getLeaves(T->lchild) + getLeaves(T->rbro);
 }
 

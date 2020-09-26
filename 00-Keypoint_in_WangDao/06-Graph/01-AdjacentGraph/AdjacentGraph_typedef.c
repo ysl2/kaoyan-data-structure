@@ -11,5 +11,5 @@ typedef struct VexNode {
 typedef struct {
     VexNode *vertex;  // 这里加了*号，因为将来会是一个数组（动态分配）
     int arcnum, vexnum;
-} AdjacentGraph;
+} *AdjacentGraph;
 
