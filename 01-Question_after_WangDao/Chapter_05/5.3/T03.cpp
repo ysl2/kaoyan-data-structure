@@ -18,7 +18,7 @@ typedef struct {
 } * AdjacentGraph;
 
 // 2020-09-26
-void DFS(AdjacentGraph &G, int v0) {
+void DFS(AdjacentGraph G, int v0) {
     // 初始化
     stack<int> s;
     bool visited[G->vexnum];

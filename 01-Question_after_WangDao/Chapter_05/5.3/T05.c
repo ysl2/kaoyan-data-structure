@@ -25,7 +25,7 @@ void outPut(int *path, int distance) {
 
 // 这个是我改过之后的
 // 基于递归的深度优先遍历，输出从a到b的简单路径
-void findPath(AdjacentGraph &G, int a, int b, int distance) {
+void findPath(AdjacentGraph G, int a, int b, int distance) {
     path[++distance] = a;  // distance初值为-1
 	// 由于distance以形参方式做值传递，
 	// 因此在每个递归层中，distance的值互不影响

@@ -24,9 +24,9 @@ typedef struct {
 // 如果这里加了*号，那么下面的应该是G->vexnum
 
 // 2020-09-26 将图的邻接表表示成转换成邻接矩阵表示的算法
-void convert(AdjacentGraph &G1, MatrixGraph &G2) {
+void convert(AdjacentGraph G1, MatrixGraph &G2) {
     for (int i = 0; i < G1->vexnum; i++)
-        for (ArcNode *temp = (G1->vertex[i]).first; temp != 0x0; temp = temp->next)
+        for (ArcNode *temp = (G1->vertex[i]).first; temp != 0; temp = temp->next)
             G2.edge[i][temp->index] = 1;
 }
 
