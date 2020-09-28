@@ -18,10 +18,9 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-int kthElem(int *A, int low, int high, int k) {
+int kthElem(int A[], int low, int high, int k) {
+    int _LOW = low, _HIGH = high;
     int pivot = A[low];
-    int _LOW = low;
-    int _HIGH = high;
     while (low < high) {
         while (low < high && A[high] >= pivot)
             high--;
@@ -31,12 +30,12 @@ int kthElem(int *A, int low, int high, int k) {
         A[high] = A[low];
     }
     A[low] = pivot;
+
     if (low == k)
         return A[low];
-    else if (low > k)
-        return kthElem(A, _LOW, low - 1, k);
-    else
+    if (low < k)
         return kthElem(A, low + 1, _HIGH, k - low);
+    return kthElem(A, _LOW, low - 1, k);
 }
 
 int main() {

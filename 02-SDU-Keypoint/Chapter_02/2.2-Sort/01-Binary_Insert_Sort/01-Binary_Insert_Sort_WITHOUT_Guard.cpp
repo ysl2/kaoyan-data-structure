@@ -22,7 +22,7 @@ void binaryInsertSortWITHOUTGuard(int *a, int length) {
     for (int i = 1; i < length; i++) {
         int temp = a[i];
         int low = 1, high = i - 1;
-        while (low <= high) {
+        while (low <= high) {  // 这里不可能出现mid = temp的情况，因为默认各元素值不相同
             int mid = low + (high - low) / 2;
             if (a[mid] <= temp)
                 low = mid + 1;

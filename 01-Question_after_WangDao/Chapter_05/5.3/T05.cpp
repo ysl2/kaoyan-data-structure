@@ -1,4 +1,5 @@
 #define maxSize 100
+
 typedef char VexType;
 typedef struct ArcNode {
     int index;  // 这里指向的是竖向的下标，所以是int类型
@@ -24,20 +25,19 @@ void outPut(int *path, int distance) {
 }
 
 // 这个是我改过之后的
-// 基于递归的深度优先遍历，输出从a到b的简单路径
+// 基于递归的深度优先遍历，输出从a到b的所有简单路径
 void findPath(AdjacentGraph G, int a, int b, int distance) {
     path[++distance] = a;  // distance初值为-1
-	// 由于distance以形参方式做值传递，
-	// 因此在每个递归层中，distance的值互不影响
-	// 当执行结束一层递归时，在弹栈过程中就相当于distance自减了
+    // 由于distance以形参方式做值传递，
+    // 因此在每个递归层中，distance的值互不影响
+    // 当执行结束一层递归时，在弹栈过程中就相当于distance自减了
     visited[a] = true;
-    if (a == b) {  // 如果成功找到一条路径，则输出，然后接着找另一条
+    if (a == b) // 如果成功找到一条路径，则输出，然后接着找另一条
         outPut(path, distance);
-    }
-    for (ArcNode *w = (G->vertex[a]).first; w != NULL; w = w->next) {
-        if (!visited[w->index]) {  // 若顶点w未访问，递归访问它
-            findPath(G, w->index, b, distance);
-        }
+    for (ArcNode *temp = (G->vertex[a]).first; temp != 0; temp = temp->next) {
+        int w = temp->index;
+        if (!visited[w]) // 若顶点temp未访问，递归访问它
+            findPath(G, w, b, distance);
     }
     visited[a] = false;  // 恢复环境，使该顶点重新可用
 }
