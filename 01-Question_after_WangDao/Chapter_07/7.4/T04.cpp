@@ -7,7 +7,8 @@ typedef struct LinkNode {
     struct LinkNode *next;
 } LinkNode, *LinkList;
 
-void selectSort(LinkList &L) {
+// 我自己第一遍写的，带头结点的单链表（注：王道书上是不带头结点的单链表）
+void selectSort1(LinkList &L) {
     LinkList B = (LinkList) malloc(sizeof(LinkNode));
     B->next = L->next->next;
     L->next->next = NULL;
@@ -20,6 +21,28 @@ void selectSort(LinkList &L) {
             q->next = pre_p->next;
             pre_p->next = q;
         }
+    }
+    free(B);
+}
+
+// 我自己第二遍写的，对带头结点的单链表进行简单选择排序（注：王道书上是不带头结点的单链表）
+void selectSort2(LinkList L) {
+    LinkList B = (LinkList)malloc(sizeof(LinkNode));
+    B->next = L->next->next;
+    L->next->next = NULL;
+    LinkNode *p, *pre, *maxp, *maxpre;
+    while (B->next != NULL) {
+        pre = maxpre = B;
+        p = maxp = B->next;
+        while (p != NULL) {
+            if (p->data > maxp->data) {  // 每次都挑出一个最大的，然后插入到已经排好序的链表的前面
+                maxp = p;
+                maxpre = pre;
+            }
+        }
+        maxpre->next = maxp->next;
+        maxp->next = L->next;
+        L->next = maxp;
     }
     free(B);
 }

@@ -7,11 +7,13 @@ typedef struct LinkNode {
 } LinkNode, *LinkList;
 
 // 无头结点单链表的插入
-bool insert(LinkList L, int i, ElemType e) {
+bool insert(LinkList &L, int i, ElemType e) {
     if (i < 1)
         return false;
     if (i == 1) {
         LinkNode *s = (LinkNode *)malloc(sizeof(LinkNode));
+        if (s == NULL)
+            return false;
         s->data = e;
         s->next = L;
         L = s;

@@ -18,9 +18,10 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-int serPartition(int A[], int length) {
-    int _LEFT = 0, _RIGHT = length - 1;  // 保存边界值
-    int low = _LEFT, high = _RIGHT;
+// 这是王道书上的划分算法
+int setPartition(int A[], int length) {
+    int _LOW = 0, _HIGH = length - 1;  // 保存边界值
+    int low = _LOW, high = _HIGH;
     while (true) {
         int pivot = A[low];   // 选择枢轴
         while (low < high) {  // 基于枢轴对数据进行划分
@@ -30,18 +31,20 @@ int serPartition(int A[], int length) {
             while (low < high && A[low] <= pivot)
                 low++;
             A[high] = A[low];
-        }
+        }  // 经过划分后，low和high位置重合
         A[low] = pivot;
-        if (low == length / 2 - 1)
+
+        if (low == length / 2 - 1)  // 向下取整
             break;
-        if (low < length / 2 - 1) {
-            _LEFT = ++low;
-            high = _RIGHT;
+        else if (low < length / 2 - 1) {
+            _LOW = ++low;
+            high = _HIGH;
         } else {
-            _RIGHT = --high;
-            low = _LEFT;
+            _HIGH = --high;
+            low = _LOW;
         }
     }
+
     int s1 = 0, s2 = 0;
     for (int i = 0; i < length / 2; i++)
         s1 += A[i];
@@ -53,7 +56,7 @@ int serPartition(int A[], int length) {
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
-    int answer = serPartition(A, length);
+    int answer = setPartition(A, length);
     outPut(A, length);
     cout << answer;
     return 0;

@@ -1,3 +1,4 @@
+// 在王道知识点里的堆排序中，有更详细的说明
 bool is_heap(int tree[], int n) {
     if (n % 2 == 0) {
         if (tree[n / 2] > tree[n])
