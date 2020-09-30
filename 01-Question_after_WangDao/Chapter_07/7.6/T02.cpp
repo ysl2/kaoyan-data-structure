@@ -18,14 +18,13 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-void insertSort(ElemType A[], int m, int n) {
-    int i, j;
-    for (i = m + 1; i < m + n + 1; i++) {
-        A[0] = A[i];
-        for (j = i - 1; j >= 0 && A[j] > A[0]; j--) {
-            A[j + 1] = A[j];
-        }
-        A[j + 1] = A[0];
+void insertSort(int a[], int m, int n) {
+    for (int i = m + 1; i < m + n + 1; i++) {
+        a[0] = a[i];
+        int j;
+        for (j = i - 1; a[j] > a[0]; j--)
+            a[j + 1] = a[j];
+        a[j + 1] = a[0];
     }
 }
 

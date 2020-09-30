@@ -1,6 +1,5 @@
 #include <string.h>
 #include <iostream>
-// using namespace std;
 
 typedef int ElemType;
 
@@ -34,6 +33,7 @@ void ranks(T a[], int length, int *&r) {
         }
     }
 }
+
 template <class T>
 void countSort(T a[], int length, int *r) {
     T *u = new T[length];
@@ -47,8 +47,6 @@ void countSort(T a[], int length, int *r) {
 }
 
 int main() {
-    // ElemType *A = new int[]{0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    // int length = 10;
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
     int *r = NULL;

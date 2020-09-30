@@ -1,3 +1,27 @@
+// 第四次修订 2020-09-30 递归方式 https://blog.csdn.net/LaoJiu_/article/details/50820874
+#include <iostream>
+using namespace std;
+
+typedef int ElemType;
+typedef struct BiTNode {
+    ElemType data;
+    struct BiTNode *lchild, *rchild;
+} BiTNode, *BiTree;
+
+bool search(BiTree T, int x) {
+    if (T == NULL)
+        return false;
+    if (T->data == x)
+        return true;
+    if (search(T->lchild, x) || search(T->rchild, x)) {
+        cout << T->data << " ";
+        return true;
+    }
+    return false;
+}
+
+// ------------------------------------------------------------------
+
 // 第三次修订
 void PostOrder(BiTree T, ElemType x) {
     initStack(S);
@@ -13,9 +37,8 @@ void PostOrder(BiTree T, ElemType x) {
                 p = p->rchild;
             else {
                 Pop(S, p);
-                if (visit(S, p, x) == true) {
+                if (visit(S, p, x) == true)
                     exit(0);
-                }
                 r = p;
                 p = NULL;
             }
@@ -34,7 +57,7 @@ bool visit(Stack S, BiTree p, ElemType x) {
     return true;
 }
 
-------------------------------------------------------------------
+// ------------------------------------------------------------------
 // 第二次修订
 void PostOrder(BiTree T) {
     InitStack(S);
