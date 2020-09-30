@@ -18,10 +18,10 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
-void bubbleSort(int *a, int length) {
-    for (int i = 0; i < length - 1; i++) {  // 一共比较length - 1轮
+void bubbleSort(int a[], int length) {
+    for (int i = 0; i < length - 1; i++) {
         bool flag = false;
-        for (int j = 0; j < length - 1 - i; j++) {//每轮比较length - 1 - i次
+        for (int j = 0; j < length - 1 - i; j++) {
             if (a[j] > a[j + 1]) {
                 swap(a, j, j + 1);
                 flag = true;
