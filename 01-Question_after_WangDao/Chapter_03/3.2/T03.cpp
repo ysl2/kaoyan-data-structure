@@ -26,11 +26,11 @@ bool QueueEmpty(Queue Q) {
 bool EnQueue(Queue &Q, ElemType x) {
     if (stackoverflow(Q.s1) && !Q.s2.empty())
         return false;  // 队列满
-    if (stackoverflow(Q.s1) && Q.s2.empty()) {
+    if (stackoverflow(Q.s1)) {
         while (!Q.s1.empty()) {
-            int value = Q.s1.top();
+            int temp = Q.s1.top();
             Q.s1.pop();
-            Q.s2.push(value);
+            Q.s2.push(temp);
         }
     }
     Q.s1.push(x);
@@ -42,9 +42,9 @@ bool DeQueue(Queue &Q, ElemType &e) {
         return false;
     if (Q.s2.empty()) {
         while (!Q.s1.empty()) {
-            int value = Q.s1.top();
+            int temp = Q.s1.top();
             Q.s1.pop();
-            Q.s2.push(value);
+            Q.s2.push(temp);
         }
     }
     e = Q.s2.top();

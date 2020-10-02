@@ -1,6 +1,8 @@
 #include <stdbool.h>
 const int maxSize = 100;
 
+// 把所有基本函数全都分离出来，反而变得不简洁。因此不推荐用这个
+
 typedef struct {
     int no;
     double value;

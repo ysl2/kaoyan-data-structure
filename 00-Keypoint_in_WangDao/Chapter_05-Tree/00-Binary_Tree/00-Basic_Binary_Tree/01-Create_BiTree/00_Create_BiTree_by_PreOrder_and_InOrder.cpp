@@ -1,4 +1,5 @@
 // 参考：https://cloud.tencent.com/developer/article/1176915
+// 不推荐这个。建议用递归方式（01）
 #include <cstdlib>
 #include <iostream>
 using std::cout;

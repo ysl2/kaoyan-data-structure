@@ -12,7 +12,7 @@ BiTree createTree(ElemType A[], ElemType B[], int preFirst, int preLast, int inF
     if (lchildlen >= 0)
         T->lchild = createTree(A, B, preFirst + 1, preFirst + lchildlen, inFirst, inFirst + lchildlen - 1);
     else
-        T->lchild == NULL;
+        T->lchild = NULL;
     if (rchildlen >= 0)
         T->rchild = createTree(A, B, preLast - rchildlen + 1, preLast, inLast - rchildlen + 1, inLast);
     else

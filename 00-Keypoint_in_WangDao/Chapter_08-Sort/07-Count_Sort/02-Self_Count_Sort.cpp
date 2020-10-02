@@ -20,18 +20,17 @@ void swap(ElemType *A, int i, int j) {
 // https://www.bilibili.com/video/BV1Wb41157ed
 
 // 我自己写的计数排序 2020-09-30
-// length : 待排序的数组长度 
+// length : 待排序的数组长度
 // range : 所有待排序数字的取值范围
 void countSort(int a[], int length) {
-    int range;
     int max = -INFINITY, min = INFINITY;
     for (int i = 0; i < length; i++) {
         if (a[i] <= min)
             min = a[i];
         if (a[i] >= max)
             max = a[i];
-        range = max - min + 1;
     }
+    int range = max - min + 1;
 
     int *count = (int *)malloc(sizeof(int) * range);
     memset(count, 0, sizeof(int) * range);

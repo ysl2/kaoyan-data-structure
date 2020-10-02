@@ -1,3 +1,40 @@
+// 2020-10-01 第三次修订
+#define maxSize 10
+
+typedef int ElemType;
+typedef struct {
+    ElemType data[maxSize];
+    int top1 = -1, top2 = maxSize;
+} CommonStack;
+
+// index: 入的是哪个栈（top1还是top2）
+bool Push(CommonStack &S, int index, ElemType e) {
+    if (S.top1 + 1 == S.top2)
+        return false;
+    if (index == 1) {
+        S.data[++S.top1] = e;
+        return true;
+    } else if (index == 2) {
+        S.data[--S.top2] = e;
+        return true;
+    }
+    return false;
+}
+
+bool Pop(CommonStack &S, int index, ElemType &x) {
+    if ((index == 1 && S.top1 == -1) || (index == 2 && S.top2 == maxSize))
+        return false;
+    if (index == 1) {
+        x = S.data[S.top1--];
+        return true;
+    } else if (index == 2) {
+        x = S.data[S.top2++];
+        return true;
+    }
+    return false;
+}
+
+-------------------------------------------------------------
 // 2020-09-10 第二次修订
 #define maxSize 10
 
@@ -56,7 +93,7 @@ int Pop(Stack S, int i, ElemType &e) {
     if (i < 0 || i > 1) {
         return -1;  // 栈号输入错误
     }
-    if ((i == 0) && (S.top[i] == -1) || 
+    if ((i == 0) && (S.top[i] == -1) ||
         (i == 1) && (S.top[i] == maxSize)) {
         return 0;  // 栈空
     }
