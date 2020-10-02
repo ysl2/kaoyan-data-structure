@@ -20,18 +20,18 @@ void swap(ElemType *A, int i, int j) {
 
 void binaryInsertSortWITHOUTGuard(int *a, int length) {
     for (int i = 1; i < length; i++) {
-        int temp = a[i];
         int low = 0, high = i - 1;  // 注意这里low必须等于0
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            if (a[mid] <= temp)  // 这里等号加或者不加，都一样。不加的话，实际上是相当于是else里有个等于号
+            if (a[mid] <= a[i])  // 这里等号加或者不加，都一样。不加的话，实际上是相当于是else里有个等于号
                 low = mid + 1;
             else
                 high = mid - 1;
-        }
-        for (int j = i - 1; j > high; j--)
+        }  // 折半查找完成后，此时high + 1 = low
+        int temp = a[i];
+        for (int j = i - 1; j >= low; j--)  // 将[low, i - 1]范围的元素全部右移
             a[j + 1] = a[j];
-        a[high + 1] = temp;
+        a[low] = temp;  // 将原先的a[i]复制到low所指位置
     }
 }
 
