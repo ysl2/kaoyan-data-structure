@@ -23,7 +23,8 @@ void binaryInsertSortWITHOUTGuard(int *a, int length) {
         int low = 0, high = i - 1;  // 注意这里low必须等于0
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            if (a[mid] <= a[i])  // 这里等号加或者不加，都一样。不加的话，实际上是相当于是else里有个等于号
+            // 下面这句，等号加或者不加都一样。不加的话，实际上是相当于是else里有个等于号
+            if (a[mid] <= a[i])
                 low = mid + 1;
             else
                 high = mid - 1;
