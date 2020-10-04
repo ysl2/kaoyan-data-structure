@@ -2,6 +2,9 @@
 #include <string.h>
 using namespace std;
 
+#define INFINITY 99999
+#define maxSize 100
+
 typedef int ElemType;
 typedef struct {
     ElemType *data;
@@ -13,24 +16,6 @@ void outPutList(SqList L) {
         cout << L.data[i] << " ";
     }
     cout << endl;
-}
-
-bool mergeList(SqList A, SqList B, SqList &C) {
-    if (C.length < A.length + B.length)
-        return false;
-    int i = 0, j = 0, k = 0;
-    while (i < A.length && j < B.length) {
-        if (A.data[i] <= B.data[j])
-            C.data[k++] = A.data[i++];
-        else
-            C.data[k++] = B.data[j++];
-    }
-    while (i < A.length)
-        C.data[k++] = A.data[i++];
-    while (j < B.length)
-        C.data[k++] = B.data[j++];
-    C.length = k;
-    return true;
 }
 
 SqList initList(int length) {
@@ -56,7 +41,6 @@ void test(int arr1[], int length1, int arr2[], int length2) {
     SqList A = initList(arr1, length1);
     SqList B = initList(arr2, length2);
 
-    mergeList(A, B, C);
     outPutList(C);
 }
 
@@ -72,6 +56,3 @@ int main() {
 }
 
 // 输出结果：
-// -1 0 1 1 2 3 4
-
-
