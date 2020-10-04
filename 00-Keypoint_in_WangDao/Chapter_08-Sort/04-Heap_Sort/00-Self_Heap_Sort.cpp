@@ -50,7 +50,7 @@ bool is_min_heap(int tree[], int n) {  // 只能判断是不是小顶堆
 // 左子节点c1：2 * i
 // 右子节点c2：2 * i + 1
 // 当2 * i <= n时，左孩子存在。当2 * i + 1 <= n时，右孩子存在
-// 堆默认已经是完全二叉树了，因此不用再针对完全二叉树进行判断
+// 堆默认已经是完全二叉树了，因此不用再针对是否是完全二叉树进行判断
 
 // isHeap参考：https://blog.csdn.net/Daniel_2046/article/details/80963737
 void isHeap(int tree[], int n) {           // 大顶堆、小顶堆、不是堆，都能判断
