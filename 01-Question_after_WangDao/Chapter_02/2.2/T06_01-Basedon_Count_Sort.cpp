@@ -3,7 +3,6 @@
 using namespace std;
 
 #define INFINITY 99999
-#define maxSize 100
 
 typedef int ElemType;
 typedef struct {

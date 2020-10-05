@@ -9,9 +9,8 @@ typedef struct {
 } SqList;
 
 void outPutList(SqList L) {
-    for (int i = 0; i < L.length; i++) {
+    for (int i = 0; i < L.length; i++)
         cout << L.data[i] << " ";
-    }
     cout << endl;
 }
 

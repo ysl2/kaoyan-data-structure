@@ -33,7 +33,7 @@ void bubbleSort(int a[], int length) {
 }
 
 int main() {
-    ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+    ElemType A[] = {10, 0, 5, 2, 3, 4, 7, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
     bubbleSort(A, length);
     outPut(A, length);
@@ -41,4 +41,4 @@ int main() {
 }
 
 // 输出结果：
-// 0:  0 1 2 3 4 5 6 7 8 9
+// 0:  0 1 2 3 3 4 5 5 6 7 7 8 9 10

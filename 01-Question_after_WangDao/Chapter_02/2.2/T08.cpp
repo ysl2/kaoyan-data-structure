@@ -8,9 +8,8 @@ typedef struct {
 } SqList;
 
 void outPutList(SqList L) {
-    for (int i = 0; i < L.length; i++) {
+    for (int i = 0; i < L.length; i++)
         cout << L.data[i] << " ";
-    }
     cout << endl;
 }
 
@@ -39,9 +38,8 @@ SqList initList(int arr[], int length) {
     SqList L;
     L.length = length;
     L.data = (ElemType *)malloc(sizeof(ElemType) * L.length);
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
         L.data[i] = arr[i];
-    }
     return L;
 }
 
