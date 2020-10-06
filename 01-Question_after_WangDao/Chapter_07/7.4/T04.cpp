@@ -1,4 +1,7 @@
-#include <stdlib.h>
+#include <string.h>
+#include <cstdlib>
+#include <iostream>
+#define INFINITY 9999
 using namespace std;
 
 typedef int ElemType;
@@ -7,42 +10,85 @@ typedef struct LinkNode {
     struct LinkNode *next;
 } LinkNode, *LinkList;
 
-// 我自己第一遍写的，带头结点的单链表（注：王道书上是不带头结点的单链表）
-void selectSort1(LinkList &L) {
-    LinkList B = (LinkList) malloc(sizeof(LinkNode));
-    B->next = L->next->next;
-    L->next->next = NULL;
-    while (B->next != NULL) {
-        LinkNode *pre_p = L;
-        LinkNode *pre_q = B;
-        for (; pre_q->next->data < pre_p->next->data; pre_q = pre_q->next) {
-            LinkNode *q = pre_q->next;
-            pre_q->next = q->next;
-            q->next = pre_p->next;
-            pre_p->next = q;
-        }
+void outPut(LinkList L) {
+    LinkNode *p = L->next;
+    while (p != NULL) {
+        std::cout << p->data << " ";
+        p = p->next;
     }
-    free(B);
+    std::cout << std::endl;
 }
 
-// 我自己第二遍写的，对带头结点的单链表进行简单选择排序（注：王道书上是不带头结点的单链表）
-void selectSort2(LinkList L) {
-    LinkList B = (LinkList)malloc(sizeof(LinkNode));
-    B->next = L->next->next;
-    L->next->next = NULL;
-    LinkNode *p, *pre, *maxp, *maxpre;
-    while (B->next != NULL) {
-        pre = maxpre = B;
-        p = maxp = B->next;
-        while (p != NULL) {
-            if (p->data > maxp->data) {  // 每次都挑出一个最大的，然后插入到已经排好序的链表的前面
-                maxp = p;
-                maxpre = pre;
+void rearInsert(LinkList &L, ElemType x) {
+    LinkNode *s = new LinkNode;
+    s->data = x;
+    L->next = s;
+    L = s;
+}
+
+void rearInsertCreate(LinkList &L, ElemType arr[], int length) {
+    L = new LinkNode;
+    LinkNode *p = L;
+    for (int i = 0; i < length; i++)
+        rearInsert(p, arr[i]);
+    p->next = NULL;
+}
+
+// https://blog.csdn.net/baidu_30000217/article/details/77823084
+// 针对带头结点的单链表进行选择排序
+void selectSort(LinkList &L) {
+    if ((L->next == NULL) || (L->next->next == NULL))
+        return;
+
+    LinkNode *head, *prep1, *p1, *prep2, *p2, *premin, *min, *temp;
+    head = L;
+    for (prep1 = head, p1 = prep1->next; p1->next != NULL; prep1 = prep1->next, p1 = prep1->next) {
+        //保存最小节点
+        premin = prep1;
+        min = p1;
+        for (prep2 = p1, p2 = prep2->next; p2 != NULL; prep2 = prep2->next, p2 = prep2->next) {
+            if (min->data > p2->data) {
+                premin = prep2;
+                min = p2;
             }
         }
-        maxpre->next = maxp->next;
-        maxp->next = L->next;
-        L->next = maxp;
+
+        if (p1 != min) {
+            //一定要注意这个情况
+            if (p1->next == min) {
+                temp = min->next;
+                prep1->next = min;
+                min->next = p1;
+                p1->next = temp;
+            } else {
+                temp = min->next;
+                prep1->next = min;
+                min->next = p1->next;
+                premin->next = p1;
+                p1->next = temp;
+            }
+        }
     }
-    free(B);
 }
+void test(LinkList &L) {
+    selectSort(L);
+}
+
+int main() {
+    ElemType arr[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+    int length = sizeof(arr) / sizeof(int);
+    LinkList L = NULL;
+    rearInsertCreate(L, arr, length);
+    outPut(L);
+    std::cout << std::endl;
+
+    test(L);
+    outPut(L);
+
+    return 0;
+}
+
+// 输出结果：
+// 0 2 4 6 8 1 3 5 7 9
+//
+// 0 1 2 3 4 5 6 7 8 9

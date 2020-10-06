@@ -5,7 +5,9 @@
 #include <stack>
 using namespace std;
 
-void outPut(int* A, int length) {
+typedef int ElemType;
+
+void outPut(int *A, int length) {
     static int i = 0;
     cout << i++ << ":  ";
     for (int i = 0; i < length; i++) {
@@ -14,16 +16,15 @@ void outPut(int* A, int length) {
     cout << endl;
 }
 
-void swap(int* A, int i, int j) {
+void swap(int *A, int i, int j) {
     int temp = A[i];
     A[i] = A[j];
     A[j] = temp;
 }
 
 // 划分算法
-int partition(int* A, int low, int high) {
-    // 假设每次都以第一个元素作为枢轴值，进行一趟划分：
-    int pivot = A[low];
+int partition(int *A, int low, int high) {
+    int pivot = A[low];  // 假设每次都以第一个元素作为枢轴值，进行一趟划分：
     while (low < high) {
         while (low < high && A[high] >= pivot)
             high--;
@@ -36,71 +37,53 @@ int partition(int* A, int low, int high) {
     return low;
 }
 
-// // 划分算法2，每次随机选一个数作为pivot（此算法未启用）
-// int partition2(int *A, int low, int high) {
-// 	srand((unsigned)time(NULL));  // 重新播种，使每次生成的随机数都不同
-// 	// rand, srand, time用法参考：http://c.biancheng.net/view/2043.html
-// 	int randIndex = low + rand() % (high - low + 1);
-// 	swap(A, randIndex, low);
-// 	outPut(A, high - low + 1);  // 测试语句
-// 	int pivot = A[low];
-// 	int i = low;
-// 	for (int j = low + 1; j <= high; j++) {
-// 		if (A[j] < pivot) {
-// 			swap(A[++i], A[j]);
-// 			outPut(A, high - low + 1);  // 测试语句
-// 		}
-// 	}
-// 	swap(A, i, low);
-// 	outPut(A, high - low + 1);  // 测试语句
-// 	return i;
-// }
-
 // 非递归快排
-void quickSort(int A[], int low, int high) {
+void quickSort(int A[], int _LOW, int _HIGH) {
     // 手动利用栈来存储每次分块快排的起始点
     // 栈非空时循环获取中轴入栈
-    stack<int> S;
-    if (low < high) {
-        int _part = partition(A, low, high);
-        if (_part - 1 > low) {  // 确保左分区存在
+    stack<int> s;
+    if (_LOW < _HIGH) {
+        int pivotPos = partition(A, _LOW, _HIGH);
+        if (pivotPos - 1 > _LOW) {  // 确保左分区存在
             // 将左分区端点入栈
-            S.push(low);
-            S.push(_part - 1);
+            s.push(_LOW);
+            s.push(pivotPos - 1);
         }
-        if (_part + 1 < high) {  // 确保右分区存在
-            S.push(_part + 1);
-            S.push(high);
+        if (pivotPos + 1 < _HIGH) {  // 确保右分区存在
+            s.push(pivotPos + 1);
+            s.push(_HIGH);
         }
-        while (!S.empty()) {
+        while (!s.empty()) {
             // 得到某分区的左右边界
-            int _high = S.top();
-            S.pop();
-            int _low = S.top();
-            S.pop();
+            int high = s.top();
+            s.pop();
+            int low = s.top();
+            s.pop();
 
-            _part = partition(A, _low, _high);
-            if (_part - 1 > _low) {  // 确保左分区存在
+            pivotPos = partition(A, low, high);
+            if (pivotPos - 1 > low) {  // 确保左分区存在
                 // 将左分区端点入栈
-                S.push(_low);
-                S.push(_part - 1);
+                s.push(low);
+                s.push(pivotPos - 1);
             }
-            if (_part + 1 < _high) {  //确保右分区存在
-                S.push(_part + 1);
-                S.push(_high);
+            if (pivotPos + 1 < high) {  //确保右分区存在
+                s.push(pivotPos + 1);
+                s.push(high);
             }
         }
     }
 }
 
 int main() {
-    int A[5] = {44, 18, 55, 44, 21};
-    int low = 0, high = 4;
-    quickSort(A, low, high);
+    ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+    int length = sizeof(A) / sizeof(int);
+    quickSort(A, 0, length - 1);
     //输出，检验结果
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < length; i++)
         cout << A[i] << " ";
-    }
     cout << endl;
     return 0;
 }
+
+// 输出结果：
+// 0 1 2 3 4 5 6 7 8 9

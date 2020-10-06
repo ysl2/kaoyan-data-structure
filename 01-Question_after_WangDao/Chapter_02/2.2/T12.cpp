@@ -11,8 +11,7 @@ using namespace std;
 int majority(int A[], int length) {
     int count = 1;
     int mainElement = A[0];
-    int i;
-    for (i = 1; i < length; i++) {
+    for (int i = 1; i < length; i++) {
         if (A[i] == mainElement)
             count++;
         else {  // 如果不相等
@@ -25,12 +24,14 @@ int majority(int A[], int length) {
         }
     }
 
-    if (count > 0)
-        for (i = 0, count = 0; i < length; i++)
+    if (count > 0) {
+        count = 0;
+        for (int i = 0; i < length; i++)
             if (A[i] == mainElement)
                 count++;
+    }
 
-    return count > length / 2? mainElement : -1;
+    return count > length / 2 ? mainElement : -1;
 }
 
 int main() {

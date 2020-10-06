@@ -1,4 +1,6 @@
 // 2020-09-07 第二次修订
+#define NULL 0
+
 typedef int ElemType;
 typedef struct LinkNode {
     ElemType data;
@@ -7,14 +9,15 @@ typedef struct LinkNode {
 
 LinkList L;
 
-void delete(LinkList &L, ElemType x) {
-    if (L == NULL || L->next == NULL) return ;
+void deleteList(LinkList &L, ElemType x) {
+    if (L == NULL || L->next == NULL)
+        return;
     LinkNode *pre = L;
     LinkNode *p = L->next;
     while (p != NULL) {
         if (p->data == x) {
             pre->next = p->next;
-            free(p);
+            delete(p);
             p = pre->next;
         } else {
             pre = p;

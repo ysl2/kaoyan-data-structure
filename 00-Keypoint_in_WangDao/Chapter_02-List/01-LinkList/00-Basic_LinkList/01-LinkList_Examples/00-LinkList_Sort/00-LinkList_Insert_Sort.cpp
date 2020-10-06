@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+using namespace std;
 
 typedef int ElemType;
 typedef struct LinkNode {
@@ -32,7 +33,7 @@ void rearInsertCreate(LinkList &L, ElemType arr[], int length) {
     p->next = NULL;
 }
 
-void sortList(LinkList &L) {
+void insertSortList(LinkList &L) {
     if (L == NULL || L->next == NULL)
         return;
     LinkNode *p = L->next->next;
@@ -54,8 +55,9 @@ void test(ElemType *arr, int length) {
     rearInsertCreate(L, arr, length);
     outPut(L);
 
-    sortList(L);
+    insertSortList(L);
     outPut(L);
+    cout << "--------------------------" << endl;
 }
 
 int main() {
@@ -82,9 +84,13 @@ int main() {
 // 输出结果：
 // 5 4 3 2 1
 // 1 2 3 4 5
+// --------------------------
 // 1 3 5 7 9 8 6 4 2
 // 1 2 3 4 5 6 7 8 9
+// --------------------------
 //
 //
+// --------------------------
 // 0
 // 0
+// --------------------------
