@@ -23,7 +23,7 @@ int *B;  // 必须放在外面，这是全局辅助数组
 void merge(int A[], int low, int mid, int high) {
     for (int i = low; i <= high; i++)
         B[i] = A[i];
-    int i = low, k = low, j = mid + 1;
+    int i = low, j = mid + 1, k = low;
     // 相当于合并两个数组，这两个数组下标范围分别为[0, mid] [mid + 1, high]
     // 注意是下标范围，并且是闭区间
     while (i <= mid && j <= high) {
