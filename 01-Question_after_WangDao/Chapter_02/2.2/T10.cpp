@@ -1,6 +1,11 @@
 #include <iostream>
 using namespace std;
 
+void outPut(int arr[], int length) {
+    for (int i = 0; i < length; i++)
+        cout << arr[i] << " ";
+}
+
 // 循环左移p个单位长度
 // 先部分，再整体
 void reverse(int a[], int low, int high) {
@@ -22,11 +27,6 @@ void reverseArray(int a[], int length, int p) {
     reverse(a, 0, p - 1);
     reverse(a, p, length - 1);
     reverse(a, 0, length - 1);
-}
-
-void outPut(int arr[], int length) {
-    for (int i = 0; i < length; i++)
-        cout << arr[i] << " ";
 }
 
 int main() {

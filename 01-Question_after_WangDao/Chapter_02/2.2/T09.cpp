@@ -9,6 +9,15 @@ typedef struct {
     int length;
 } SqList;
 
+SqList initList(int arr[], int length) {
+    SqList L;
+    L.length = length;
+    L.data = (ElemType *)malloc(sizeof(ElemType) * maxSize);
+    for (int i = 0; i < length; i++)
+        L.data[i] = arr[i];
+    return L;
+}
+
 void outPutList(SqList L) {
     for (int i = 0; i < L.length; i++)
         cout << L.data[i] << " ";
@@ -60,15 +69,6 @@ void searchExchangeInsert(SqList &L, ElemType x) {
     else if (flag == false)  // 如果没找到
         insert(L, result, x);
     // 注：这里还有一种情况是如果找到了，但是是最后一个元素。此时就什么都不做直接返回
-}
-
-SqList initList(int arr[], int length) {
-    SqList L;
-    L.length = length;
-    L.data = (ElemType *)malloc(sizeof(ElemType) * maxSize);
-    for (int i = 0; i < length; i++)
-        L.data[i] = arr[i];
-    return L;
 }
 
 void test(int arr[], int length) {

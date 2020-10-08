@@ -8,6 +8,14 @@ typedef struct {
     int length;
 } SqList;
 
+SqList initList(int length) {
+    SqList L;
+    L.length = length;
+    L.data = (ElemType *)malloc(sizeof(ElemType) * L.length);
+    memset(L.data, 0, sizeof(ElemType) * length);
+    return L;
+}
+
 void outPutList(SqList L) {
     for (int i = 0; i < L.length; i++)
         cout << L.data[i] << " ";
@@ -30,14 +38,6 @@ bool mergeList(SqList A, SqList B, SqList &C) {
         C.data[k++] = B.data[j++];
     C.length = k;
     return true;
-}
-
-SqList initList(int length) {
-    SqList L;
-    L.length = length;
-    L.data = (ElemType *)malloc(sizeof(ElemType) * L.length);
-    memset(L.data, 0, sizeof(ElemType) * length);
-    return L;
 }
 
 SqList initList(int arr[], int length) {

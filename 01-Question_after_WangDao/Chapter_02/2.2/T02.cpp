@@ -7,6 +7,15 @@ typedef struct {
     int length;
 } SqList;
 
+SqList initList(int arr[], int length) {
+    SqList L;
+    L.length = length;
+    L.data = (ElemType *)malloc(sizeof(ElemType) * L.length);
+    for (int i = 0; i < length; i++)
+        L.data[i] = arr[i];
+    return L;
+}
+
 void outPutList(SqList L) {
     for (int i = 0; i < L.length; i++)
         cout << L.data[i] << " ";
@@ -19,15 +28,6 @@ void reverse(SqList &L) {
         L.data[i] = L.data[L.length - 1 - i];
         L.data[L.length - 1 - i] = temp;
     }
-}
-
-SqList initList(int arr[], int length) {
-    SqList L;
-    L.length = length;
-    L.data = (ElemType *)malloc(sizeof(ElemType) * L.length);
-    for (int i = 0; i < length; i++)
-        L.data[i] = arr[i];
-    return L;
 }
 
 void test(int arr1[], int length1) {
