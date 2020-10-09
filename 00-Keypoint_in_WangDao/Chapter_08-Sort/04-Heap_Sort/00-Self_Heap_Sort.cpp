@@ -101,7 +101,7 @@ void buildHeap(int a[], int length) {
     // 从最后一个非叶子结点开始，向上进行堆化。而堆化的过程又会向下进行
     // 当进行完上述步骤后，就会得到一个大根堆
     int n = length - 1;
-    for (int i = n / 2; i > 0; i--)
+    for (int i = n / 2; i >= 1; i--)
         heapify(a, length, i);
 }
 
