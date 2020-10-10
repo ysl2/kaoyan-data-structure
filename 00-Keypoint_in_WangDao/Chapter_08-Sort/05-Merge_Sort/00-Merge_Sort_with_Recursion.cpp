@@ -43,7 +43,7 @@ void mergeSort(int A[], int low, int high) {
         return;
     if (!B)  // 如果没有创建辅助空间，就创建。如果已经创建了，就继续下面的代码
         B = (int *)malloc(sizeof(int) * (high - low + 1));
-    int mid = (low + high) / 2;
+    int mid = low + (high - low) / 2;
     mergeSort(A, low, mid);
     mergeSort(A, mid + 1, high);
     merge(A, low, mid, high);

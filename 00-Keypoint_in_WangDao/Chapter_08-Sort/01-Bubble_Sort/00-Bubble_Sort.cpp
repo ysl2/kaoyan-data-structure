@@ -28,7 +28,7 @@ void bubbleSort(int a[], int length) {
             }
         }
         if (flag == false)
-            return;
+            break;
     }
 }
 
