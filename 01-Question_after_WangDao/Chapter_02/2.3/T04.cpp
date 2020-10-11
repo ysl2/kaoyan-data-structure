@@ -36,7 +36,6 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
 bool deleteList(LinkList &L) {
     if (L == NULL || L->next == NULL)
         return false;
-
     LinkNode *minpre = L, *minp = L->next;
     LinkNode *pre = L, *p = L->next;
     for (; p != NULL; pre = pre->next, p = p->next) {
@@ -45,7 +44,6 @@ bool deleteList(LinkList &L) {
             minpre = pre;
         }
     }
-
     minpre->next = minp->next;
     delete minp;
     return true;

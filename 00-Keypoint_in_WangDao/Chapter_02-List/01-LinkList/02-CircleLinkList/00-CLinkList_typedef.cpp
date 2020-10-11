@@ -44,7 +44,7 @@ void test(int arr[], int length) {
 }
 
 int main() {
-    ElemType arr1[] = {1, 2, 3, 4, 4, 3, 2, 1};
+    ElemType arr1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     int length1 = sizeof(arr1) / sizeof(int);
 
     test(arr1, length1);
@@ -53,4 +53,4 @@ int main() {
 }
 
 // 输出结果：
-// 1 2 3 4 4 3 2 1
+// 1 2 3 4 5 6 7 8 9

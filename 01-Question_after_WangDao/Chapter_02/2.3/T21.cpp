@@ -1,3 +1,86 @@
+// 2020-10-11
+#include <iostream>
+using namespace std;
+
+typedef int ElemType;
+typedef struct LinkNode {
+    ElemType data;
+    struct LinkNode *next;
+} LinkNode, *LinkList;
+
+void outPut(LinkList L) {
+    LinkNode *p = L->next;
+    while (p != NULL) {
+        cout << p->data << " ";
+        p = p->next;
+    }
+    cout << endl;
+}
+
+void rearInsert(LinkList &L, ElemType x) {
+    LinkNode *s = new LinkNode;
+    s->data = x;
+    L->next = s;
+    L = s;
+}
+
+LinkList rearInsertCreate(ElemType arr[], int length) {
+    LinkList L = new LinkNode;
+    LinkNode *p = L;
+    for (int i = 0; i < length; i++)
+        rearInsert(p, arr[i]);
+    p->next = NULL;
+    return L;
+}
+
+bool getReverseKthNode(LinkList L, int k, LinkNode *&result) {
+    if (k <= 0 || L == NULL || L->next == NULL)
+        return false;
+    LinkNode *p = L->next;
+    int i = 0;
+    for (; i < k && p != NULL; i++)  // 这里其实也可以直接让k--，但是这样不容易计算边界。因此保险起见还是用最传统的for正向遍历方式。
+        p = p->next;
+    if (p == NULL && i != k)  // 需要注意的是对于第一个结点（也就是倒数最后一个结点）的判断。
+        return false;
+    result = L->next;  // result的初始位置应该与p的初始位置相同，这样可以保证二者的相对距离是k
+    while (p != NULL) {
+        p = p->next;
+        result = result->next;
+    }
+    return result != NULL;
+}
+
+void test(ElemType a[], int length, int k) {
+    LinkList L = rearInsertCreate(a, length);
+    LinkNode *result;
+    if (getReverseKthNode(L, k, result) == true)
+        cout << result->data << endl;
+    else
+        cout << "false" << endl;
+}
+
+int main() {
+    ElemType arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int length = sizeof(arr) / sizeof(int);
+
+    test(arr, length, 3);
+    test(arr, length, 10);
+    test(arr, length, 9);
+    test(arr, length, 0);
+    test(arr, length, 1);
+
+    return 0;
+}
+
+// 输出结果：
+// 7
+// false
+// 1
+// false
+// 9
+
+
+// ----------------------------------------------------------------------------
 // 2020-09-07 第三次修订
 #include <stdlib.h>
 
@@ -41,7 +124,7 @@ LinkNode *get(LinkList &L, int k) {  // 返回指针的函数
 //     return pre;
 // }
 
-----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 // 2020-09-02 第二次修订
 typedef int ElemType;
