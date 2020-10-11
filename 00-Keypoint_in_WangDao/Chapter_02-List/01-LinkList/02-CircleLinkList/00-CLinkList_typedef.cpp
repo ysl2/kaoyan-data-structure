@@ -16,7 +16,7 @@ void outPut(CLinkList L) {
     cout << endl;
 }
 
-CLinkList rearInsertCreateDoubleCircleList(ElemType arr[], int length) {
+CLinkList rearInsertCreateCircleList(ElemType arr[], int length) {
     CLinkList L = new CLinkNode;
     CLinkNode *r = L;
     for (int i = 0; i < length; i++) {
@@ -38,7 +38,7 @@ bool isTail(CLinkList L, CLinkNode *p) {
 }
 
 void test(int arr[], int length) {
-    CLinkList A = rearInsertCreateDoubleCircleList(arr, length);
+    CLinkList A = rearInsertCreateCircleList(arr, length);
 
     outPut(A);
 }
