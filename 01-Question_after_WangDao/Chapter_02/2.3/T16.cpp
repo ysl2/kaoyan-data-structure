@@ -1,84 +1,81 @@
-// 2020-10-10
 #include <iostream>
 using namespace std;
 
 typedef int ElemType;
-typedef struct DCLinkNode {  // Double Circle
+typedef struct LinkNode {
     ElemType data;
-    struct DCLinkNode *pre, *next;
-} DCLinkNode, *DCLinkList;
+    struct LinkNode *next;
+} LinkNode, *LinkList;
 
-void outPut(DCLinkList L) {
-    DCLinkNode *p = L->next;
-    while (p != L) {
+void outPut(LinkList L) {
+    LinkNode *p = L->next;
+    while (p != NULL) {
         cout << p->data << " ";
         p = p->next;
     }
     cout << endl;
 }
 
-void reverseOutPut(DCLinkList L) {
-    DCLinkNode *p = L->pre;
-    while (p != L) {
-        cout << p->data << " ";
-        p = p->pre;
-    }
-    cout << endl;
+void rearInsert(LinkList &L, ElemType x) {
+    LinkNode *s = new LinkNode;
+    s->data = x;
+    L->next = s;
+    L = s;
 }
 
-DCLinkList rearInsertCreateDoubleCircleList(ElemType arr[], int length) {
-    DCLinkList L = new DCLinkNode;
-    DCLinkNode *r = L;
-    for (int i = 0; i < length; i++) {
-        DCLinkNode *s = new DCLinkNode;
-        s->data = arr[i];
-        r->next = s;
-        s->pre = r;
-        r = s;
-    }
-    r->next = L;
-    L->pre = r;
+LinkList rearInsertCreate(ElemType arr[], int length) {
+    LinkList L = new LinkNode;
+    LinkNode *p = L;
+    for (int i = 0; i < length; i++)
+        rearInsert(p, arr[i]);
+    p->next = NULL;
     return L;
 }
 
-bool isSym(DCLinkList L) {
-    if (L->next == L || L->next->next == L)
+bool isMatched(LinkList A, LinkList B) {
+    if (A == NULL || B == NULL || B->next == NULL)
         return false;
-    DCLinkList p = L->next;
-    DCLinkList q = L->pre;
-    while ((p != q && p->next != q) && p->data == q->data) {
-        p = p->next;
-        q = q->pre;
+    LinkNode *p = A->next;
+    LinkNode *q = B->next;
+    while (p != NULL) {
+        LinkNode *temp = p;  // 记录一下当前的位置，因为后面还要跳转回来
+        while (q != NULL && q->data == p->data) {
+            p = p->next;
+            q = q->next;
+        }
+        if (q == NULL)
+            return true;
+        else {
+            q = B->next;
+            p = temp->next;
+        }
     }
-    return (p == q || ((p->next == q) && (p->data == q->data)));
+    return false;
 }
 
-void test(int arr[], int length) {
-    DCLinkList A = rearInsertCreateDoubleCircleList(arr, length);
+void test(ElemType a1[], int length1, ElemType a2[], int length2) {
+    LinkList A = rearInsertCreate(a1, length1);
+    LinkList B = rearInsertCreate(a2, length2);
 
-    if (isSym(A))
+    if (isMatched(A, B))
         cout << "true" << endl;
     else
         cout << "false" << endl;
 }
 
 int main() {
-    ElemType arr1[] = {1, 2, 3, 4, 4, 3, 2, 1};
+    ElemType arr1[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length1 = sizeof(arr1) / sizeof(int);
-    ElemType arr2[] = {1, 2, 3, 4, 5, 3, 2, 1};
+    ElemType arr2[] = {2, 4, 6, 8};
     int length2 = sizeof(arr2) / sizeof(int);
-    ElemType arr3[] = {1, 2, 3, 4, 5, 4, 3, 2, 1};
+    ElemType arr3[] = {};
     int length3 = sizeof(arr3) / sizeof(int);
-    ElemType arr4[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    ElemType arr4[] = {1, 2, 3, 4};
     int length4 = sizeof(arr4) / sizeof(int);
-    ElemType arr5[] = {1};
-    int length5 = sizeof(arr5) / sizeof(int);
 
-    test(arr1, length1);
-    test(arr2, length2);
-    test(arr3, length3);
-    test(arr4, length4);
-    test(arr5, length5);
+    test(arr1, length1, arr2, length2);
+    test(arr1, length1, arr3, length3);
+    test(arr1, length1, arr4, length4);
 
     return 0;
 }
@@ -86,27 +83,4 @@ int main() {
 // 输出结果：
 // true
 // false
-// true
 // false
-// false
-
-
-//---------------------------------------------------------------
-// 注意：本题假定无头结点
-bool pattern(LinkList A, LinkList B) {
-	if (A == NULL || B == NULL) return false;
-    LinkNode *p = A, *pre = A;
-    LinkNode *q = B;
-    while (p != NULL && q != NULL) {
-        if (p->data == q->data) {
-            p = p->next;
-            q = q->next;
-        } else {
-            pre = pre->next;
-            p = pre;
-            q = B;
-        }
-    }
-    return q == NULL;
-}
-
