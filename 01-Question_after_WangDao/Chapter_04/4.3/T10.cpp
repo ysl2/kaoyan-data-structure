@@ -1,16 +1,24 @@
-// 2020-09-21 第二次修订
-int count = 0;
-Elemtype getData(BiTree T, int k) {
+// 2020-10-12
+#define NULL 0
+#define NULLCHAR '#'
+
+typedef char ElemType;
+typedef struct BiTNode {
+    ElemType data;
+    struct BiTNode *lchild, *rchild;
+} BiTNode, *BiTree;
+
+int count = 1;
+ElemType getData(BiTree T, int k) {
     if (T == NULL)
-        return NULL;
+        return NULLCHAR;
     if (count == k)
         return T->data;
     k++;
-    int result;
-    if (T->lchild != NULL)
-        result = getData(T->lchild, k);
-    if (result != NULL && T->rchild != NULL)
-        return getData(T->rchild, k);
+    ElemType result = getData(T->lchild, k);
+    if (result != NULLCHAR)
+        return result;
+    result = getData(T->rchild, k);
     return result;
 }
 

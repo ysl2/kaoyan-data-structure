@@ -1,3 +1,4 @@
+// 2020-10-04
 #include <string.h>
 #include <iostream>
 using namespace std;
@@ -18,6 +19,8 @@ void outPutList(SqList L) {
 }
 
 // 这个方法的优势在于：不要求表必须有序。对于无序的表，也可以处理
+// 但是由于定义了一个辅助数组，因此空间复杂度变高了
+// 时间复杂度：当输入的元素是n个0到k之间的整数时，它的运行时间是 Θ(n + k)。（和计数排序相同）
 bool deleteList(SqList &L) {
     if (L.length == 0)
         return false;
@@ -53,7 +56,6 @@ void test(int arr[], int length) {
     for (int i = 0; i < length; i++)
         L.data[i] = arr[i];
 
-    outPutList(L);
     deleteList(L);
     outPutList(L);
 }
@@ -66,6 +68,5 @@ int main() {
 }
 
 // 输出结果：
-// -1 1 -2 -1 1 0 -1 1 0 1 3
 // -2 -1 0 1 3
 

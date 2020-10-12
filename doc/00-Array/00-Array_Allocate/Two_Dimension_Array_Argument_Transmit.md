@@ -20,7 +20,19 @@ void test() {
     int **a = createMatrix(m, n);
 }
 ```
-
+C++的标准写法：
+```cpp
+#include <iostream>
+using namespace std;
+int main() {
+    int FIRSTLENGTH = 5;
+    int LASTLENGTH = 5;
+    int **edge;
+    edge = new int *[FIRSTLENGTH];
+    for (int i = 0; i < FIRSTLENGTH; i++)
+        edge[i] = new int[LASTLENGTH];
+}
+```
 ### 2. C语言二维数组的函数传入：
 
 > 注意: 在函数中使用传参过来的二维数组（指针）进行数组取值的时候不能使用`a[i][j]`这种形式来取值。

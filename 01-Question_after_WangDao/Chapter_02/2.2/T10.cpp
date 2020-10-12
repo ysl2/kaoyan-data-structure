@@ -1,3 +1,4 @@
+// 2020-10-05
 #include <iostream>
 using namespace std;
 
@@ -9,6 +10,8 @@ void outPut(int arr[], int length) {
 // 循环左移p个单位长度
 // 先部分，再整体
 void reverse(int a[], int low, int high) {
+    if (low >= high)
+        return;
     for (int i = 0; i < (high - low + 1) / 2; i++) {
         // i指的是距离，不是下标。因此无论low是多少，i始终从0开始计数
         // i表示距离low有多远，是相对的。

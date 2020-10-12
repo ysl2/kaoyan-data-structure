@@ -25,7 +25,7 @@ bool isSym(LinkList L, int n) {
 	return s.empty();
 }
 
--------------------------------------------------
+// -------------------------------------------------
 int do(LinkList L, int n) {
     char s[n / 2];
     LinkNode *p = L->next;

@@ -1,4 +1,3 @@
-#define maxSize 20
 typedef char ElemType;
 typedef struct ArcNode {
     int adjvex;
@@ -11,7 +10,7 @@ typedef struct VexNode {
     ArcNode *first;
 } VexNode;
 
-typedef struct AdjacentGraph {
-    VexNode AdjacentList[maxSize];
+typedef struct {
+    VexNode *vertex;
     int arcnum, vexnum;
-} AdjacentGraph;
+} *AdjacentGraph;
