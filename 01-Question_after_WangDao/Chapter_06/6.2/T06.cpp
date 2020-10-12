@@ -1,4 +1,4 @@
-
+// 2020-09-28
 #include <stdlib.h>  // malloc函数需要用这个库
 #include <iostream>  //C++的标准输入输出流库
 #define maxSize 10

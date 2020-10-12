@@ -30,7 +30,6 @@ void bidBubbleSort(ElemType *A, int length) {
             }
         }
         high--;
-        outPut(A, length);  // 测试语句
         for (int i = high; i > low; i--) {
             if (A[i] < A[i - 1]) {
                 swap(A, i, i - 1);
@@ -38,23 +37,17 @@ void bidBubbleSort(ElemType *A, int length) {
             }
         }
         low++;
-        outPut(A, length);  // 测试语句
     }
 }
 
 int main() {
     ElemType A[] = {6, 5, 4, 3, 2, 1};
     int length = sizeof(A) / sizeof(int);
-    outPut(A, length);  // 输出原始序列（第0趟）
     bidBubbleSort(A, length);
+    outPut(A, length);
     return 0;
 }
 
 // 输出结果:
-// 0:  6 5 4 3 2 1
-// 1:  5 4 3 2 1 6
-// 2:  1 5 4 3 2 6
-// 3:  1 4 3 2 5 6
-// 4:  1 2 4 3 5 6
-// 5:  1 2 3 4 5 6
-// 6:  1 2 3 4 5 6
+// 0:  1 2 3 4 5 6
+

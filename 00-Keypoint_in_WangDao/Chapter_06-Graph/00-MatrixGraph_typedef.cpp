@@ -1,3 +1,4 @@
+// 2020-10-12
 // 目标：通过一个一维顶点数组和一个二维边数组，产生一个邻接矩阵图
 // 由于C语言在函数传递过程中仅传入数组的首地址，因此我在这里用了一维数组edge来模拟二维数组，而在邻接矩阵中使用实际的二维数组G->edge
 // 但是无论是否是真实的二维还是模拟的二维，遍历方式都是按照一维数组的方式来的，即首地址 + 偏移量
@@ -5,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-typedef char ElemType;
+typedef int ElemType;
 typedef struct {
     int number;  // 顶点的编号，这一项用户不能自己定义，是固定的从1开始的数字
     ElemType info;  // 顶点信息。这一项是从用户输入的vertex数组中写入的，并不要求非要int型，也可以是A，B，C这种

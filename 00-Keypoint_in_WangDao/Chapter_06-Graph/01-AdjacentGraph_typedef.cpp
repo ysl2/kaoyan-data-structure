@@ -1,4 +1,4 @@
-
+// 2020-10-12
 // 目标：通过一个一维顶点数组和一个二维边数组，产生一个邻接表图
 // 注意：这里的二维边数组是通过一个一维数组模拟的。因为二维数组和一维数组本质上没有区别，都是一段连续的地址构成的
 #include <iostream>
@@ -31,6 +31,7 @@ void outputEdge(AdjacentGraph G) {
     }
 }
 
+// 初始化邻接表
 void initAdjacentGraph(AdjacentGraph &G, int vexnum) {
     G->vexnum = vexnum;
     G->arcnum = 0;
@@ -41,6 +42,7 @@ void initAdjacentGraph(AdjacentGraph &G, int vexnum) {
     }
 }
 
+// 通过一个一维顶点数组和一个二维边数组得到邻接表图
 AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
     AdjacentGraph G = new Adjacent;
     initAdjacentGraph(G, vexnum);

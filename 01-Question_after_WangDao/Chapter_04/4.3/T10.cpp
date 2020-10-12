@@ -18,8 +18,7 @@ ElemType getData(BiTree T, int k) {
     ElemType result = getData(T->lchild, k);
     if (result != NULLCHAR)
         return result;
-    result = getData(T->rchild, k);
-    return result;
+    return getData(T->rchild, k);
 }
 
 //---------------------------------------
