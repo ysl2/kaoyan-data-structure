@@ -4,7 +4,6 @@ using std::cout;
 using std::endl;
 using std::queue;
 #define maxSize 10
-// using std::cout;
 
 typedef struct {
     int number;
@@ -64,12 +63,9 @@ void BFS(MatrixGraph G, int v0) {
 }
 
 void BFSTraverse(MatrixGraph G) {
-    for (int i = 0; i < maxSize; i++) {
+    for (int i = 0; i < maxSize; i++)
         visited[i] = false;
-    }
-    for (int i = 0; i < G.vexnum; i++) {
-        if (!visited[i]) {
+    for (int i = 0; i < G.vexnum; i++)
+        if (!visited[i])
             BFS(G, i);
-        }
-    }
 }

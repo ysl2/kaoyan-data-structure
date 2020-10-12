@@ -6,7 +6,7 @@ typedef struct BSTNode {
     struct BSTNode *lchind, *rchild;
 } BSTNode, *BSTree;
 
-bool BSTreeInsert(BSTree T, ELemType key) {
+bool BSTreeInsert(BSTree &T, ELemType key) {
     if (T == NULL) {
         T = new BSTNode;
         T->lchind = T->rchild = NULL;

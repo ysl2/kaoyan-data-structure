@@ -8,6 +8,7 @@ typedef struct {
     LinkNode *front, *rear;
 } LinkQueue;
 
+// 这里默认链队有头结点
 void initQueue(LinkQueue &Q) {
     Q.front = Q.rear = new LinkNode;
 }
@@ -24,7 +25,7 @@ void EnQueue(LinkQueue &Q, ElemType x) {
     Q.rear = temp;
 }
 
-bool DeQueue(LinkQueue Q, ElemType &e) {
+bool DeQueue(LinkQueue &Q, ElemType &e) {
     if (Q.front == Q.rear)
         return false;
     if (Q.front->next == Q.rear) {
