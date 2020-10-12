@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
-#define NULL 0
-typedef char ElemType;
+
+typedef int ElemType;
 typedef struct ArcNode {
     int adjvex;
     struct ArcNode *next;
@@ -32,9 +32,10 @@ void initAdjacentGraph(AdjacentGraph &G, int vexnum, int arcnum) {
     G->arcnum = arcnum;
     G->vertex = new VexNode[G->vexnum];
     for (int i = 0; i < G->vexnum; i++) {
-        G->vertex[i].data = NULL;
-        G->vertex[i].first = new ArcNode;
-        G->vertex[i].first->next = NULL;
+        G->vertex[i].data = 0;
+        G->vertex[i].first = NULL;
+        // G->vertex[i].first = new ArcNode;
+        // G->vertex[i].first->next = NULL;
     }
 }
 
@@ -44,11 +45,12 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge, int arcnum
     for (int i = 0; i < vexnum; i++)
         G->vertex[i].data = vertex[i];
     for (int i = 0; i < arcnum; i++) {
-        for (int j = 0; j < arcnum; j++) {
+        // 由于在这里采用头插法插入结点，因此为了保证顺序和顶点顺序一致，采用从后向前遍历，这样头插结束后，链表结点顺序不会相反
+        for (int j = arcnum - 1; j >= 0; j--) {
             if (edge[i * arcnum + j] == 1) {
                 ArcNode *temp = new ArcNode;
                 temp->adjvex = j;
-                temp->next = G->vertex[i].first->next;
+                temp->next = G->vertex[i].first;
                 G->vertex[i].first = temp;
             }
         }
@@ -58,11 +60,11 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge, int arcnum
 
 void test(ElemType *vertex, int vexnum, int *edge, int arcnum) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge, arcnum);
-    // outputEdge(G);
+    outputEdge(G);
 }
 
 int main() {
-    ElemType vertex[] = {1, 3, 5, 7, 9};
+    ElemType vertex[] = {1, 2, 3, 4, 5};
     int vexnum = sizeof(vertex) / sizeof(ElemType);
     const int arcnum = 5;
     int edge[] = {
@@ -77,8 +79,8 @@ int main() {
 }
 
 // 输出结果：
-// 0 1 1 0 0
-// 0 0 1 0 1
-// 1 0 0 1 0
-// 0 0 0 0 1
-// 0 1 1 0 0
+// 1 2 3
+// 2 3 5
+// 3 1 4
+// 4 5
+// 5 2 3

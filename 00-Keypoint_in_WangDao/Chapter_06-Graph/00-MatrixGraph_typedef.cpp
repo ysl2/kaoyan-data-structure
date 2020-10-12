@@ -83,7 +83,7 @@ void test(ElemType *vertex, int vexnum, int *edge, int arcnum) {
 }
 
 int main() {
-    ElemType vertex[] = {1, 3, 5, 7, 9};
+    ElemType vertex[] = {1, 2, 3, 4, 5};
     int vexnum = sizeof(vertex) / sizeof(ElemType);
     const int arcnum = 5;
     int edge[] = {
