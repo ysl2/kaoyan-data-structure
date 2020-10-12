@@ -122,6 +122,7 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
     return G;
 }
 
+// 转换：将邻接表转换为邻接矩阵
 MatrixGraph converseAdjacentToMatrix(AdjacentGraph G1) {
     MatrixGraph G2 = new Matrix;
     initMatrixGraph(G2, G1->vexnum);
