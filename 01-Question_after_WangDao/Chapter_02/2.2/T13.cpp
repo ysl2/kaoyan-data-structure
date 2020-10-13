@@ -1,3 +1,4 @@
+// 2020-09-12
 #include <string.h>
 #include <iostream>
 using namespace std;
@@ -7,8 +8,8 @@ typedef int ElemType;
 int getmin(int *A, int length) {
     int *B = (int *)malloc(sizeof(int) * length);
     memset(B, 0, sizeof(int) * length);
-    for (int i = 0; i < length && A[i] > 0 && A[i] <= length; i++)
-        if (B[A[i] - 1] == 0)
+    for (int i = 0; i < length; i++)
+        if (B[A[i] - 1] == 0 && A[i] > 0 && A[i] <= length)
             B[A[i] - 1] = 1;
     int i;
     for (i = 0; i < length; i++)

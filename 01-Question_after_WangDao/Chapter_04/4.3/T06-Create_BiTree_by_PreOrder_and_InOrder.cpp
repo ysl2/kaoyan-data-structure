@@ -1,6 +1,8 @@
 // 2020-09-20 第二次修订
 // A是先序遍历序列，B是中序遍历序列
 // preFirst preLast为先序的第一个结点和最后一个结点的下标，inFirst inLast是中序的第一个结点和最后一个结点的下标
+
+// 不建议看这个，这个不好理解。在王道知识点里面有createBiTree，看那个递归方法比这个容易理解
 BiTree createTree(ElemType A[], ElemType B[], int preFirst, int preLast, int inFirst, int inLast) {
     BiTree T = new BiTNode;
     T->data = A[preFirst];
