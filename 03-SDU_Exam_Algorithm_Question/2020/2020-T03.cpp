@@ -59,7 +59,6 @@ MatrixGraph createMatrix(ElemType *vertex, int vexnum, int *edge) {
     return G;
 }
 
-// 此函数未启用
 // 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
 int FirstNeighbor(MatrixGraph G, int v) {
     int i, flag = -1;
@@ -72,7 +71,6 @@ int FirstNeighbor(MatrixGraph G, int v) {
     return (flag == -1) ? flag : i;
 }
 
-// 此函数未启用
 // 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
 int NextNeighbor(MatrixGraph G, int v, int w) {
     int i, flag = -1;
@@ -85,9 +83,39 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
     return (flag == -1) ? flag : i;
 }
 
-void test(ElemType *vertex, int vexnum, int *edge) {
+int *visited;
+
+bool DFS(MatrixGraph G, int a, int b) {
+    // cout << "hello" << endl;
+    if (a == b)
+        return true;
+    else {
+        visited[a] = 1;
+        for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {  // 一旦w < 0，就会退出循环
+            if (visited[w] == 0 && DFS(G, w, b) == true) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool DFSTraverse(MatrixGraph G, int A, int B) {
+    visited = new int[30];
+    memset(visited, 0, sizeof(int) * 30);
+    int a = A - 1, b = B - 1;  // 把顶点统一转化成下标
+
+    return DFS(G, a, b);
+}
+
+void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
-    outputEdge(G);
+
+    if (DFSTraverse(G, A, B) == true)
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+    visited = new int[30];
 }
 
 int main() {
@@ -95,18 +123,31 @@ int main() {
     int vexnum = sizeof(vertex) / sizeof(ElemType);
     int edge[] = {
         0, 1, 1, 0, 0,
-        0, 0, 1, 0, 1,
+        0, 0, 1, 0, 0,
         1, 0, 0, 1, 0,
-        0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge);
+    test(vertex, vexnum, edge, 1, 2);
+    test(vertex, vexnum, edge, 1, 3);
+    test(vertex, vexnum, edge, 1, 4);
+    test(vertex, vexnum, edge, 1, 5);
+
+    test(vertex, vexnum, edge, 2, 1);
+    test(vertex, vexnum, edge, 2, 3);
+    test(vertex, vexnum, edge, 2, 4);
+    test(vertex, vexnum, edge, 2, 5);
+
     return 0;
 }
 
 // 输出结果：
-// 0 1 1 0 0
-// 0 0 1 0 1
-// 1 0 0 1 0
-// 0 0 0 0 1
-// 0 1 1 0 0
+// true
+// true
+// true
+// false
+// true
+// true
+// true
+// false
+

@@ -24,14 +24,12 @@ int majority(int A[], int length) {
             }
         }
     }
-
     if (count > 0) {
         count = 0;
         for (int i = 0; i < length; i++)
             if (A[i] == mainElement)
                 count++;
     }
-
     return count > length / 2 ? mainElement : -1;
 }
 
