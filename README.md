@@ -42,10 +42,10 @@
 | `00-Keypoint_in_WangDao`      | 王道书中的知识点                                             |
 | `01-Question_after_WangDao`   | 王道课后题                                                   |
 | <s>`02-SDU-Keypoint`</s>**（停止维护）** | <s>山大资料里的知识点</s>**（所有内容已经整合至`00-Keypoint_in_WangDao`）** |
+|`03-SDU_Exam_Algorithm_Question`| 山大算法题真题，我自己做的答案，尽量保证可运行 |
 | `99-TestCode`                 | 存放我自己写的测试用的代码，无实际意义（里面的排序模板除外） |
 | `doc`                         | 存放我做的与C/C++语法相关的笔记                              |
 | `sources`                     | doc文件夹的笔记中如果含有图片或者附件，放在这里作为图床      |
-|`03-SDU_Exam_Algorithm_Question`| 山大算法题真题，我自己做的答案，尽量保证可运行 |
 
 ## 其他文件：
 
