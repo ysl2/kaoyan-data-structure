@@ -1,7 +1,8 @@
-// 2020-10-12
-// 目标：通过一个一维顶点数组和一个二维边数组，产生一个邻接表图
-// 注意：这里的二维边数组是通过一个一维数组模拟的。因为二维数组和一维数组本质上没有区别，都是一段连续的地址构成的
+
+// 2020-10-16
 #include <iostream>
+#include <queue>
+#include <string.h>
 using namespace std;
 
 typedef int ElemType;
@@ -76,9 +77,37 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
     return temp->next != NULL ? temp->next->adjvex : -1;
 }
 
-void test(ElemType *vertex, int vexnum, int *edge) {
+bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
+    queue<int> q;
+    q.push(a);
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        visited[v] = true;
+        for (int w = FirstNeigbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
+            if (w == b)
+                return true;
+            if (!visited[w])
+                q.push(w);
+        }
+    }
+    return false;
+}
+
+bool BFSTraverse(AdjacentGraph G, int A, int B) {
+    int a = A - 1, b = B - 1;
+    int *visited = new int[G->vexnum];
+    memset(visited, 0, sizeof(int) * G->vexnum);
+
+    return BFS(G, a, b, visited);
+}
+
+void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
-    outputEdge(G);
+
+    if (BFSTraverse(G, A, B) == true)
+        cout << "true" << endl;
+    else cout << "false" << endl;
 }
 
 int main() {
@@ -86,18 +115,17 @@ int main() {
     int vexnum = sizeof(vertex) / sizeof(ElemType);
     int edge[] = {
         0, 1, 1, 0, 0,
-        0, 0, 1, 0, 1,
+        0, 0, 1, 0, 0,
         1, 0, 0, 1, 0,
-        0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge);
+    test(vertex, vexnum, edge, 1, 3);
+    test(vertex, vexnum, edge, 1, 5);
     return 0;
 }
 
 // 输出结果：
-// 1|2 3
-// 2|3 5
-// 3|1 4
-// 4|5
-// 5|2 3
+// true
+// false
+

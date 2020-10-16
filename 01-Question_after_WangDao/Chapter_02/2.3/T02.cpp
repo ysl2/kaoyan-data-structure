@@ -7,8 +7,6 @@ typedef struct LinkNode {
     struct LinkNode *next;
 } LinkNode, *LinkList;
 
-LinkList L;
-
 void deleteList(LinkList &L, ElemType x) {
     if (L == NULL || L->next == NULL)
         return;

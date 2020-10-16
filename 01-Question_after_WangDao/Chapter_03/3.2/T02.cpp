@@ -1,7 +1,6 @@
 // 2020-09-12 第二次修订
 #include <queue>
 #include <stack>
-using namespace std;
 
 void reverse(std::queue<int> q, std::stack<int> s) {
     while (!q.empty()) {
