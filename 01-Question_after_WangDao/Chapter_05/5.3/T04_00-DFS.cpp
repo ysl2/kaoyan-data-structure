@@ -81,15 +81,14 @@ bool DFS(AdjacentGraph G, int a, int b, int visited[]) {
         return true;
     visited[a] = true;
     for (int w = FirstNeigbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
-        if (!visited[w] && DFS(G, w, b, visited)) {
+        if (!visited[w] && DFS(G, w, b, visited))
             return true;
-        }
     }
     return false;
 }
 
 bool DFSTraverse(AdjacentGraph G, int A, int B) {
-    int a = A - 1, b = B - 1;
+    int a = A - 1, b = B - 1;  // 将顶点转化成下标
     int *visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
 

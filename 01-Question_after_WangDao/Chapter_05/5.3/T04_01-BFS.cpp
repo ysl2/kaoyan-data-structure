@@ -1,4 +1,3 @@
-
 // 2020-10-16
 #include <iostream>
 #include <queue>
@@ -95,7 +94,7 @@ bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
 }
 
 bool BFSTraverse(AdjacentGraph G, int A, int B) {
-    int a = A - 1, b = B - 1;
+    int a = A - 1, b = B - 1;  // 将顶点转化成下标
     int *visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
 
