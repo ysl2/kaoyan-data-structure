@@ -1,5 +1,6 @@
-// 2020-
+// 2020-10-17
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 typedef int ElemType;
@@ -78,9 +79,48 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
     return temp->next != NULL ? temp->next->adjvex : -1;
 }
 
-void test(ElemType *vertex, int vexnum, int *edge) {
+int *visited;
+int *path;
+
+void outputPath(int distance) {
+    for (int i = 0; i <= distance; i++)
+        cout << path[i] << " ";
+    cout << endl;
+}
+
+void findPath(AdjacentGraph G, int a, int b, int distance) {
+    path[++distance] = G->vertex[a].data;
+    // 这里G->vertex[a].data的原因是需要输出顶点名称而不是顶点编号。
+    // 而顶点名称和顶点编号的关系是：它们的数组下标相同，
+    // 因此通过相同的数组下标可以构建数组编号和数组名称之间的联系
+    visited[a] = true;
+    if (a == b)
+        outputPath(distance);
+    for (int w = FirstNeigbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
+        if (visited[w] == 0)
+            findPath(G, w, b, distance);
+    }
+    visited[a] = false;  // 恢复顶点，使顶点重新可用。
+    // 通过这条语句，可以输出所有从a到b的简单路径。如果不加这条语句，将只能输出一条路径。
+}
+
+void findAndPrintAllPath(AdjacentGraph G, int A, int B) {
+    int a = A - 1, b = B - 1;
+    visited = new int[G->vexnum];
+    memset(visited, 0, sizeof(int) * G->vexnum);
+    path = new int[G->vexnum];
+    memset(path, 0, sizeof(int) * G->vexnum);
+
+    findPath(G, a, b, -1);
+}
+
+void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
     outputEdge(G);
+
+    cout << endl;
+
+    findAndPrintAllPath(G, A, B);
 }
 
 int main() {
@@ -93,7 +133,7 @@ int main() {
         0, 0, 0, 0, 1,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge);
+    test(vertex, vexnum, edge, 1, 5);
     return 0;
 }
 
@@ -103,3 +143,9 @@ int main() {
 // 3|1 4
 // 4|5
 // 5|2 3
+
+// 1 2 3 4 5
+// 1 2 5
+// 1 3 4 5
+
+

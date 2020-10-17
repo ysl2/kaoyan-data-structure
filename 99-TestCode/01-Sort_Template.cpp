@@ -16,6 +16,10 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
+void test(ElemType a[], int length) {
+    outPut(a, length);
+}
+
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);

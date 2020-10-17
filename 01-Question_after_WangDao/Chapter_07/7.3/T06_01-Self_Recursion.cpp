@@ -4,8 +4,6 @@ using namespace std;
 typedef int ElemType;
 
 void outPut(ElemType *A, int length) {
-    static int i = 0;
-    cout << i++ << ":  ";
     for (int i = 0; i < length; i++) {
         cout << A[i] << " ";
     }
@@ -19,9 +17,8 @@ void swap(ElemType *A, int i, int j) {
 }
 
 // 这是我自己写的采用递归方式划分两个集合。空间复杂度比王道的高，但是相对容易理解一些
-int mid;
-int partition(int a[], int low, int high) {
-    int _LOW = low, _HIGH = high;
+void partition(int a[], int low, int mid, int high) {
+    int _LOW = low, _HIGH = high;  // 暂存一下low和high
     int pivot = a[low];
     while (low < high) {
         while (low < high && a[high] >= pivot)
@@ -33,17 +30,18 @@ int partition(int a[], int low, int high) {
     }
     a[low] = pivot;
 
+    // 以low为分界线，把low和mid比较
     if (low < mid)
-        partition(a, low + 1, _HIGH);
+        partition(a, low + 1, mid, _HIGH);
     else if (low > mid)
-        partition(a, _LOW, low - 1);
-    return low;
+        partition(a, _LOW, mid, low - 1);
 }
 
 int setPartition(int a[], int length) {
-    mid = length / 2 - 1;  // 向下取整
     int low = 0, high = length - 1;
-    partition(a, low, high);
+    int mid = low + (high - low) / 2;
+
+    partition(a, low, mid, high);
 
     int s1 = 0, s2 = 0;
     for (int i = 0; i < length / 2; i++)
@@ -63,3 +61,5 @@ int main() {
 }
 
 // 输出结果：
+// 0 1 2 3 4 5 6 8 7 9
+// 25

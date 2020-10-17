@@ -30,7 +30,7 @@ void binaryInsertSortWITHOUTGuard(int *a, int length) {
                 high = mid - 1;
         }  // 折半查找完成后，此时high + 1 = low
         int temp = a[i];
-        for (int j = i; j > low; j--)  // 将[low, i - 1]范围的元素全部右移
+        for (int j = i; j >= low + 1; j--)  // 将[low, i - 1]范围的元素全部右移
             a[j] = a[j - 1];
         a[low] = temp;  // 将原先的a[i]复制到low所指位置
     }
