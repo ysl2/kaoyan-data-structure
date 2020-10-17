@@ -82,11 +82,11 @@ bool isMaxBiTree(BiTree T) {
     // 找三个数中的最大值。思路是堆排序中的heapify操作
     ElemType maxValue = T->data;
     int maxIndex = 0;
-    if (T->lchild != NULL && T->lchild->data >= maxValue) {
+    if (T->lchild != NULL && T->lchild->data > maxValue) {  // 注意：是严格大于号
         maxIndex = 1;
         maxValue = T->lchild->data;
     }
-    if (T->rchild != NULL && T->rchild->data >= maxValue) {
+    if (T->rchild != NULL && T->rchild->data > maxValue) {  // 注意：是严格大于号
         maxIndex = 2;
         maxValue = T->rchild->data;
     }
