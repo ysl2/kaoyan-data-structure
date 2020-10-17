@@ -82,7 +82,7 @@ int getIndegree(AdjacentGraph G, int K) {
     int count = 0;
     for (int i = 0; i < G->vexnum; i++) {
         for (ArcNode *temp = G->vertex[i].first; temp != NULL; temp = temp->next) {
-            if (temp->adjvex == K - 1)
+            if (temp->adjvex == K - 1)  // 注意这里是K - 1，原因是K是顶点名称，而在真正遍历时，用的是顶点编号，也就是顶点的下标。而在我构造的这个图中，顶点编号 = 顶点名称 - 1
                 count++;
         }
     }
