@@ -1,14 +1,12 @@
 #include <cstdlib>
 #include <iostream>
-#include <stack>
-#include <queue>
-using namespace std;
+using std::cout;
+using std::endl;
 
-typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
+typedef int ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
     ElemType data;
     struct BiTNode *lchild, *rchild;
-    int weight = 0;
 } BiTNode, *BiTree;
 
 BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
@@ -70,27 +68,21 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-void reverseLevelOrder(BiTree T) {
-    if (T == NULL)
-        return;
-    stack<BiTNode *> s;
-    queue <BiTNode *> q;
-    q.push(T);
-    BiTNode *p = T;
-    while (!q.empty()) {
-        p = q.front();
-        q.pop();
-        s.push(p);
-        if (p->lchild != NULL)
-            q.push(p->lchild);
-        if (p->rchild != NULL)
-            q.push(p->rchild);
-    }
-    while (!s.empty()) {
-        p = s.top();
-        s.pop();
-        visit(p);
-    }
+int wpl = 0;
+
+// 二叉树的带权路径长度：指叶节点的带权路径长度。如果不是叶节点，不计算
+void wplPreOrder(BiTree T, int depth) {
+    if (T->lchild == NULL && T->rchild == NULL)
+        wpl += depth * T->data;
+    if (T->lchild != NULL)
+        wplPreOrder(T->lchild, depth + 1);
+    if (T->rchild != NULL)
+        wplPreOrder(T->rchild, depth + 1);
+}
+
+int getWpl(BiTree T) {
+    wplPreOrder(T, 0);  // 这里默认根节点所在层数为0
+    return wpl;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
@@ -105,11 +97,10 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
-    cout << endl;
     // 在此处写要测试的函数...
-    reverseLevelOrder(T);
-
     cout << endl;
+    cout << getWpl(T) <<  endl;
+
     cout << endl;
 }
 
@@ -129,9 +120,10 @@ int main() {
 }
 
 // 运行结果：
-// B E F C G D H
-// F E B G C H D
-// F E G H D C B
+// 66 69 70 67 71 68 72
+// 70 69 66 71 67 72 68
+// 70 69 71 72 68 67 66
 
-// H D G F C E B
+// 498
+
 

@@ -2,8 +2,8 @@
     "configurations": [
         {
             "name"            : "MinGW",
-            "intelliSenseMode": "clang-x64",
-            "compilerPath"    : "C:/Program Files/LLVM/bin/clang++.exe",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath"    : "C:/Program Files/LLVM/bin/g++.exe",
             "includePath"     : [
                 "${workspaceFolder}"
             ],
@@ -16,7 +16,7 @@
                 "databaseFilename"             : ""
             },
             "cStandard"  : "c11",
-            "cppStandard": "c++14"
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

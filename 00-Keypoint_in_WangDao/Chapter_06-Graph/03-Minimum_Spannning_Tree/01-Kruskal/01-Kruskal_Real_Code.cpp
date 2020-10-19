@@ -1,6 +1,9 @@
-// 2020-
+// 2020-10-19
 #include <string.h>
 #include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 typedef int ElemType;
@@ -56,52 +59,92 @@ MatrixGraph createMatrix(ElemType *vertex, int vexnum, int *edge) {
     return G;
 }
 
-// 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
-int FirstNeighbor(MatrixGraph G, int v) {
-    int i, flag = -1;
-    for (i = 0; i < G->vexnum; i++) {
-        if (*(*(G->edge + v) + i) != 0) {
-            flag = 1;
-            break;
-        }
-    }
-    return (flag == -1) ? flag : i;
+int *disJointSet;  // 并查集
+
+int getRoot(int a) {
+    while (disJointSet[a] != a)
+        a = disJointSet[a];
+    return a;
 }
 
-// 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
-int NextNeighbor(MatrixGraph G, int v, int w) {
-    int i, flag = -1;
-    for (i = w + 1; i < G->vexnum; i++) {
-        if (*(*(G->edge + v) + i) != 0) {
-            flag = 1;
-            break;
+void edgeSort(vector<pair<int, int>> &v, MatrixGraph G) {
+    // 对边进行插入排序
+    int vsize = v.size();
+    for (int i = 1; i < vsize; i++) {
+        pair<int, int> temp = v[i];
+        int j;
+        for (j = i - 1; j >= 0 && G->edge[v[j].first][v[j].second] > G->edge[temp.first][temp.second]; j--)
+            v[j + 1] = v[j];
+        v[j + 1] = temp;
+    }
+}
+
+// 最小生成树 -> kruskal
+int kruskal(MatrixGraph G) {
+    disJointSet = new int[G->vexnum];
+    // 初始化并查集
+    for (int i = 0; i < G->vexnum; i++)
+        disJointSet[i] = i;
+    vector<pair<int, int>> v;
+    for (int i = 0; i < G->vexnum; i++) {
+        for (int j = 0; j < G->vexnum; j++) {
+            if (G->edge[i][j] != 0)
+                v.push_back({i, j});
         }
     }
-    return (flag == -1) ? flag : i;
+
+    // 对所有的边进行从小到大排序
+    edgeSort(v, G);
+
+    int sum = 0;
+    int vsize = v.size();
+    int getEdge = 0;
+    for (int i = 0; i < vsize; i++) {
+        if (getEdge == G->vexnum - 1)  // 当已经获取到了n - 1条边（n为顶点的个数）的时候，就退出循环。否则继续寻找会导致有环。
+            break;
+        int a = getRoot(v[i].first);
+        int b = getRoot(v[i].second);
+        if (a != b) {
+            sum += G->edge[v[i].first][v[i].second];
+            disJointSet[a] = b;
+            getEdge++;
+        }
+    }
+    return sum;
 }
 
 void test(ElemType *vertex, int vexnum, int *edge) {
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
     outputEdge(G);
+    cout << endl;
+    cout << kruskal(G) << endl;
 }
 
 int main() {
-    ElemType vertex[] = {1, 2, 3, 4, 5};
+    ElemType vertex[] = {1, 2, 3, 4, 5, 6, 7};
     int vexnum = sizeof(vertex) / sizeof(ElemType);
     int edge[] = {
-        0, 1, 1, 0, 0,
-        0, 0, 1, 0, 1,
-        1, 0, 0, 1, 0,
-        0, 0, 0, 0, 1,
-        0, 1, 1, 0, 0};
+        0, 3, 3, 6, 0, 0, 0,
+        3, 0, 4, 0, 5, 0, 0,
+        3, 4, 0, 0, 4, 3, 0,
+        6, 0, 0, 0, 0, 5, 0,
+        0, 5, 4, 0, 0, 0, 3,
+        0, 0, 3, 5, 0, 0, 7,
+        0, 0, 0, 0, 3, 7, 0};
 
     test(vertex, vexnum, edge);
     return 0;
 }
 
 // 输出结果：
-// 0 1 1 0 0
-// 0 0 1 0 1
-// 1 0 0 1 0
-// 0 0 0 0 1
-// 0 1 1 0 0
+// 0 3 3 6 0 0 0
+// 3 0 4 0 5 0 0
+// 3 4 0 0 4 3 0
+// 6 0 0 0 0 5 0
+// 0 5 4 0 0 0 3
+// 0 0 3 5 0 0 7
+// 0 0 0 0 3 7 0
+
+// 21
+
+
