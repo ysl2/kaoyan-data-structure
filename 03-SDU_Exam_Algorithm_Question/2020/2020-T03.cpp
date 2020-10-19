@@ -86,12 +86,10 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
 bool DFS(MatrixGraph G, int a, int b, int visited[]) {
     if (a == b)
         return true;
-    else {
-        visited[a] = 1;
-        for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {  // 一旦w < 0，就会退出循环
-            if (visited[w] == 0 && DFS(G, w, b, visited) == true)
-                return true;
-        }
+    visited[a] = 1;
+    for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {  // 一旦w < 0，就会退出循环
+        if (visited[w] == 0 && DFS(G, w, b, visited) == true)
+            return true;
     }
     return false;
 }
@@ -129,6 +127,8 @@ int main() {
     test(vertex, vexnum, edge, 1, 4);
     test(vertex, vexnum, edge, 1, 5);
 
+    cout << endl;
+
     test(vertex, vexnum, edge, 2, 1);
     test(vertex, vexnum, edge, 2, 3);
     test(vertex, vexnum, edge, 2, 4);
@@ -142,8 +142,8 @@ int main() {
 // true
 // true
 // false
+
 // true
 // true
 // true
 // false
-

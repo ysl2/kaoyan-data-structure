@@ -1,4 +1,4 @@
-// 2020-
+// 2020-10-19
 #include <iostream>
 using namespace std;
 
@@ -22,7 +22,7 @@ typedef struct {
 
 void outputEdge(AdjacentGraph G) {
     for (int i = 0; i < G->vexnum; i++) {
-        cout << G->vertex[i].data << "|";
+        cout << G->vertex[i].data << "|";  // 无论是边结点还是顶点，都是从顶点数组里面取值。按照索引取对应的值。比如，索引是0，那么取出的值就是1
         for (ArcNode *temp = G->vertex[i].first; temp != NULL; temp = temp->next)
             cout << G->vertex[temp->adjvex].data << " ";
         cout << endl;
@@ -86,9 +86,52 @@ ArcNode *NextNeighborNode(AdjacentGraph G, ArcNode *w) {
     return w->next;  // 无论是不是NULL都无所谓
 }
 
-void test(ElemType *vertex, int vexnum, int *edge) {
+// 本质上是”不含头结点的单链表的删除“问题，对于first结点需要单独考虑
+bool deleteNode(AdjacentGraph G, int i, int j) {
+    // 如果first是NULL
+    if (G->vertex[i].first == NULL)
+        return false;
+    // 如果正好要删除的就是first结点
+    if (G->vertex[i].first->adjvex == j) {
+        ArcNode *temp = G->vertex[i].first->next;
+        delete G->vertex[i].first;
+        G->vertex[i].first = temp;
+        return true;
+    }
+    // 其他情况
+    ArcNode *pre = G->vertex[i].first;
+    ArcNode *p = G->vertex[i].first->next;
+    while (p != NULL && p->adjvex != j) {
+        p = p->next;
+        pre = pre->next;
+    }
+    if (p == NULL)
+        return false;
+    pre->next = p->next;
+    delete p;
+    return true;
+}
+
+void test(ElemType *vertex, int vexnum, int *edge, int I, int J) {
+    int i = I - 1, j = J - 1;
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
+
+    cout << endl;
+
     outputEdge(G);
+
+    cout << endl;
+
+    if (deleteNode(G, i, j))
+        cout << "true" << endl << endl;
+    else
+        cout << "false" << endl << endl;
+
+    outputEdge(G);
+
+    cout << endl;
+
+    cout << "---------------------" << endl;
 }
 
 int main() {
@@ -101,13 +144,43 @@ int main() {
         0, 0, 0, 0, 1,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge);
+    test(vertex, vexnum, edge, 1, 3);
+    test(vertex, vexnum, edge, 5, 2);
+
     return 0;
 }
 
 // 输出结果：
+
 // 1|2 3
 // 2|3 5
 // 3|1 4
 // 4|5
 // 5|2 3
+
+// true
+
+// 1|2
+// 2|3 5
+// 3|1 4
+// 4|5
+// 5|2 3
+
+// ---------------------
+
+// 1|2 3
+// 2|3 5
+// 3|1 4
+// 4|5
+// 5|2 3
+
+// true
+
+// 1|2 3
+// 2|3 5
+// 3|1 4
+// 4|5
+// 5|3
+
+// ---------------------
+
