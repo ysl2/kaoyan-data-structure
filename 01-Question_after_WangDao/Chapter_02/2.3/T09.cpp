@@ -54,18 +54,22 @@ void sortPrintAndDeleteList(LinkList &L) {
 }
 
 int main() {
-    ElemType arr1[] = {1, 3, 5, 7, 9, 11, 13, 20, 21, 22, 23, 24};
+    ElemType arr1[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length1 = sizeof(arr1) / sizeof(int);
 
     LinkList A = rearInsertCreate(arr1, length1);
 
     sortPrintAndDeleteList(A);
 
+    cout << endl <<  ((A->next == NULL) ? "true" : "false") << endl;
+
     return 0;
 }
 
 // 输出结果：
-// 1 3 5 7 9 11 13 20 21 22 23 24
+// 0 1 2 3 4 5 6 7 8 9
+// true
+
 
 //---------------------------------------------------------------
 // 方法1：双指针

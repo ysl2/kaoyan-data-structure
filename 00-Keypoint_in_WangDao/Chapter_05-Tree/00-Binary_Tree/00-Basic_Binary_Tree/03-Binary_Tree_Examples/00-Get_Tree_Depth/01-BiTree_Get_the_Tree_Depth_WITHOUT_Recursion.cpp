@@ -1,12 +1,19 @@
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 using namespace std;
+#define maxSize 30
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
     ElemType data;
     struct BiTNode *lchild, *rchild;
 } BiTNode, *BiTree;
+
+typedef struct {
+    BiTNode *data[maxSize];
+    int front = -1, rear = -1;
+} Queue;
 
 BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
@@ -67,17 +74,26 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
+int getDepth(BiTree T) {
     if (T == NULL)
-        return false;
-    if (T->data == value) {
-        result = T;
-        return true;
+        return 0;
+    // 由于C++提供的队列无法随机访问，因此需要自己定义一个以数组为基础的队列，以保证随机访问的特性
+    Queue Q;  // 初始时front和rear都是-1
+    Q.data[Q.rear++] = T;
+    int count = 0;  // 用来记录每层的最后一个结点
+    int level = 0;
+    while (!(Q.front == Q.rear)) {
+        BiTNode *p = Q.data[Q.front++];
+        if (p->lchild != NULL)
+            Q.data[Q.rear++] = p->lchild;
+        if (p->rchild != NULL)
+            Q.data[Q.rear++] = p->rchild;
+        if (count == Q.front) {  // 这是当前层的最后一个结点
+            level++;
+            count = Q.rear;  // 重置count
+        }
     }
-    if (getNodeByValue(T->lchild, value, result) == true)
-        return true;
-    else
-        return getNodeByValue(T->rchild, value, result);
+    return level;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
@@ -93,9 +109,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     cout << endl;
 
     // 在此处写要测试的函数...
-
-    cout << endl;
-    cout << endl;
+    cout << endl << getDepth(T) << endl;
 }
 
 int main() {
@@ -114,3 +128,9 @@ int main() {
 }
 
 // 运行结果：
+// B E F C G D H
+// F E B G C H D
+// F E G H D C B
+
+// 4
+

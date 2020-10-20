@@ -4,8 +4,6 @@ using namespace std;
 typedef int ElemType;
 
 void outPut(ElemType *A, int length) {
-    static int i = 0;
-    cout << i++ << ":  ";
     for (int i = 0; i < length; i++) {
         cout << A[i] << " ";
     }
@@ -20,9 +18,8 @@ void swap(ElemType *A, int i, int j) {
 
 void bidBubbleSort(ElemType *A, int length) {
     int low = 0, high = length - 1;
-    bool flag = true;
-    while (low < high && flag == true) {
-        flag = false;
+    while (low < high) {
+        bool flag = false;
         for (int i = low; i < high; i++) {
             if (A[i] > A[i + 1]) {
                 swap(A, i, i + 1);
@@ -37,11 +34,13 @@ void bidBubbleSort(ElemType *A, int length) {
             }
         }
         low++;
+        if (flag == false)
+            break;
     }
 }
 
 int main() {
-    ElemType A[] = {6, 5, 4, 3, 2, 1};
+    ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
     bidBubbleSort(A, length);
     outPut(A, length);
@@ -49,5 +48,4 @@ int main() {
 }
 
 // 输出结果:
-// 0:  1 2 3 4 5 6
-
+// 0 1 2 3 4 5 6 7 8 9

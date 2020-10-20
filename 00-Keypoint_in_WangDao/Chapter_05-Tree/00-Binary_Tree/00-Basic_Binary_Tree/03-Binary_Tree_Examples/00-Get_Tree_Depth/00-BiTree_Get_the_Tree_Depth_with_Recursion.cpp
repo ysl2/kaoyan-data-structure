@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+#include <stack>
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
@@ -67,17 +69,12 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
+int getDepth(BiTree T) {
     if (T == NULL)
-        return false;
-    if (T->data == value) {
-        result = T;
-        return true;
-    }
-    if (getNodeByValue(T->lchild, value, result) == true)
-        return true;
-    else
-        return getNodeByValue(T->rchild, value, result);
+        return 0;
+    int left = getDepth(T->lchild);
+    int right = getDepth(T->rchild);
+    return left > right ? left + 1 : right + 1;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
@@ -93,9 +90,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     cout << endl;
 
     // 在此处写要测试的函数...
-
-    cout << endl;
-    cout << endl;
+    cout << endl << getDepth(T) << endl;
 }
 
 int main() {
@@ -114,3 +109,9 @@ int main() {
 }
 
 // 运行结果：
+// B E F C G D H
+// F E B G C H D
+// F E G H D C B
+
+// 4
+

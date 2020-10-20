@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+#include <stack>
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
@@ -67,20 +68,30 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
-    if (T == NULL)
+bool visit(stack<BiTNode *> s, BiTree p, ElemType x) {
+    if (p->data != x)
         return false;
-    if (T->data == value) {
-        result = T;
-        return true;
+    while (!s.empty()) {
+        BiTNode *temp = s.top();
+        s.pop();
+        cout << temp->data << " ";
     }
-    if (getNodeByValue(T->lchild, value, result) == true)
-        return true;
-    else
-        return getNodeByValue(T->rchild, value, result);
+    return true;
 }
 
-void test(ElemType *preOrder, ElemType *inOrder, int length) {
+bool printAllAncestor(BiTree T, ElemType x) {
+    if (T == NULL)
+        return false;
+    if (T->data == x)
+        return true;
+    if (printAllAncestor(T->lchild, x) || printAllAncestor(T->rchild, x)) {
+        cout << T->data << " ";
+        return true;
+    }
+    return false;
+}
+
+void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value) {
     BiTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
@@ -93,8 +104,10 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     cout << endl;
 
     // 在此处写要测试的函数...
-
     cout << endl;
+
+    printAllAncestor(T, value);
+
     cout << endl;
 }
 
@@ -106,7 +119,7 @@ int main() {
     // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(ElemType);
 
-    test(preOrder1, inOrder1, length1);
+    test(preOrder1, inOrder1, length1, 'H');
 
     // test(preOrder2, inOrder2, length2);
 
@@ -114,3 +127,9 @@ int main() {
 }
 
 // 运行结果：
+// B E F C G D H
+// F E B G C H D
+// F E G H D C B
+
+// D C B
+
