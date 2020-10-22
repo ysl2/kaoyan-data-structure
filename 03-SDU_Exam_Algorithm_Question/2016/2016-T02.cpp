@@ -1,8 +1,5 @@
-// 只要稍微改一下对于depth和maxDepth的判断条件，就可以变成“打印任意深度的路径”
 #include <cstdlib>
 #include <iostream>
-#include <vector>
-#include <stack>
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
@@ -70,31 +67,28 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-int getMaxDepth(BiTree T) {
+bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     if (T == NULL)
-        return 0;
-    int left = getMaxDepth(T->lchild);
-    int right = getMaxDepth(T->rchild);
-    return left > right ? left + 1 : right + 1;
+        return false;
+    if (T->data == value) {
+        result = T;
+        return true;
+    }
+    if (getNodeByValue(T->lchild, value, result) == true)
+        return true;
+    else
+        return getNodeByValue(T->rchild, value, result);
 }
 
-vector<BiTNode *> v;  // 这里用vector模拟栈。不能直接用stack，因为无法对stack进行遍历，但却可以对vector进行遍历
-
-void printPath(BiTree T, int maxDepth) {
+int getNodeWithOneDegreeSum(BiTree T) {
     if (T == NULL)
-        return;
-    v.push_back(T);
-    if (T->lchild == NULL && T->rchild == NULL) {
-        if (v.size() == maxDepth - 1) {
-            for (int i = 0; i < v.size(); i++)
-                cout << v[i]->data << " ";  // 注意：这里仅仅是遍历栈，但并没有出栈。因此不能直接定义一个常规的栈，否则有可能导致栈下溢
-            cout << endl;
-            return;  // 如果这里不加return，就可以打印出所有的路径
-        }
-    }
-    printPath(T->lchild, maxDepth);
-    printPath(T->rchild, maxDepth);
-    v.pop_back();  // 自下向上走，结点出栈
+        return 0;
+    int left = (T->lchild != NULL) ? getNodeWithOneDegreeSum(T->lchild) : 0;
+    int right = (T->lchild != NULL) ? getNodeWithOneDegreeSum(T->rchild) : 0;
+    if ((T->lchild != NULL && T->rchild != NULL) || (T->lchild == NULL && T->rchild == NULL))
+        return left + right;
+    else
+        return left + right + 1;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
@@ -112,7 +106,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     // 在此处写要测试的函数...
     cout << endl;
 
-    printPath(T, getMaxDepth(T));
+    cout << getNodeWithOneDegreeSum(T) << endl;
 }
 
 int main() {
@@ -135,5 +129,4 @@ int main() {
 // F E B G C H D
 // F E G H D C B
 
-// B E F
-
+// 2
