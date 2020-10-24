@@ -46,7 +46,7 @@ MatrixGraph createMatrix(ElemType *vertex, int vexnum, int *edge) {
         G->vertex[i].info = vertex[i];
     for (int i = 0; i < (vexnum - 1) * ((vexnum - 1) + 1) / 2; i++) {
         if (edge[i] != 0) {
-            G->edge[i] = edge[i];  // 将一维数组edge的值按照二维数组的方式输入到G->edge
+            G->edge[i] = edge[i]; 
             G->arcnum++;
         }
     }
