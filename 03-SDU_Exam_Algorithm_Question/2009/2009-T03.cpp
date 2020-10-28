@@ -83,9 +83,10 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
 }
 
 int *visited;
+stack<int> s;
 
 void visit(int v) {
-    cout << v + 1 << " ";
+    s.push(v + 1);
 }
 
 void BFS(MatrixGraph G, int v0) {
@@ -107,21 +108,24 @@ void BFS(MatrixGraph G, int v0) {
     }
 }
 
-void getTheFarestVertex(MatrixGraph G, int v0) {
+// 清空栈
+// https://blog.csdn.net/ShellDawn/article/details/80014842
+void stackClean() {
+    stack<int>().swap(s);
+}
+
+int getTheFarestVertex(MatrixGraph G, int v0) {
+    stackClean();
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
-
-    for (int i = 0; i < G->vexnum; i++) {
-        if (!visited[i])
-            BFS(G, i);
-    }
+    BFS(G, v0);
+    return s.top();
 }
 
 void test(ElemType *vertex, int vexnum, int *edge, int V0) {
     int v0 = V0 - 1;
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
-    getTheFarestVertex(G, v0);
-    cout << endl;
+    cout << getTheFarestVertex(G, v0) << endl;
 }
 
 int main() {
@@ -137,84 +141,21 @@ int main() {
         0, 0, 0, 0, 0, 0, 0};
 
     test(vertex, vexnum, edge, 1);
+    test(vertex, vexnum, edge, 2);
+    test(vertex, vexnum, edge, 3);
+    test(vertex, vexnum, edge, 4);
+    test(vertex, vexnum, edge, 5);
+    test(vertex, vexnum, edge, 6);
+    test(vertex, vexnum, edge, 7);
 
     return 0;
 }
 
 // 输出结果：
-// 1 2 3 4 5 6 7
-
-
-
-// ------------------------------------------------------------------------
-// #include <iostream>
-// #include <queue>
-// using std::cout;
-// using std::endl;
-// using std::queue;
-// #define maxSize 10
-
-// typedef struct {
-//     int number;
-//     char info;
-// } VertexType;
-
-// typedef struct {
-//     VertexType vertices[maxSize];
-//     int edge[maxSize][maxSize];
-//     int vexnum, arcnum;
-// } MatrixGraph;
-
-// int FirstNeighbor(MatrixGraph G, int v) {
-//     int i, flag = -1;
-//     for (i = 0; i < G.vexnum; i++) {
-//         if (*(*(G.edge + v) + i) == 1) {
-//             flag = 1;
-//             break;
-//         }
-//     }
-//     return (flag == -1) ? flag : i;
-// }
-
-// int NextNeighbor(MatrixGraph G, int v, int w) {
-//     int i, flag = -1;
-//     for (i = w + 1; i < G.vexnum; i++) {
-//         if (*(*(G.edge + v) + i) == 1) {
-//             flag = 1;
-//             break;
-//         }
-//     }
-//     return (flag == -1) ? flag : i;
-// }
-
-// bool visited[maxSize];
-// queue<int> q;
-
-// void visit(MatrixGraph G, int v0) {
-//     cout << G.vertices[v0].info << endl;
-// }
-
-// void BFS(MatrixGraph G, int v0) {
-//     visit(G, v0);
-//     visited[v0] = true;
-//     q.push(v0);
-//     while (!q.empty()) {
-//         int v = q.front();
-//         q.pop();
-//         for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
-//             if (!visited[w]) {
-//                 visit(G, w);
-//                 visited[w] = true;
-//                 q.push(w);
-//             }
-//         }
-//     }
-// }
-
-// void BFSTraverse(MatrixGraph G) {
-//     for (int i = 0; i < maxSize; i++)
-//         visited[i] = false;
-//     for (int i = 0; i < G.vexnum; i++)
-//         if (!visited[i])
-//             BFS(G, i);
-// }
+// 7
+// 5
+// 7
+// 5
+// 6
+// 7
+// 7
