@@ -31,7 +31,7 @@ void rearInsertCreate(LinkList &L, ElemType arr[], int length) {
     p->next = NULL;
 }
 
-void insertSortList(LinkList &L) {
+void linklistInsertSort(LinkList &L) {
     if (L == NULL || L->next == NULL)
         return;
     LinkNode *p = L->next->next;
@@ -53,7 +53,7 @@ void test(ElemType *arr, int length) {
     rearInsertCreate(L, arr, length);
     outPut(L);
 
-    insertSortList(L);
+    linklistInsertSort(L);
     outPut(L);
     cout << "--------------------------" << endl;
 }

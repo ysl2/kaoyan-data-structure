@@ -32,39 +32,40 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
-// 这是我自己写的。还有一个是别人写的。在王道课后题7.4 T04
-void linklistSelectSort(LinkList &L) {
-    LinkNode *r = L;
-    LinkList B = new LinkNode;
-    B->next = L->next;
-    L->next = NULL;
-
-    // 完成初始化后，每次都从B链表中找到一个最大的，然后尾插到L
-    while (B->next != NULL) {
-        LinkNode *maxpre = B;
-        LinkNode *maxp = B->next;
-        LinkNode *pre = B;
-        LinkNode *p = B->next;
-        while (p != NULL) {
-            if (p->data < maxp->data) {
-                maxp = p;
-                maxpre = pre;
+void linklistBubbleSort(LinkList &L) {
+    if (L == NULL || L->next == NULL)
+        return;
+    LinkNode *rear = L->next;
+    while (rear != NULL)
+        rear = rear->next;
+    LinkNode *pre = L, *p = L->next;
+    while (rear != L->next) {
+        bool flag = false;
+        while (p->next != rear) {
+            if (p->data > p->next->data) {
+                LinkNode *temp = p->next;
+                p->next = temp->next;
+                pre->next = temp;
+                temp->next = p;
+                p = temp;
+                flag = true;
+            } else {
+                p = p->next;
+                pre = pre->next;
             }
-            p = p->next;
-            pre = pre->next;
         }
-        // 到这一步找到了最大的结点
-        maxpre->next = maxp->next;
-        r->next = maxp;
-        r = r->next;
+        // 如果本趟没有元素发生交换，则提前结束
+        if (flag == false)
+            return;
+        rear = p;
+        pre = L;
+        p = L->next;
     }
-    r->next = NULL;
-    delete B;
 }
 
 void test(ElemType a[], int length) {
     LinkList L = rearInsertCreate(a, length);
-    linklistSelectSort(L);
+    linklistBubbleSort(L);
     outPut(L);
 }
 
