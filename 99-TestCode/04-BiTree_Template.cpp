@@ -102,7 +102,7 @@ int main() {
     // 非满二叉树、非完全二叉树
     ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
     ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
-    int length1 = sizeof(preOrder1) / sizeof(ElemType);
+    int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
     // 满二叉树、完全二叉树
     // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};

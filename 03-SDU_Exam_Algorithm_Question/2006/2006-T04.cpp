@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <iostream>
-#include <stack>
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
@@ -44,6 +43,30 @@ void visit(BiTree T) {
     std::cout << T->data << " ";
 }
 
+void PostOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    PostOrder(T->lchild);
+    PostOrder(T->rchild);
+    visit(T);
+}
+
+void InOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    InOrder(T->lchild);
+    visit(T);
+    InOrder(T->rchild);
+}
+
+void PreOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    visit(T);
+    PreOrder(T->lchild);
+    PreOrder(T->rchild);
+}
+
 bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     if (T == NULL)
         return false;
@@ -57,27 +80,31 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
         return getNodeByValue(T->rchild, value, result);
 }
 
-void inOrderWithoutRecursion(BiTree T) {
-    stack<BiTNode *> s;
-    BiTNode *p = T;
-    while (p != NULL || !s.empty()) {
-        if (p != NULL) {
-            s.push(p);
-            p = p->lchild;
-        } else {
-            p = s.top();
-            s.pop();
-            visit(p);
-            p = p->rchild;
-        }
-    }
+BiTNode *copyBiTNode(BiTNode *oldNode, BiTNode *&newNode) {
+    if (oldNode == NULL)
+        return NULL;
+    newNode = new BiTNode;
+    newNode->data = oldNode->data;
+    newNode->lchild = copyBiTNode(oldNode->lchild, newNode->lchild);
+    newNode->rchild = copyBiTNode(oldNode->rchild, newNode->rchild);
+    return newNode;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
     // 在此处写要测试的函数...
-    inOrderWithoutRecursion(T);
+    BiTree Tcopy;
+    copyBiTNode(T, Tcopy);
+
+    PreOrder(Tcopy);
+    cout << endl;
+
+    InOrder(Tcopy);
+    cout << endl;
+
+    PostOrder(Tcopy);
+
     cout << endl;
 }
 
@@ -87,49 +114,12 @@ int main() {
     ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
-    // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
-    // int length2 = sizeof(preOrder2) / sizeof(ElemType);
-
     test(preOrder1, inOrder1, length1);
-
-    // test(preOrder2, inOrder2, length2);
 
     return 0;
 }
 
 // 运行结果：
+// B E F C G D H
 // F E B G C H D
-
-
-// #include <iostream>
-// #include <stack>
-// using std::stack;
-// using std::cout;
-
-// typedef int ElemType;
-// typedef struct BiTNode {
-//     ElemType data;
-//     struct BiTNode *lchild, *rchild;
-// } BiTNode, *BiTree;
-
-// void visit(BiTree T) {
-//     cout << T->data << " ";
-// }
-
-// void InOrder(BiTree T) {
-//     stack<BiTNode *> s;
-//     BiTNode *p = T;
-//     while (p != NULL || !s.empty()) {
-//         if (p != NULL) {
-//             s.push(p);
-//             p = p->lchild;
-//         } else {
-//             p = s.top();
-//             s.pop();
-//             visit(p);
-//             p = p->rchild;
-//         }
-//     }
-// }
+// F E G H D C B

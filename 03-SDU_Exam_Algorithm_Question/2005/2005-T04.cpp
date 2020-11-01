@@ -44,6 +44,30 @@ void visit(BiTree T) {
     std::cout << T->data << " ";
 }
 
+void PostOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    PostOrder(T->lchild);
+    PostOrder(T->rchild);
+    visit(T);
+}
+
+void InOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    InOrder(T->lchild);
+    visit(T);
+    InOrder(T->rchild);
+}
+
+void PreOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    visit(T);
+    PreOrder(T->lchild);
+    PreOrder(T->rchild);
+}
+
 bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     if (T == NULL)
         return false;
@@ -57,18 +81,26 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
         return getNodeByValue(T->rchild, value, result);
 }
 
+void begin(BiTNode *&p, stack<BiTNode *> &s) {
+    s.push(p);
+    p = p->lchild;
+}
+
+void next(BiTNode *&p, stack<BiTNode *> &s) {
+    p = s.top();
+    s.pop();
+    visit(p);
+    p = p->rchild;
+}
+
 void inOrderWithoutRecursion(BiTree T) {
     stack<BiTNode *> s;
     BiTNode *p = T;
     while (p != NULL || !s.empty()) {
         if (p != NULL) {
-            s.push(p);
-            p = p->lchild;
+            begin(p, s);
         } else {
-            p = s.top();
-            s.pop();
-            visit(p);
-            p = p->rchild;
+            next(p, s);
         }
     }
 }
@@ -76,7 +108,17 @@ void inOrderWithoutRecursion(BiTree T) {
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
+    PreOrder(T);
+    cout << endl;
+
+    InOrder(T);
+    cout << endl;
+
+    PostOrder(T);
+    cout << endl;
+
     // 在此处写要测试的函数...
+    cout << endl;
     inOrderWithoutRecursion(T);
     cout << endl;
 }
@@ -100,36 +142,8 @@ int main() {
 }
 
 // 运行结果：
+// B E F C G D H
 // F E B G C H D
+// F E G H D C B
 
-
-// #include <iostream>
-// #include <stack>
-// using std::stack;
-// using std::cout;
-
-// typedef int ElemType;
-// typedef struct BiTNode {
-//     ElemType data;
-//     struct BiTNode *lchild, *rchild;
-// } BiTNode, *BiTree;
-
-// void visit(BiTree T) {
-//     cout << T->data << " ";
-// }
-
-// void InOrder(BiTree T) {
-//     stack<BiTNode *> s;
-//     BiTNode *p = T;
-//     while (p != NULL || !s.empty()) {
-//         if (p != NULL) {
-//             s.push(p);
-//             p = p->lchild;
-//         } else {
-//             p = s.top();
-//             s.pop();
-//             visit(p);
-//             p = p->rchild;
-//         }
-//     }
-// }
+// F E B G C H D
