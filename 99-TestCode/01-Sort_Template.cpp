@@ -4,9 +4,8 @@ using namespace std;
 typedef int ElemType;
 
 void outPut(ElemType *A, int length) {
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
         cout << A[i] << " ";
-    }
     cout << endl;
 }
 
