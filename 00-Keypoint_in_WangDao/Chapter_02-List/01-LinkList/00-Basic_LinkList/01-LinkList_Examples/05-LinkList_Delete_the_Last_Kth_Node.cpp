@@ -32,6 +32,7 @@ void rearInsertCreate(LinkList &L, ElemType arr[], int length) {
     p->next = NULL;
 }
 
+// 王道课后题有这道题：2.3 T21
 bool deleteTheLastKthNode(LinkList &L, int k) {
     if (k <= 0)
         return false;

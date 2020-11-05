@@ -33,6 +33,7 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
+// 注意题目要求反序归并，因此应该选头插法归并
 void mergeList(LinkList &A, LinkList &B) {
     LinkNode *p = A->next;
     LinkNode *q = B->next;

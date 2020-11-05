@@ -41,7 +41,8 @@ DCLinkList rearInsertCreateDoubleCircleList(ElemType arr[], int length) {
     return L;
 }
 
-bool isSym(DCLinkList L) {
+// 我自己写的
+bool isSym1(DCLinkList L) {
     if (L->next == L || L->next->next == L)
         return false;
     DCLinkList p = L->next;
@@ -53,13 +54,32 @@ bool isSym(DCLinkList L) {
     return p == q || (p->next == q && p->data == q->data);
 }
 
+// 这是王道上写的代码，我原封没动直接搬过来了，根据测试用例显然可以发现，这个代码是有问题的
+bool isSym2(DCLinkList L) {
+    DCLinkNode *p = L->next, *q = L->pre;
+    while (p != q && p->next != q) {
+        if (p->data == q->data) {
+            p = p->next;
+            q = q->pre;
+        } else
+            return false;
+    }
+    return true;
+}
+
 void test(int arr[], int length) {
     DCLinkList A = rearInsertCreateDoubleCircleList(arr, length);
 
-    if (isSym(A))
-        cout << "true" << endl;
+    if (isSym1(A))
+        cout << "true" << "\t";
     else
-        cout << "false" << endl;
+        cout << "false" << "\t";
+
+    if (isSym2(A))
+        cout << "true" ;
+    else
+        cout << "false";
+    cout << endl;
 }
 
 int main() {
@@ -83,12 +103,12 @@ int main() {
     return 0;
 }
 
-// 输出结果：
-// true
-// false
-// true
-// false
-// false
+// 输出结果：（注：右边的是王道书上的，是有问题的。左边是我自己写的）
+// true    true
+// false   true
+// true    true
+// false   false
+// false   true
 
 
 //----------------------------------------------------------------------------------------

@@ -38,13 +38,13 @@ void insertSortList(LinkList &L) {
     LinkNode *p = L->next->next;
     L->next->next = NULL;
     while (p != NULL) {
-        LinkNode *r = L;
-        while (r->next != NULL && r->next->data < p->data)
-            r = r->next;
+        LinkNode *q = L;
+        while (q->next != NULL && q->next->data < p->data)
+            q = q->next;
         LinkNode *temp = p->next;
-        p->next = r->next;
-        r->next = p;
-        r = r->next;
+        p->next = q->next;
+        q->next = p;
+        q = q->next;
         p = temp;
     }
 }

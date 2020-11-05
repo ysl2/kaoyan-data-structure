@@ -33,6 +33,7 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
+// 在知识点文件夹里有这个题
 bool getReverseKthNode(LinkList L, int k, LinkNode *&result) {
     if (k <= 0 || L == NULL || L->next == NULL)
         return false;
@@ -40,7 +41,7 @@ bool getReverseKthNode(LinkList L, int k, LinkNode *&result) {
     int i = 0;
     for (; i < k && p != NULL; i++)  // 这里其实也可以直接让k--，但是这样不容易计算边界。因此保险起见还是用最传统的for正向遍历方式。
         p = p->next;
-    if (p == NULL && i != k)  // 需要注意的是对于第一个结点（也就是倒数最后一个结点）的判断。
+    if (p == NULL && i < k)  // 需要注意的是对于第一个结点（也就是倒数最后一个结点）的判断。
         return false;
     result = L->next;  // result的初始位置应该与p的初始位置相同，这样可以保证二者的相对距离是k
     while (p != NULL) {
@@ -190,7 +191,7 @@ ElemType getK(LinkList &L, int k) {
 // 来源：力扣（LeetCode）
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
---------------------------------------------------------
+// --------------------------------------------------------
 typedef int ElemType;
 typedef struct LinkNode {
     ElemType data;

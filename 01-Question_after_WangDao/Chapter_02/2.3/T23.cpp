@@ -34,11 +34,13 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
+// 由于n是正整数，因此结点data的取值范围是[1, n]，一共n个数，所以辅助数组的大小为n
+// 王道上说要n + 1，其实他是想把下标0空出来，直接从1开始用。但是我这个在录入的时候减了1，最终效果是一样的
 void deleteList(LinkList &L, ElemType n) {
     if (L == NULL)
         return;
-    ElemType *B = new ElemType[n + 1];
-    memset(B, 0, (n + 1) * sizeof(ElemType));
+    ElemType *B = new ElemType[n];
+    memset(B, 0, n * sizeof(ElemType));
     LinkNode *pre = L;
     LinkNode *p = L->next;
     while (p != NULL) {

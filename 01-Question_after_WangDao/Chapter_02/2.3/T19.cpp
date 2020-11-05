@@ -50,13 +50,13 @@ void printMinValueAndDeleteList(CLinkList &L) {
         delete temp;
     }
     delete L;
-    cout << endl;
 }
 
 void test(int arr[], int length) {
     CLinkList A = rearInsertCreateCircleList(arr, length);
 
     printMinValueAndDeleteList(A);
+    cout << endl;
 }
 
 int main() {

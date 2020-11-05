@@ -47,6 +47,8 @@ DLinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
+// 本题类似于LRU缓存。
+// 关键词：LRU缓存、页面置换算法
 DLinkNode *locate(DLinkList &L, ElemType e) {
     if (L == NULL)
         return NULL;
@@ -64,18 +66,19 @@ DLinkNode *locate(DLinkList &L, ElemType e) {
         q = q->pre;
     // 经过这个while后，q定位到了要插入位置的前驱
     // 现在要做的就是将p->next指向的结点插入到q->next处，并且还要保证不断链
-    // 1 把待操作结点从链表中分离出来，并恢连接两侧使链表完整
-    p->pre->next = p->next;
-    p->next->pre = p->pre;
+    // 1 把待操作结点从链表中分离出来，并连接两侧使链表完整
+    p->pre->next = p->next;  // 由于有头结点，所以不用判断p是否是第一个结点，p一定会有前驱
+    if (p->next != NULL)  // p有可能是最后一个结点，如果是最后一个结点，将没有后继。因此在这里需要判断一下
+        p->next->pre = p->pre;
     // 2 把待操作结点连接到新位置
     p->next = q->next;
     q->next = p;
     return q;
 }
 
-void test(ElemType a[], int length) {
+void test(ElemType a[], int length, int value) {
     DLinkList L = rearInsertCreate(a, length);
-    locate(L, 7);
+    locate(L, value);
     outPut(L);
 }
 
@@ -83,13 +86,18 @@ int main() {
     ElemType arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     int length = sizeof(arr) / sizeof(int);
 
-    test(arr, length);
+    test(arr, length, 1);
+    test(arr, length, 7);
+    test(arr, length, 9);
 
     return 0;
 }
 
 // 输出结果：
+// 1 2 3 4 5 6 7 8 9
 // 7 1 2 3 4 5 6 8 9
+// 9 1 2 3 4 5 6 7 8
+
 
 
 //------------------------------------------------------------------------------
