@@ -23,12 +23,12 @@ SqList initList(int arr[], int length) {
 }
 
 // 根据王道书上的算法进行了代码可读性优化
-double getMid(SqList A, SqList B) {
-    int low1 = 0, high1 = A.length - 1, mid1,
-        low2 = 0, high2 = B.length - 1, mid2;
+int getMid(SqList A, SqList B) {
+    int low1 = 0, high1 = A.length - 1,
+        low2 = 0, high2 = B.length - 1;
     while (low1 != high1 || low2 != high2) {
-        mid1 = (low1 + high1) / 2;
-        mid2 = (low2 + high2) / 2;
+        int mid1 = (low1 + high1) / 2;
+        int mid2 = (low2 + high2) / 2;
         if (A.data[mid1] == B.data[mid2])
             return A.data[mid1];
         if (A.data[mid1] < B.data[mid2]) {
