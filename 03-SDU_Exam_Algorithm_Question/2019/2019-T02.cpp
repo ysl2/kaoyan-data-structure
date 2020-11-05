@@ -69,7 +69,7 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-// 判断最大树
+// 判断最大树，基于后序遍历
 // 其实和判断是否是大根堆有点像，但是大根堆是完全二叉树，而这里的“最大树”没有要求必须是完全二叉树，因此还是要通过传统的遍历来做
 bool isMaxBiTree(BiTree T) {
     if (T == NULL)

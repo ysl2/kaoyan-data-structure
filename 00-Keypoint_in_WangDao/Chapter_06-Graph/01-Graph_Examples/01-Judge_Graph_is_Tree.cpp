@@ -96,6 +96,7 @@ void DFS(MatrixGraph G, int v, int &Vnum, int &Enum) {
     }
 }
 
+// 判断一个图是否为一棵树
 bool isTree(MatrixGraph G) {
     Vnum = 0, Enum = 0;
     visited = new int[G->vexnum];

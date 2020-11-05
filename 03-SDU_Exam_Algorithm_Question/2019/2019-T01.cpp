@@ -38,7 +38,7 @@ bool judgeIsSym1(ElemType a[], int length) {
     return s.empty();
 }
 
-// 方法2：直接双指针遍历，空间复杂度是O(1)
+// 方法2：双指针遍历，空间复杂度是O(1)
 bool judgeIsSym2(ElemType a[], int length) {
     int i = 0, j = length - 1;
     while (i != j && i + 1 != j) {  // 分别对应奇数和偶数
@@ -50,10 +50,30 @@ bool judgeIsSym2(ElemType a[], int length) {
     return (i == j) || (i + 1 == j && a[i] == a[j]);
 }
 
+// 方法3：直接单指针遍历，空间复杂度是O(1)
+// 参考王道2.2 T02
+bool judgeIsSym3(ElemType a[], int length) {
+    for (int i = 0; i < (length - 1) / 2; i++) {
+        if (a[i] != a[length - 1 - i])
+            return false;
+    }
+    return true;
+}
+
 void test(ElemType a[], int length) {
     outPut(a, length);
 
+    if (judgeIsSym1(a, length) == true)
+        cout << "true" << "\t";
+    else
+        cout << "false" << "\t";
+
     if (judgeIsSym2(a, length) == true)
+        cout << "true" << "\t";
+    else
+        cout << "false" << "\t";
+
+    if (judgeIsSym3(a, length) == true)
         cout << "true" << endl;
     else
         cout << "false" << endl;
@@ -76,9 +96,8 @@ int main() {
 
 // 输出结果：
 // 0 1 2 3 4 5 6 7 8 9
-// false
+// false   false   false
 // 1 2 3 4 5 4 3 2 1
-// true
+// true    true    true
 // 1 2 3 4 4 3 2 1
-// true
-
+// true    true    true

@@ -19,7 +19,7 @@ void swap(ElemType *A, int i, int j) {
 // 基于冒泡排序
 // 时间复杂度：O(n^2)
 void move(int a[], int length) {
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length - 1; i++) {
         bool flag = false;
         for (int j = 0; j < length - 1 - i; j++) {
             if (a[j] == 0) {

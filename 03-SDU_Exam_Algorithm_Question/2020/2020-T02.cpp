@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include <algorithm>
+#include <algorithm>  // min()函数所在的库
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
