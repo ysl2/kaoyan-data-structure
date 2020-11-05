@@ -1,33 +1,3 @@
-## 参考资料：
-
-* 2021王道数据结构
-* 2020王道数据结构
-* [数据结构&算法可视化网站](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
-* [leetcode-T912-排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-* [C语言中文网](http://c.biancheng.net/c/)
-* [常见C内置函数与结构（我的notion）](https://www.notion.so/ysl970629/C-f657c6f4cfee49fca4d5b1ae80d1b36f)
-* [ccc013的github仓库](https://github.com/ccc013/DataStructe-Algorithms_Study)
-
----
-
-## 更新日志：
-
-2020-10-11：
-
-* `01-Question_after_WangDao`文件夹是按照2020版的王道目录排序的，与21版的不一样。
-* 线性表、查找、排序的代码大部分可运行。由于树和图的部分代码量太多，而栈和队列大多数都是直接用的书上写的，比较简单，因此树、图、栈、队列只有个别题目可运行。目前整个仓库基本没有错误。
-* `00-Keypoint_in_WangDao`文件夹需要配合前哥的《考点精析》使用。所有包含`Example`的文件夹都是前哥书里的例题。
-
-2020-09-28：
-
-* `02-SDU-Keypoint`文件夹停止维护，所有内容已经整合至`00-Keypoint_in_WangDao`文件夹中。
-
-2020-09-17 :
-
-* SDU后面有的文件夹是空的，直接看王道相应部分的代码就行了。
-
----
-
 > 工作区运行C/C++时，目录不能有中文。所以我只能把所有文件夹都用英文命名。
 
 ## 仓库结构：
@@ -51,3 +21,32 @@
 | `clean_workspace_exe.bat` | 与代码调试相关，我用它来删除系统编译时产生的.exe文件 |
 | `LICENSE`                 | 仓库的开源协议                                       |
 
+---
+
+## 更新日志：
+
+2020-10-11：
+
+* `01-Question_after_WangDao`文件夹是按照2020版的王道目录排序的，与21版的不一样。
+* 线性表、查找、排序的代码大部分可运行。由于树和图的部分代码量太多，而栈和队列大多数都是直接用的书上写的，比较简单，因此树、图、栈、队列只有个别题目可运行。目前整个仓库基本没有错误。
+* `00-Keypoint_in_WangDao`文件夹需要配合前哥的《考点精析》使用。所有包含`Example`的文件夹都是前哥书里的例题。
+
+2020-09-28：
+
+* `02-SDU-Keypoint`文件夹停止维护，所有内容已经整合至`00-Keypoint_in_WangDao`文件夹中。
+
+2020-09-17 :
+
+* SDU后面有的文件夹是空的，直接看王道相应部分的代码就行了。
+
+---
+
+## 参考资料：
+
+* 2021王道数据结构
+* 2020王道数据结构
+* [数据结构&算法可视化网站](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
+* [leetcode-T912-排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+* [C语言中文网](http://c.biancheng.net/c/)
+* [常见C内置函数与结构（我的notion）](https://www.notion.so/ysl970629/C-f657c6f4cfee49fca4d5b1ae80d1b36f)
+* [ccc013的github仓库](https://github.com/ccc013/DataStructe-Algorithms_Study)
