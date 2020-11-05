@@ -1,20 +1,20 @@
 int middle(int A[], int B[], int n) {
-    int start1 = 0, end1 = n - 1, mid1,
-        start2 = 0, end2 = n - 1, mid2;
-    while (start1 != end1 || start2 != end2) {
-        mid1 = (start1 + end1) / 2;
-        mid2 = (start2 + end2) / 2;
+    int low1 = 0, high1 = n - 1, mid1,
+        low2 = 0, high2 = n - 1, mid2;
+    while (low1 != high1 || low2 != high2) {
+        mid1 = (low1 + high1) / 2;
+        mid2 = (low2 + high2) / 2;
         if (A[mid1] == B[mid2])
             return A[mid1];
         if (A[mid1] < B[mid2]) {
-            start1 = ((start1 + end1) % 2 == 0) ? mid1 : mid1 + 1;
-            end2 = mid2;
+            low1 = ((low1 + high1) % 2 == 0) ? mid1 : mid1 + 1;
+            high2 = mid2;
         } else {
-            start2 = ((start2 + end2) % 2 == 0) ? mid2 : mid2 + 1;
-            end1 = mid1;
+            low2 = ((low2 + high2) % 2 == 0) ? mid2 : mid2 + 1;
+            high1 = mid1;
         }
     }
-    return A[start1] < B[start2] ? A[start1] : B[start2];
+    return A[low1] < B[low2] ? A[low1] : B[low2];
 }
 
 // 时间复杂度：O(log_2(n))
