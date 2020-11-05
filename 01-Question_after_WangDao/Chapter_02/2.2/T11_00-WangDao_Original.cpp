@@ -22,33 +22,24 @@ SqList initList(int arr[], int length) {
     return L;
 }
 
-// 注意：在这种情况下，无法达到最佳时间复杂度，但是这个方法很简单
+// 根据王道书上的算法进行了代码可读性优化
 double getMid(SqList A, SqList B) {
-    int s1 = 0, d1 = A.length - 1, m1, s2 = 0, d2 = B.length - 1, m2;
-    while (s1 != d1 || s2 != d2) {
-        m1 = (s1 + d1) / 2;
-        m2 = (s2 + d2) / 2;
-        if (A.data[m1] == B.data[m2])
-            return A.data[m1];
-        if (A.data[m1] < B.data[m2]) {
-            if ((s1 + d1) % 2 == 0) {
-                s1 = m1;
-                d2 = m2;
-            } else {
-                s1 = m1 + 1;
-                d2 = m2;
-            }
+    int low1 = 0, high1 = A.length - 1, mid1,
+        low2 = 0, high2 = B.length - 1, mid2;
+    while (low1 != high1 || low2 != high2) {
+        mid1 = (low1 + high1) / 2;
+        mid2 = (low2 + high2) / 2;
+        if (A.data[mid1] == B.data[mid2])
+            return A.data[mid1];
+        if (A.data[mid1] < B.data[mid2]) {
+            low1 = ((low1 + high1) % 2 == 0) ? mid1 : mid1 + 1;
+            high2 = mid2;
         } else {
-            if ((s2 + d2) % 2 == 0) {
-                d1 = m1;
-                s2 = m2;
-            } else {
-                d1 = m1;
-                s2 = m2 + 1;
-            }
+            low2 = ((low2 + high2) % 2 == 0) ? mid2 : mid2 + 1;
+            high1 = mid1;
         }
     }
-    return A.data[s1] < B.data[s2] ? A.data[s1] : B.data[s2];
+    return A.data[low1] < B.data[low2] ? A.data[low1] : B.data[low2];
 }
 
 void test(int arr1[], int length1, int arr2[], int length2) {
