@@ -39,8 +39,9 @@ double caculate2(int n, double x) {
 int main() {
     double x = 5;
     int n = 4;
-    cout << (caculate1(n, x) == caculate2(n, x)) << endl;  // 判断一下两种方案的结果是否一致
+    cout << caculate1(n, x) << "\t" << caculate2(n, x) << endl;
 }
 
 // 输出结果：
-// 1
+// 8812    8812
+

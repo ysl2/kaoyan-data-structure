@@ -17,4 +17,3 @@ int DeQueue(SqQueue &Q, ElemType &x) {
     Q.tag = 0;
     return 1;
 }
-
