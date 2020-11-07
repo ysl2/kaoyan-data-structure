@@ -13,9 +13,8 @@ typedef struct {
 } SqStack;
 
 void outPut(SqStack S) {
-    while (S.top != -1) {
+    while (S.top != -1)
         std::cout << S.data[S.top--] << " ";
-    }
 }
 
 void initStack(SqStack &S, int length) {
