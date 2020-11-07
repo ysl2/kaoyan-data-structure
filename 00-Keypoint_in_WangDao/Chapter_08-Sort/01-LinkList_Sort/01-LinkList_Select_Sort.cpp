@@ -39,23 +39,24 @@ void linklistSelectSort(LinkList &L) {
     B->next = L->next;
     L->next = NULL;
 
-    // 完成初始化后，每次都从B链表中找到一个最大的，然后尾插到L
+    // 完成初始化后，每次都从B链表中找到一个最小的，然后尾插到L
+    // 这样每次都能从前往后确定出一个次小的，一直确定到最后，整体就是从小到大排好的
     while (B->next != NULL) {
-        LinkNode *maxpre = B;
-        LinkNode *maxp = B->next;
+        LinkNode *minpre = B;
+        LinkNode *minp = B->next;
         LinkNode *pre = B;
         LinkNode *p = B->next;
         while (p != NULL) {
-            if (p->data < maxp->data) {
-                maxp = p;
-                maxpre = pre;
+            if (p->data < minp->data) {
+                minp = p;
+                minpre = pre;
             }
             p = p->next;
             pre = pre->next;
         }
-        // 到这一步找到了最大的结点
-        maxpre->next = maxp->next;
-        r->next = maxp;
+        // 到这一步找到了最小的结点
+        minpre->next = minp->next;
+        r->next = minp;
         r = r->next;
     }
     r->next = NULL;

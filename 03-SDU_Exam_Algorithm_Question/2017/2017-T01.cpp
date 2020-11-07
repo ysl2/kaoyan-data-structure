@@ -17,6 +17,7 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
+// 参考王道课后题 3.3 T02
 void reverseOddAndEven(ElemType a[], int length) {
     stack<ElemType> s;
     int k = 0;
@@ -30,6 +31,8 @@ void reverseOddAndEven(ElemType a[], int length) {
             k++;
         }
     }
+    // 倒着录入，这样能保证偶数之间的相对顺序不变
+    // 如果正着录入，会导致偶数部分是逆着原序列排列的
     for (int i = length - 1; i >= 0 && !s.empty(); i--) {
         a[i] = s.top();
         s.pop();

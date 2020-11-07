@@ -112,6 +112,17 @@ bool deleteNode(AdjacentGraph G, int i, int j) {
     return true;
 }
 
+// 最关键的地方在于，对于无向图如果要删除的话，必须同时删除(i, j)和(j, i)，因为这是同一条边存储了两遍
+// 我这个例子里面没有体现出来，因为这个测试用例是随便找了一个图，是有向图。
+// 删除无向图的时候需要加上下面注释的这段代码：
+/*
+    // deleteNode(G, i, j)：删除i所在边表的结点
+    // deleteNode(G, j, i)：删除j所在边表的结点
+    bool delete(AdjacentGraph G, int i, int j) {
+        return deleteNode(G, i, j) && deleteNode(G, j, i);
+    }
+*/
+
 void test(ElemType *vertex, int vexnum, int *edge, int I, int J) {
     int i = I - 1, j = J - 1;
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);

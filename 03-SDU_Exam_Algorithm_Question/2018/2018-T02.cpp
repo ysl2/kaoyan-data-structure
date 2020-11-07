@@ -1,4 +1,3 @@
-// 只要稍微改一下对于depth和maxDepth的判断条件，就可以变成“打印任意深度的路径”
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -78,8 +77,12 @@ int getMaxDepth(BiTree T) {
     return left > right ? left + 1 : right + 1;
 }
 
-vector<BiTNode *> v;  // 这里用vector模拟栈。不能直接用stack，因为无法对stack进行遍历，但却可以对vector进行遍历
+// 这里用vector模拟栈。不能直接用stack，因为无法对stack进行遍历，但却可以对vector进行遍历
+// 实际考试的时候，vector就不要用了，直接用普通数组，弄个size变量记录数组里面的元素个数，再弄个top变量当作栈顶
+vector<BiTNode *> v;
 
+// 只要稍微改一下对于depth和maxDepth的判断条件，就可以变成“打印任意深度的路径”
+// 甚至可以改成“从根节点到指定结点p之间的路径”，只要改一下if的条件即可（2017年第二题）
 void printPath(BiTree T, int maxDepth) {
     if (T == NULL)
         return;
@@ -96,6 +99,23 @@ void printPath(BiTree T, int maxDepth) {
     printPath(T->rchild, maxDepth);
     v.pop_back();  // 自下向上走，结点出栈
 }
+/*
+    // 求从根节点到指定结点之间的路径（2017年第二题）
+    void printPath(BiTree T, BiTNode *p) {
+        if (T == NULL)
+            return;
+        v.push_back(T);
+        if (T == p) {
+            for (int i = 0; i < v.size(); i++)
+                cout << v[i]->data << " ";  // 注意：这里仅仅是遍历栈，但并没有出栈。因此不能直接定义一个常规的栈，否则有可能导致栈下溢
+            cout << endl;
+            return;  // 如果这里不加return，就可以打印出所有的路径
+        }
+        printPath(T->lchild, p);
+        printPath(T->rchild, p);
+        v.pop_back();  // 自下向上走，结点出栈
+    }
+*/
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);

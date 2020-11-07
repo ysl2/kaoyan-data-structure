@@ -80,6 +80,8 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
         return getNodeByValue(T->rchild, value, result);
 }
 
+// 下面这个是我自己写的。
+// 实际上也可以用2018年第二题的思路，只需要改一下细节就可以了
 bool printPathBetweenRootToP(BiTree T, BiTNode *p) {
     if (T == NULL)
         return false;
