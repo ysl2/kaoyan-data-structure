@@ -16,9 +16,8 @@ typedef struct {
 } SqStack;
 
 void outPut(SqStack S) {
-    while (S.top != -1) {
+    while (S.top != -1)
         std::cout << S.data[S.top--] << " ";
-    }
 }
 
 void initStack(SqStack &S, int length) {
@@ -57,17 +56,15 @@ bool bracketCheck(ElemType str[], int length) {
     SqStack S;
     initStack(S, length);
     for (int i = 0; i < length; i++) {
-        if (str[i] == _LEFT1 || str[i] == _LEFT2 || str[i] == _LEFT3) {
+        if (str[i] == _LEFT1 || str[i] == _LEFT2 || str[i] == _LEFT3)
             Push(S, str[i]);
-        } else {
-            if (stackEmpty(S)) {
+        else {
+            if (stackEmpty(S))
                 return false;
-            }
             ElemType topElem;
             Pop(S, topElem);
-            if (!isMatched(topElem, str[i])) {
+            if (!isMatched(topElem, str[i]))
                 return false;
-            }
         }
     }
     return stackEmpty(S);
