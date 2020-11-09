@@ -23,9 +23,9 @@ void PostOrder(BiTree T) {
             p = p->lchild;
         } else {
             p = s.top();
-            if (p->rchild != NULL && p->rchild != r) {
+            if (p->rchild != NULL && p->rchild != r)
                 p = p->rchild;
-            } else {
+            else {
                 s.pop();
                 visit(p);
                 r = p;

@@ -51,6 +51,8 @@ void operateNode(BiTree &T) {
         return;
     if (T->lchild == NULL || T->rchild == NULL)
         return;
+    // 注意：这里只是对值做了交换，但是并没有交换结点
+    // 如果需要交换结点，需要把下面换成链表交换结点的操作
     if (T->lchild->data > T->rchild->data) {
         int temp = T->lchild->data;
         T->lchild->data = T->rchild->data;

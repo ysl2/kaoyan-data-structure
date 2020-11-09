@@ -77,9 +77,7 @@ int countNodeDepth(BiTree T) {
 bool isFull(BiTree T) {
     countNodeNumber(T);
     int depth = countNodeDepth(T);
-    if (pow(2, depth) - 1 == count)
-        return true;
-    return false;
+    return count == pow(2, depth) - 1;  // 满二叉树的关系式：n = 2 ^ h - 1
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {

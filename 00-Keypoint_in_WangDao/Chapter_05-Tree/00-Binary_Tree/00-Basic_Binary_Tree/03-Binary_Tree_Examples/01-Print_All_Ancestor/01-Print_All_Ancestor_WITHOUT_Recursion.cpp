@@ -89,9 +89,9 @@ void printAllAncestor(BiTree T, ElemType x) {
             p = p->lchild;
         } else {
             p = s.top();
-            if (p->rchild != NULL && p->rchild != r) {
+            if (p->rchild != NULL && p->rchild != r)
                 p = p->rchild;
-            } else {
+            else {
                 s.pop();
                 if (visit(s, p, x) == true)
                     return;

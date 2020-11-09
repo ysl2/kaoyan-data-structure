@@ -69,7 +69,7 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 // https://leetcode-cn.com/problems/maximum-width-of-binary-tree/solution/ceng-xu-bian-li-dui-lie-cun-chu-mei-ge-jie-dian-de/
-// 计算整个树的最大宽度（注：计算的是最深一层的理想情况下的最大宽度，包括空结点。）
+// 计算整个树的最大宽度
 int getWidth(BiTree T) {
     if (T == NULL)
         return 0;

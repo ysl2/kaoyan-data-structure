@@ -70,19 +70,22 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
+// 以下是模板代码。把这段代码和2018 T02放在一起看，它们思路完全一致
 int top = -1;
 ElemType pathStack[20];
-void printALLLeaves(BiTree T) {
+void printTheWayToAllLeafNodes(BiTree T) {
     if (T == NULL)
         return;
     pathStack[++top] = T->data;
     if (T->lchild == NULL && T->rchild == NULL) {
-        for (int i = 0; i <= top; i++) {
-            cout << pathStack[i] << endl;
-        }
+        for (int i = 0; i <= top; i++)
+            cout << pathStack[i] << " ";
+        cout << endl;
+        // 这里不加return，就可以打印出所有的路径
+        // 如果题目要求只打印一条，就在这里加一个return即可
     }
-    printALLLeaves(T->lchild);
-    printALLLeaves(T->rchild);
+    printTheWayToAllLeafNodes(T->lchild);
+    printTheWayToAllLeafNodes(T->rchild);
     top--;
 }
 
@@ -98,10 +101,11 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
-    printALLLeaves(T);
+    cout << endl;
 
-    cout << endl;
-    cout << endl;
+    printTheWayToAllLeafNodes(T);
+
+    cout << "------------------------------" << endl;
 }
 
 int main() {
@@ -123,30 +127,17 @@ int main() {
 // B E F C G D H
 // F E B G C H D
 // F E G H D C B
-// B
-// E
-// F
-// B
-// C
-// G
-// B
-// C
-// D
-// H
 
-
+// B E F
+// B C G
+// B C D H
+// ------------------------------
 // B E F H C G D
 // F E H B G C D
 // F H E G D C B
-// B
-// E
-// F
-// B
-// E
-// H
-// B
-// C
-// G
-// B
-// C
-// D
+
+// B E F
+// B E H
+// B C G
+// B C D
+// ------------------------------

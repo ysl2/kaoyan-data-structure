@@ -24,7 +24,7 @@ void reverseLevelOrder(BiTree T) {
     while (!q.empty()) {
         p = q.front();
         q.pop();
-        s.push(p);
+        s.push(p);  // 与正序层次遍历的区别在这里。正序在这一步会直接输出，而反序的会压栈
         if (p->lchild != NULL)
             q.push(p->lchild);
         if (p->rchild != NULL)
@@ -33,7 +33,7 @@ void reverseLevelOrder(BiTree T) {
     while (!s.empty()) {
         p = s.top();
         s.pop();
-        visit(p);
+        visit(p);  // 反序真正输出是在这一步
     }
 }
 
