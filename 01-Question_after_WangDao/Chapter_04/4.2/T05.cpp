@@ -7,14 +7,14 @@ typedef struct {
     ElemType data;  // 存放结点信息
     bool isEmpty;  // 当前结点是否是空的
     int lchild, rchild;  // 分别指向左孩子与右孩子的下标
-} BiTNode;
+} SqBiTNode;
 typedef struct {
-    BiTNode node[maxSize];
+    SqBiTNode node[maxSize];
     int nodenum, root;
     // nodenum相当于链表的length，root是树的根节点下标
-} *BiTree;
+} *SqBiTree;
 
-ElemType getAncestor(BiTree T, int i, int j) {
+ElemType getAncestor(SqBiTree T, int i, int j) {
     if (T->node[i].isEmpty || T->node[j].isEmpty)
         return NULL;
     while (i != j) {
@@ -28,7 +28,7 @@ ElemType getAncestor(BiTree T, int i, int j) {
 
 
 //------------------------------------------------------
-ElemType getCommonAncestor(BiTree T, int i, int j) {
+ElemType getCommonAncestor(SqBiTree T, int i, int j) {
     if (T.data[i] == "#" || T.data[j] == "#")
         return NULL;
     while (i != j) {

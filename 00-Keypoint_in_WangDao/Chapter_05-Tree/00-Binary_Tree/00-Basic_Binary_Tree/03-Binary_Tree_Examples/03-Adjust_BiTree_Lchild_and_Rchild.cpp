@@ -1,14 +1,16 @@
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <stack>
-using namespace std;
+using std::cout;
+using std::endl;
 
-typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
+typedef int ElemType;  // 把char强制转换成int。这样我可以直接使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
     ElemType data;
     struct BiTNode *lchild, *rchild;
 } BiTNode, *BiTree;
 
+// 根据先序遍历和中序遍历序列创建一棵二叉树
 BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
         return NULL;
@@ -44,6 +46,14 @@ void visit(BiTree T) {
     std::cout << T->data << " ";
 }
 
+void PreOrder(BiTree T) {
+    if (T == NULL)
+        return;
+    visit(T);
+    PreOrder(T->lchild);
+    PreOrder(T->rchild);
+}
+
 void PostOrder(BiTree T) {
     if (T == NULL)
         return;
@@ -60,38 +70,27 @@ void InOrder(BiTree T) {
     InOrder(T->rchild);
 }
 
-void PreOrder(BiTree T) {
+void operateNode(BiTree &T) {
     if (T == NULL)
         return;
-    visit(T);
-    PreOrder(T->lchild);
-    PreOrder(T->rchild);
-}
-
-bool visit(stack<BiTNode *> s, BiTree p, ElemType x) {
-    if (p->data != x)
-        return false;
-    while (!s.empty()) {
-        BiTNode *temp = s.top();
-        s.pop();
-        cout << temp->data << " ";
+    if (T->lchild == NULL || T->rchild == NULL)
+        return;
+    if (T->lchild->data > T->rchild->data) {
+        BiTNode *temp = T->lchild;
+        T->lchild = T->rchild;
+        T->rchild = temp;
     }
-    return true;
 }
 
-bool printAllAncestor(BiTree T, ElemType x) {
+void adjustTree(BiTree &T) {
     if (T == NULL)
-        return false;
-    if (T->data == x)
-        return true;
-    if (printAllAncestor(T->lchild, x) || printAllAncestor(T->rchild, x)) {
-        cout << T->data << " ";
-        return true;
-    }
-    return false;
+        return;
+    operateNode(T);  // 这个operate放在哪里都行，最终的结果不变
+    adjustTree(T->lchild);
+    adjustTree(T->rchild);
 }
 
-void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value) {
+void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
@@ -103,11 +102,18 @@ void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value) {
     PostOrder(T);
     cout << endl;
 
-    // 在此处写要测试的函数...
+    adjustTree(T);  // 交换
     cout << endl;
 
-    printAllAncestor(T, value);
+    PreOrder(T);
+    cout << endl;
 
+    InOrder(T);
+    cout << endl;
+
+    PostOrder(T);
+    cout << endl;
+    cout << endl;
     cout << endl;
 }
 
@@ -115,21 +121,30 @@ int main() {
     ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
     ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
     int length1 = sizeof(preOrder1) / sizeof(ElemType);
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
-    // int length2 = sizeof(preOrder2) / sizeof(ElemType);
+    ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
+    ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
+    int length2 = sizeof(preOrder2) / sizeof(ElemType);
 
-    test(preOrder1, inOrder1, length1, 'H');
+    test(preOrder1, inOrder1, length1);
 
-    // test(preOrder2, inOrder2, length2);
-
+    test(preOrder2, inOrder2, length2);
     return 0;
 }
 
 // 运行结果：
-// B E F C G D H
-// F E B G C H D
-// F E G H D C B
+// 66 69 70 67 71 68 72
+// 70 69 66 71 67 72 68
+// 70 69 71 72 68 67 66
 
-// D C B
+// 66 67 68 72 71 69 70
+// 72 68 67 71 66 70 69
+// 72 68 71 67 70 69 66
 
+
+// 66 69 70 72 67 71 68
+// 70 69 72 66 71 67 68
+// 70 72 69 71 68 67 66
+
+// 66 67 68 71 69 70 72
+// 68 67 71 66 70 69 72
+// 68 71 67 70 72 69 66
