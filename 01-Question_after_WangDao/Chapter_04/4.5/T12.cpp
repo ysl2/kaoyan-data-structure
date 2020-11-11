@@ -6,6 +6,7 @@ typedef int ElemType;  // 把char强制转换成int。这样我可以使用上�
 typedef struct BSTNode {
     ElemType key;
     struct BSTNode *lchild, *rchild;
+    int count = 0;
 } BSTNode, *BSTree;
 
 BSTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
@@ -32,6 +33,22 @@ BSTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (len - leftLen - 1 > 0) //构建右子树
         T->rchild = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
     return T;
+}
+
+int setCount(BSTree &T) {
+    if (T == NULL)
+        return 0;
+    int left = setCount(T->lchild);
+    int right = setCount(T->rchild);
+    return left + right + 1;
+}
+
+void setCountEntry(BSTree &T) {
+    if (T == NULL)
+        return;
+    T->count = setCount(T) - 1;
+    setCountEntry(T->lchild);
+    setCountEntry(T->rchild);
 }
 
 void visit(BSTree T) {
@@ -62,6 +79,14 @@ void PreOrder(BSTree T) {
     PreOrder(T->rchild);
 }
 
+void preOrderCount(BSTree T) {
+    if (T == NULL)
+        return;
+    cout << T->count << "  ";
+    preOrderCount(T->lchild);
+    preOrderCount(T->rchild);
+}
+
 bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
     if (T == NULL)
         return false;
@@ -74,23 +99,30 @@ bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
     return getNodeByValue(T->rchild, value, result);
 }
 
-// 2020-09-24
-int getLayer(BSTree T, BSTNode *s) {
-    if (T == NULL)
-        return 0;
-    int layer = 1;
-    while (T != NULL && s->key != T->key) {
-        if (T->key < s->key)
-            T = T->rchild;
-        else
-            T = T->lchild;
-        layer++;
+BSTNode *searchTheKthSmallestElement(BSTree T, int k) {
+    //在以T为根的子树上寻找第k小的元素，返回其所在结点的指针。k从1开始计算
+    //在树结点中增加一个count数据成员，存储以该结点为根的子树的结点个数
+    if (k < 1 || k > T->count)
+        return NULL;
+    if (T->lchild == NULL) {
+        if (k == 1)
+            return T;
+        return searchTheKthSmallestElement(T, k - 1);
     }
-    return (T == NULL) ? -1 : layer;
+    // 下面的都是T->lchild != NULL的情况
+    if (T->lchild->count > k - 1)
+        return searchTheKthSmallestElement(T->lchild, k);
+    else if (T->lchild->count < k - 1)
+        return searchTheKthSmallestElement(T->rchild, k - (T->lchild->count + 1));
+    else  // if (T->lchild->count == k - 1)
+        return T;
 }
 
-void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value) {
+void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value, int k) {
     BSTree T = construct(preOrder, inOrder, length);
+    setCountEntry(T);
+    preOrderCount(T);
+    cout << endl;
 
     PreOrder(T);
     cout << endl;
@@ -103,14 +135,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType value) {
 
     cout << endl;
     // 在此处写要测试的函数...
-    BSTNode *p;
-    if (getNodeByValue(T, value, p) == false) {
-        p = new BSTNode;
-        p->key = value;
-        p->lchild = p->rchild = NULL;
-    }
-    cout << getLayer(T, p) << endl;
-    cout <<"--------------------------" << endl;
+    cout << searchTheKthSmallestElement(T, k)->key << endl;
 }
 
 int main() {
@@ -124,11 +149,8 @@ int main() {
     // ElemType inOrder2[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
-    int value1 = 40;
-    test(preOrder1, inOrder1, length1, value1);
-
-    int value2 = 58;
-    test(preOrder1, inOrder1, length1, value2);
+    ElemType value = 40;
+    test(preOrder1, inOrder1, length1, value, 2);
 
     // test(preOrder2, inOrder2, length2);
 
@@ -136,15 +158,10 @@ int main() {
 }
 
 // 运行结果：
+// 5  2  1  0  1  0
 // 54 20 40 28 66 79
 // 20 28 40 54 66 79
 // 28 40 20 79 66 54
 
-// 3
-// --------------------------
-// 54 20 40 28 66 79
-// 20 28 40 54 66 79
-// 28 40 20 79 66 54
+// 40
 
-// -1
-// --------------------------

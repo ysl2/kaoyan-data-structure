@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
 
-typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
+typedef int ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
+
 typedef struct BiTNode {
     ElemType data;
     struct BiTNode *lchild, *rchild;
@@ -70,7 +71,24 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     }
     if (getNodeByValue(T->lchild, value, result) == true)
         return true;
-    return getNodeByValue(T->rchild, value, result);
+    else
+        return getNodeByValue(T->rchild, value, result);
+}
+
+ElemType pre = -99999;  // 负无穷大
+bool isBST(BiTree T) {  //基于中序遍历
+    if (T == NULL)
+        return true;
+    int left = isBST(T->lchild);
+    if (left == 0 || pre >= T->data)
+        return false;
+    pre = T->data;
+    return isBST(T->rchild);
+}
+
+bool isBSTEntry(BiTree T) {
+    pre = -99999;
+    return isBST(T);
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
@@ -85,28 +103,43 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
+    cout << endl;
     // 在此处写要测试的函数...
-
-    cout << endl;
-    cout << endl;
+    if (isBSTEntry(T))
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+    cout <<"--------------------------" << endl;
 }
 
 int main() {
-    // 非满二叉树、非完全二叉树
-    ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
-    ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    // BST树
+    ElemType preOrder1[] = {54, 20, 40, 28, 66, 79};
+    ElemType inOrder1[] = {20, 28, 40, 54, 66, 79};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
-    // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
-    // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
+    // 非BST树
+    ElemType preOrder2[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
+    ElemType inOrder2[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
     test(preOrder1, inOrder1, length1);
 
-    // test(preOrder2, inOrder2, length2);
+    test(preOrder2, inOrder2, length2);
 
     return 0;
 }
 
 // 运行结果：
+// 54 20 40 28 66 79
+// 20 28 40 54 66 79
+// 28 40 20 79 66 54
+
+// true
+// --------------------------
+// 66 69 70 67 71 68 72
+// 70 69 66 71 67 72 68
+// 70 69 71 72 68 67 66
+
+// false
+// --------------------------

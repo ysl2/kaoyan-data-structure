@@ -1,19 +1,20 @@
 #include <iostream>
 using namespace std;
 
-typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
-typedef struct BiTNode {
-    ElemType data;
-    struct BiTNode *lchild, *rchild;
-} BiTNode, *BiTree;
+typedef int ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 
-BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
+typedef struct BSTNode {
+    ElemType key;
+    struct BSTNode *lchild, *rchild;
+} BSTNode, *BSTree;
+
+BSTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
         return NULL;
     //先根遍历（前序遍历）的第一个值就是根节点的键值
     ElemType rootKey = preOrder[0];
-    BiTree T = new BiTNode;
-    T->data = rootKey;
+    BSTree T = new BSTNode;
+    T->key = rootKey;
     T->lchild = T->rchild = NULL;
     if (len == 1 && *preOrder == *midOrder)  //只有一个节点
         return T;
@@ -33,11 +34,11 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     return T;
 }
 
-void visit(BiTree T) {
-    std::cout << T->data << " ";
+void visit(BSTree T) {
+    std::cout << T->key << " ";
 }
 
-void PostOrder(BiTree T) {
+void PostOrder(BSTree T) {
     if (T == NULL)
         return;
     PostOrder(T->lchild);
@@ -45,7 +46,7 @@ void PostOrder(BiTree T) {
     visit(T);
 }
 
-void InOrder(BiTree T) {
+void InOrder(BSTree T) {
     if (T == NULL)
         return;
     InOrder(T->lchild);
@@ -53,7 +54,7 @@ void InOrder(BiTree T) {
     InOrder(T->rchild);
 }
 
-void PreOrder(BiTree T) {
+void PreOrder(BSTree T) {
     if (T == NULL)
         return;
     visit(T);
@@ -61,10 +62,10 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
+bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
     if (T == NULL)
         return false;
-    if (T->data == value) {
+    if (T->key == value) {
         result = T;
         return true;
     }
@@ -73,8 +74,24 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     return getNodeByValue(T->rchild, value, result);
 }
 
+ElemType getMax(BSTree T) {
+    if (T == NULL)
+        return NULL;
+    while (T->rchild != NULL)
+        T = T->rchild;
+    return T->key;
+}
+
+ElemType getMin(BSTree T) {
+    if (T == NULL)
+        return NULL;
+    while (T->lchild != NULL)
+        T = T->lchild;
+    return T->key;
+}
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
-    BiTree T = construct(preOrder, inOrder, length);
+    BSTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
     cout << endl;
@@ -85,21 +102,21 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
+    cout << endl;
     // 在此处写要测试的函数...
-
-    cout << endl;
-    cout << endl;
+    cout << "Max Key:" << getMax(T) << endl
+         << "Min Key:" << getMin(T) << endl;
 }
 
 int main() {
-    // 非满二叉树、非完全二叉树
-    ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
-    ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    // BST树
+    ElemType preOrder1[] = {54, 20, 40, 28, 66, 79};
+    ElemType inOrder1[] = {20, 28, 40, 54, 66, 79};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
-    // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
+    // 非BST树
+    // ElemType preOrder2[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
+    // ElemType inOrder2[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
     test(preOrder1, inOrder1, length1);
@@ -110,3 +127,10 @@ int main() {
 }
 
 // 运行结果：
+// 54 20 40 28 66 79
+// 20 28 40 54 66 79
+// 28 40 20 79 66 54
+
+// Max Key:79
+// Min Key:20
+

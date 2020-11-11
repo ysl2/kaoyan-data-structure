@@ -1,7 +1,11 @@
-#include <iostream>
-using namespace std;
 
-typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+// abs函数在<stdlib.h>库
+// max没有，要自己写
+
+typedef int ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
     ElemType data;
     struct BiTNode *lchild, *rchild;
@@ -19,17 +23,17 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
         return T;
     //在中根遍历（中序遍历）中找到根节点的值
     ElemType *rootMidOrder = midOrder;
-    int leftLen = 0;  //左子树节点数
+    int leftMaxDepthLen = 0;  //左子树节点数
     while (*rootMidOrder != rootKey && rootMidOrder <= (midOrder + len - 1)) {
         ++rootMidOrder;
-        ++leftLen;
+        ++leftMaxDepthLen;
     }
     if (*rootMidOrder != rootKey)  //在中根序列未找到根节点,输入错误
         return NULL;
-    if (leftLen > 0) //构建左子树
-        T->lchild = construct(preOrder + 1, midOrder, leftLen);
-    if (len - leftLen - 1 > 0) //构建右子树
-        T->rchild = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
+    if (leftMaxDepthLen > 0) //构建左子树
+        T->lchild = construct(preOrder + 1, midOrder, leftMaxDepthLen);
+    if (len - leftMaxDepthLen - 1 > 0) //构建右子树
+        T->rchild = construct(preOrder + leftMaxDepthLen + 1, rootMidOrder + 1, len - leftMaxDepthLen - 1);
     return T;
 }
 
@@ -73,6 +77,23 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     return getNodeByValue(T->rchild, value, result);
 }
 
+// https://leetcode-cn.com/problems/balanced-binary-tree/solution/balanced-binary-tree-di-gui-fang-fa-by-jin40789108/
+int isAVL(BiTree T) {
+    if (T == NULL)
+        return 0;
+    int leftMaxDepth = isAVL(T->lchild);
+    if (leftMaxDepth == -1)
+        return -1;
+    int rightMaxDepth = isAVL(T->rchild);
+    if (rightMaxDepth == -1)
+        return -1;
+    return abs(leftMaxDepth - rightMaxDepth) < 2 ? max(leftMaxDepth, rightMaxDepth) + 1 : -1;
+}
+
+bool isAVLEntry(BiTree T) {
+    return isAVL(T) != -1;
+}
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
@@ -85,28 +106,43 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
+    cout << endl;
     // 在此处写要测试的函数...
-
-    cout << endl;
-    cout << endl;
+    if (isAVLEntry(T))
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+    cout <<"--------------------------" << endl;
 }
 
 int main() {
-    // 非满二叉树、非完全二叉树
-    ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
-    ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    // 是AVL
+    ElemType preOrder1[] = {9, 7, 3, 8, 10, 15};
+    ElemType inOrder1[] = {3, 7, 8, 9, 10, 15};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
-    // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
-    // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
+    // 是BST，但不是AVL
+    ElemType preOrder2[] = {54, 20, 40, 28, 66, 79};
+    ElemType inOrder2[] = {20, 28, 40, 54, 66, 79};
+    int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
     test(preOrder1, inOrder1, length1);
-
-    // test(preOrder2, inOrder2, length2);
+    test(preOrder2, inOrder2, length2);
 
     return 0;
 }
 
 // 运行结果：
+// 9 7 3 8 10 15
+// 3 7 8 9 10 15
+// 3 8 7 15 10 9
+
+// true
+// --------------------------
+// 54 20 40 28 66 79
+// 20 28 40 54 66 79
+// 28 40 20 79 66 54
+
+// false
+// --------------------------
+
