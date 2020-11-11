@@ -2,19 +2,20 @@
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
-typedef struct BiTNode {
-    ElemType data;
-    struct BiTNode *lchild, *rchild;
-} BiTNode, *BiTree;
 
-BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
+typedef struct CSTNode {
+    ElemType data;
+    struct CSTNode *lchild, *rbro;
+} CSTNode, *CSTree;
+
+CSTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
         return NULL;
     //先根遍历（前序遍历）的第一个值就是根节点的键值
     ElemType rootKey = preOrder[0];
-    BiTree T = new BiTNode;
+    CSTree T = new CSTNode;
     T->data = rootKey;
-    T->lchild = T->rchild = NULL;
+    T->lchild = T->rbro = NULL;
     if (len == 1 && *preOrder == *midOrder)  //只有一个节点
         return T;
     //在中根遍历（中序遍历）中找到根节点的值
@@ -29,39 +30,39 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (leftLen > 0) //构建左子树
         T->lchild = construct(preOrder + 1, midOrder, leftLen);
     if (len - leftLen - 1 > 0) //构建右子树
-        T->rchild = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
+        T->rbro = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
     return T;
 }
 
-void visit(BiTree T) {
+void visit(CSTree T) {
     std::cout << T->data << " ";
 }
 
-void PostOrder(BiTree T) {
+void PostOrder(CSTree T) {
     if (T == NULL)
         return;
     PostOrder(T->lchild);
-    PostOrder(T->rchild);
+    PostOrder(T->rbro);
     visit(T);
 }
 
-void InOrder(BiTree T) {
+void InOrder(CSTree T) {
     if (T == NULL)
         return;
     InOrder(T->lchild);
     visit(T);
-    InOrder(T->rchild);
+    InOrder(T->rbro);
 }
 
-void PreOrder(BiTree T) {
+void PreOrder(CSTree T) {
     if (T == NULL)
         return;
     visit(T);
     PreOrder(T->lchild);
-    PreOrder(T->rchild);
+    PreOrder(T->rbro);
 }
 
-bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
+bool getNodeByValue(CSTree T, ElemType value, CSTNode *&result) {
     if (T == NULL)
         return false;
     if (T->data == value) {
@@ -70,11 +71,20 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     }
     if (getNodeByValue(T->lchild, value, result) == true)
         return true;
-    return getNodeByValue(T->rchild, value, result);
+    else
+        return getNodeByValue(T->rbro, value, result);
+}
+
+int getLeaves(CSTree T) {
+    if (T == NULL)
+        return 0;
+    if (T->lchild == NULL)
+        return getLeaves(T->rbro) + 1;
+    return getLeaves(T->lchild) + getLeaves(T->rbro);
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
-    BiTree T = construct(preOrder, inOrder, length);
+    CSTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
     cout << endl;
@@ -85,21 +95,21 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
-    // 在此处写要测试的函数...
+    cout << endl;
 
-    cout << endl;
-    cout << endl;
+    // 在此处写要测试的函数...
+    cout << getLeaves(T) << endl;
 }
 
 int main() {
     // 非满二叉树、非完全二叉树
-    ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
-    ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    ElemType preOrder1[] = {'A', 'B', 'E', 'F', 'C', 'D', 'G'};
+    ElemType inOrder1[] = {'E', 'F', 'B', 'C', 'G', 'D', 'A'};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
     // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
+    // ElemType preOrder2[] = {'+', '*', 'a', 'b', '-', '-', 'c', 'd'};
+    // ElemType inOrder2[] = {'a', '*', 'b', '+', '-', 'c', '-', 'd'};
     // int length2 = sizeof(preOrder2) / sizeof(ElemType);
 
     test(preOrder1, inOrder1, length1);
@@ -110,3 +120,8 @@ int main() {
 }
 
 // 运行结果：
+// A B E F C D G
+// E F B C G D A
+// F E G D C B A
+
+// 4

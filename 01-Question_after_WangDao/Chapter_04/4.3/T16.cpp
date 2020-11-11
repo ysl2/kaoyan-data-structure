@@ -18,7 +18,6 @@ typedef struct LinkNode {
 BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     if (preOrder == NULL || midOrder == NULL || len <= 0)
         return NULL;
-
     //先根遍历（前序遍历）的第一个值就是根节点的键值
     ElemType rootKey = preOrder[0];
     BiTree T = new BiTNode;
@@ -26,7 +25,6 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     T->lchild = T->rchild = NULL;
     if (len == 1 && *preOrder == *midOrder)  //只有一个节点
         return T;
-
     //在中根遍历（中序遍历）中找到根节点的值
     ElemType *rootMidOrder = midOrder;
     int leftLen = 0;  //左子树节点数
@@ -36,13 +34,25 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     }
     if (*rootMidOrder != rootKey)  //在中根序列未找到根节点,输入错误
         return NULL;
-
-    if (leftLen > 0) {  //构建左子树
+    if (leftLen > 0)  //构建左子树
         T->lchild = construct(preOrder + 1, midOrder, leftLen);
-    }
-    if (len - leftLen - 1 > 0) {  //构建右子树
+    if (len - leftLen - 1 > 0)  //构建右子树
         T->rchild = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
-    }
+    return T;
+}
+
+void setLeaf(BiTree &T) {
+    if (T == NULL)
+        return;
+    if (T->lchild == NULL && T->rchild == NULL)
+        T->isLeaf = true;
+    setLeaf(T->lchild);
+    setLeaf(T->rchild);
+}
+
+BiTree getTreeWithLeafFlag(ElemType *preOrder, ElemType *inOrder, int length) {
+    BiTree T = construct(preOrder, inOrder, length);
+    setLeaf(T);
     return T;
 }
 
@@ -74,15 +84,27 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-void setLeaf(BiTree &T) {
+// 王道上的代码
+BiTNode *L1, *pre = NULL;
+
+void InOrder1(BiTree T) {
     if (T == NULL)
         return;
-    if (T->lchild == NULL && T->rchild == NULL)
-        T->isLeaf = true;
-    setLeaf(T->lchild);
-    setLeaf(T->rchild);
+    InOrder1(T->lchild);
+    if (T->lchild == NULL && T->rchild == NULL) {
+        if (pre == NULL) {  // 处理第一个结点
+            L1 = T;
+            pre = T; // 保存找到的第一个叶子结点
+        } else {
+            pre->rchild = T;  // 链接时用叶子结点的rchild域存放指针
+            pre = T;
+        }
+    }
+    InOrder1(T->rchild);
+    pre->rchild = NULL;
 }
 
+// 我自己写的代码
 LinkList L;
 
 void link(BiTree &T, LinkNode *&r) {
@@ -137,29 +159,43 @@ void outputAllLeaves(BiTree T) {
     outputAllLeaves(T->rchild);
 }
 
-BiTree getTreeWithLeafFlag(ElemType *preOrder, ElemType *inOrder, int length) {
-    BiTree T = construct(preOrder, inOrder, length);
-    setLeaf(T);
-    return T;
+void outputAllLeavesEntry(BiTree T) {
+    outputAllLeaves(T);
+    flag = false;
 }
 
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
-    BiTree T = getTreeWithLeafFlag(preOrder, inOrder, length);
+    BiTree T1 = getTreeWithLeafFlag(preOrder, inOrder, length);
+    BiTree T2 = getTreeWithLeafFlag(preOrder, inOrder, length);
 
-    PreOrder(T);
+    PreOrder(T1);
     cout << endl;
 
-    InOrder(T);
+    InOrder(T1);
     cout << endl;
 
-    PostOrder(T);
+    PostOrder(T1);
     cout << endl;
 
     // 在此处写要测试的函数...
 
-    linkLeafNode(T);
+    InOrder1(T1);
+    outputAllLeavesEntry(T1);
 
-    outputAllLeaves(T);
+    cout << endl;
+    cout << endl;
+
+    PreOrder(T2);
+    cout << endl;
+
+    InOrder(T2);
+    cout << endl;
+
+    PostOrder(T2);
+    cout << endl;
+
+    linkLeafNode(T2);
+    outputAllLeavesEntry(T2);
 
     cout << endl;
 }
@@ -185,23 +221,7 @@ int main() {
 // F E G H D C B
 // F G H
 
-
-//--------------------------------------------------------------------------------
-TreeLinkList L, pre = NULL;
-TreeLinkList InOrder(BiTree T) {
-    if (T == NULL)
-        return NULL;
-    InOrder(T->lchild);
-    if (T->lchild == NULL && T->rchild == NULL) {
-        if (pre == NULL) {
-            L = T;  // 保存找到的第一个叶子结点（k指针）
-            pre = T;
-        } else {
-            pre->rchild = T;  // 链接时用叶子结点的rchild域存放指针
-            pre = T;
-        }
-    }
-    InOrder(T->rchild);
-    return L;
-}
-
+// B E F C G D H
+// F E B G C H D
+// F E G H D C B
+// F G H

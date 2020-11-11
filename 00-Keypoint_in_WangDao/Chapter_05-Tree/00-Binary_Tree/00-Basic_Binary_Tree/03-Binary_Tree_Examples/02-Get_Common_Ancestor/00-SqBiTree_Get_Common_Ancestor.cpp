@@ -26,7 +26,6 @@ ElemType getAncestor(SqBiTree T, int i, int j) {
     return T->node[i].data;
 }
 
-
 //------------------------------------------------------
 ElemType getCommonAncestor(SqBiTree T, int i, int j) {
     if (T.data[i] == "#" || T.data[j] == "#")

@@ -1,3 +1,5 @@
+
+#include <cstdlib>
 #include <iostream>
 using namespace std;
 
@@ -73,6 +75,28 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     return getNodeByValue(T->rchild, value, result);
 }
 
+void InOrder1(BiTree T, int depth) {
+    if (T == NULL)
+        return;
+    if (T->lchild == NULL && T->rchild == NULL) {
+        cout << T->data << " ";
+        return;  // 一定不要漏这个return，不然程序直接出错
+    }
+    if (depth > 1)
+        cout << '(' << " ";
+    // 中序遍历模板
+    InOrder1(T->lchild, depth + 1);
+    cout << T->data << " ";
+    InOrder1(T->rchild, depth + 1);
+    //
+    if (depth > 1)
+        cout << ')' << " ";
+}
+
+void BiTreeToExpression(BiTree T) {
+    InOrder1(T, 1);
+}
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
@@ -85,28 +109,43 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
+    cout << endl;
     // 在此处写要测试的函数...
+    BiTreeToExpression(T);
 
     cout << endl;
-    cout << endl;
+    cout <<"--------------------------" << endl;
 }
 
 int main() {
     // 非满二叉树、非完全二叉树
-    ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
-    ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
+    ElemType preOrder1[] = {'*', '+', 'a', 'b', '*', 'c', '-', 'd'};
+    ElemType inOrder1[] = {'a', '+', 'b', '*', 'c', '*', '-', 'd'};
     int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
     // 满二叉树、完全二叉树
-    // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
-    // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
-    // int length2 = sizeof(preOrder2) / sizeof(ElemType);
+    ElemType preOrder2[] = {'+', '*', 'a', 'b', '-', '-', 'c', 'd'};
+    ElemType inOrder2[] = {'a', '*', 'b', '+', '-', 'c', '-', 'd'};
+    int length2 = sizeof(preOrder2) / sizeof(ElemType);
 
     test(preOrder1, inOrder1, length1);
 
-    // test(preOrder2, inOrder2, length2);
+    test(preOrder2, inOrder2, length2);
 
     return 0;
 }
 
 // 运行结果：
+// * + a b * c - d
+// a + b * c * - d
+// a b + c d - * *
+
+// ( a + b ) * ( c * ( - d ) )
+// --------------------------
+// + * a b - - c d
+// a * b + - c - d
+// a b * c d - - +
+
+// ( a * b ) + ( - ( c - d ) )
+// --------------------------
+

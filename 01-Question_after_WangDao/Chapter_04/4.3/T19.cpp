@@ -81,6 +81,7 @@ void wplPreOrder(BiTree T, int depth) {
 }
 
 int getWpl(BiTree T) {
+    wpl = 0;
     wplPreOrder(T, 0);  // 这里默认根节点所在层数为0
     return wpl;
 }
