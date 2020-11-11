@@ -74,9 +74,9 @@ int count = 0;
 void visit1(BiTree T) {
     // 如果计算叶子结点数、单分支结点数、双分支结点数，就在这相应的加上if判断条件即可
     // 例如：
-    // if (T.lchild == NULL && T.rchild == NULL) count++;
-    // if ((T.lchild == NULL && T.rchild != NULL) || (T.lchild != NULL && T.rchild == NULL)) count++;
-    // if (T.lchild != NULL && T.rchild != NULL) count++;
+    // if (T->lchild == NULL && T->rchild == NULL)
+    // if ((T->lchild == NULL && T->rchild != NULL) || (T->lchild != NULL && T->rchild == NULL))
+    // if (T->lchild != NULL && T->rchild != NULL)
     count++;
     // std::cout << T->data << " ";
 }
@@ -112,6 +112,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
+    cout << endl;
     // 在此处写要测试的函数...
     getNumber1(T);
     cout << count << endl;
@@ -138,7 +139,6 @@ int main() {
 // B E F C G D H
 // F E B G C H D
 // F E G H D C B
+
+// 7
 // 2
-
-
-

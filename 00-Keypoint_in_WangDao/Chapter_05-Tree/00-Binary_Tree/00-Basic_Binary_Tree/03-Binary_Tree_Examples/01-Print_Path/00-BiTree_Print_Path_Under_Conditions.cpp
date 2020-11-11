@@ -162,12 +162,14 @@ bool printPathUnderConditions3(BiTree T, int depth, int maxDepth) {
 
 /*
     // 求从根节点到指定结点之间的路径（2017年第二题）
-    bool printPathUnderConditions3(BiTree T, ElemType x) {
+    bool printPathUnderConditions3(BiTree T, BiTNode *p) {
         if (T == NULL)
             return false;
-        if (T->data == x)
+        if (T->data == p->data) {
+            s.push(T);
             return true;
-        if (printAllAncestor(T->lchild, x) || printAllAncestor(T->rchild, x)) {
+        }
+        if (printAllAncestor(T->lchild, p) || printAllAncestor(T->rchild, p)) {
             s.push(T);
             return true;
         }

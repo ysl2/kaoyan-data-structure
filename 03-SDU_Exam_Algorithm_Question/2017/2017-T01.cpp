@@ -17,8 +17,9 @@ void swap(ElemType *A, int i, int j) {
     A[j] = temp;
 }
 
+// 法1
 // 参考王道课后题 3.3 T02
-void reverseOddAndEven(ElemType a[], int length) {
+void reverseOddAndEven1(ElemType a[], int length) {
     stack<ElemType> s;
     int k = 0;
     for (int i = 0; i < length; i++) {
@@ -39,17 +40,37 @@ void reverseOddAndEven(ElemType a[], int length) {
     }
 }
 
-void test(ElemType a[], int length) {
-    reverseOddAndEven(a, length);
+// 法2
+// 山大资料给的答案
+// 基于快速排序
+void reverseOddAndEven2(ElemType a[], int low, int high) {
+    while (low < high) {
+        while (low < high && a[low] % 2 == 1)
+            ++low;
+        while (low < high && a[high] % 2 == 0)
+            --high;
+        swap(a, low, high);
+    }
+}
+
+void test(ElemType a[], int length, int index) {
+    if (index == 1)
+        reverseOddAndEven1(a, length);
+    if (index == 2) {
+        int low = 0, high = length - 1;
+        reverseOddAndEven2(a, low, high);
+    }
     outPut(a, length);
 }
 
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
     int length = sizeof(A) / sizeof(int);
-    test(A, length);
+    test(A, length, 1);
+    test(A, length, 2);
     return 0;
 }
 
 // 输出结果：
+// 1 3 5 7 9 0 2 4 6 8
 // 1 3 5 7 9 0 2 4 6 8

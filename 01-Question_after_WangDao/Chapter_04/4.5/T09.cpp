@@ -90,6 +90,20 @@ ElemType getMin(BSTree T) {
     return T->key;
 }
 
+/*
+    // 删除BST的最小元素
+    // 注意：不能直接走到最左边，不然找不到前驱，会导致断链
+    void deleteBSTNodeWithMinValue(BiTree T) {
+        if (T == NULL)
+            return;
+        if (T->lchild->lchild == NULL) {
+            delete T->lchild;
+            T->lchild = NULL;
+        }
+        deleteBSTNodeWithMinValue(T->lchild);
+    }
+*/
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BSTree T = construct(preOrder, inOrder, length);
 
