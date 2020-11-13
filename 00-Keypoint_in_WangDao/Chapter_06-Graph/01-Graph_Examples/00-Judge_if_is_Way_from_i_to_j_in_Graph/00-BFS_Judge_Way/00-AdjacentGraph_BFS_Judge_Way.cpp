@@ -79,15 +79,18 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
 bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
     queue<int> q;
     q.push(a);
+    visited[a] = true;
     while (!q.empty()) {
         int v = q.front();
         q.pop();
-        visited[v] = true;
-        for (int w = FirstNeigbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
-            if (w == b)
+        for (ArcNode *temp = G->vertex[v].first; temp != NULL; temp = temp->next) {
+            // 下面两行相当于visit
+            if (temp->adjvex == b)
                 return true;
-            if (!visited[w])
-                q.push(w);
+            if (!visited[temp->adjvex]) {
+                q.push(temp->adjvex);
+                visited[temp->adjvex] = true;
+            }
         }
     }
     return false;

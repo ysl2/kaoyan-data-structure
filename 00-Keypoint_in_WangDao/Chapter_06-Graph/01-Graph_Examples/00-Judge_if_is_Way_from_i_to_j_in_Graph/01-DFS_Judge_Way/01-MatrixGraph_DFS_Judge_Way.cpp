@@ -9,7 +9,7 @@ using namespace std;
 typedef int ElemType;
 typedef struct {
     int number;  // 顶点的编号，这一项用户不能自己定义，是固定的从1开始的数字
-    ElemType info;  // 顶点信息。这一项是从用户输入的vertex数组中写入的，并不要求非要int型，也可以是A，B，C这种
+    ElemType data;  // 顶点信息。这一项是从用户输入的vertex数组中写入的，并不要求非要int型，也可以是A，B，C这种
 } VertexType;  // 上面这两项，在遍历的时候不会打印。但是真实存在，用于对结点信息进行补充描述
 
 typedef struct {
@@ -47,7 +47,7 @@ MatrixGraph createMatrix(ElemType *vertex, int vexnum, int *edge) {
     MatrixGraph G = new Matrix;
     initMatrixGraph(G, vexnum);
     for (int i = 0; i < vexnum; i++)
-        G->vertex[i].info = vertex[i];
+        G->vertex[i].data = vertex[i];
     for (int i = 0; i < vexnum; i++) {
         for (int j = 0; j < vexnum; j++) {
             if (edge[i * vexnum + j] != 0) {
@@ -84,11 +84,12 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
 }
 
 bool DFS(MatrixGraph G, int a, int b, int visited[]) {
+    // 下面两行相当于visit
     if (a == b)
         return true;
     visited[a] = 1;
     for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {  // 一旦w < 0，就会退出循环
-        if (visited[w] == 0 && DFS(G, w, b, visited) == true)
+        if (!visited[w] && DFS(G, w, b, visited) == true)
             return true;
     }
     return false;

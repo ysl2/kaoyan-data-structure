@@ -76,12 +76,15 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
     return temp->next != NULL ? temp->next->adjvex : -1;
 }
 
-bool DFS(AdjacentGraph G, int a, int b, int visited[]) {
+int *visited;
+
+bool DFS(AdjacentGraph G, int a, int b) {
+    // 下面两行相当于visit
     if (a == b)
         return true;
-    visited[a] = true;
+    visited[a] = 1;
     for (int w = FirstNeigbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
-        if (!visited[w] && DFS(G, w, b, visited))
+        if (!visited[w] && DFS(G, w, b))
             return true;
     }
     return false;
@@ -89,18 +92,51 @@ bool DFS(AdjacentGraph G, int a, int b, int visited[]) {
 
 bool DFSTraverse(AdjacentGraph G, int A, int B) {
     int a = A - 1, b = B - 1;  // 将顶点转化成下标
-    int *visited = new int[G->vexnum];
+    visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
 
-    return DFS(G, a, b, visited);
+    return DFS(G, a, b);
 }
+
+/*
+    // 或者采用全局变量的方式
+
+    int *visited;
+    bool flag = false;
+
+    void DFS(AdjacentGraph G, int a, int b) {
+        // 下面这两个if相当于visit
+        if (flag == true)
+            return;
+        if (a == b) {
+            flag = true;
+            return;
+        }
+        visited[a] = 1;
+        for (ArcNode *temp = G->vertex[a].first; temp != NULL; temp = temp->next) {
+            if (!visited[temp->adjvex])
+                DFS(G, temp->adjvex, b);
+        }
+    }
+
+    bool DFSTraverse(AdjacentGraph G, int A, int B) {
+        int a = A - 1, b = B - 1;
+        visited = new int[G->vexnum];
+        memset(visited, 0, sizeof(int) * G->vexnum);
+        flag = false;
+
+        DFS(G, a, b);
+        return flag;
+    }
+*/
 
 void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
 
     if (DFSTraverse(G, A, B) == true)
         cout << "true" << endl;
-    else cout << "false" << endl;
+    else
+        cout << "false" << endl;
 }
 
 int main() {
