@@ -107,7 +107,7 @@ void BFS(MatrixGraph G, int v0) {
     }
 }
 
-void getTheFarestVertex(MatrixGraph G, int v0) {
+void BFSTraverse(MatrixGraph G, int v0) {
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
 
@@ -120,7 +120,7 @@ void getTheFarestVertex(MatrixGraph G, int v0) {
 void test(ElemType *vertex, int vexnum, int *edge, int V0) {
     int v0 = V0 - 1;
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
-    getTheFarestVertex(G, v0);
+    BFSTraverse(G, v0);
     cout << endl;
 }
 
