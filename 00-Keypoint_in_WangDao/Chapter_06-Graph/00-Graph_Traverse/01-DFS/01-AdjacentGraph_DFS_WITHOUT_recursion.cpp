@@ -101,10 +101,9 @@ void DFS(AdjacentGraph G, int v0) {
         s.pop();
         cout << G->vertex[v].data << " ";
         for (ArcNode *temp = (G->vertex[v]).first; temp != NULL; temp = temp->next) {
-            int w = temp->adjvex;
-            if (!visited[w]) {
-                s.push(w);
-                visited[w] = true;
+            if (!visited[temp->adjvex]) {
+                s.push(temp->adjvex);
+                visited[temp->adjvex] = true;
             }
         }
     }
