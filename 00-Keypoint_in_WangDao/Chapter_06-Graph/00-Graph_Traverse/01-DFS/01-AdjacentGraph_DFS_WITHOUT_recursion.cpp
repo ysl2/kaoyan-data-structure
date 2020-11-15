@@ -89,34 +89,37 @@ ArcNode *NextNeighborNode(AdjacentGraph G, ArcNode *w) {
     return w->next;  // 无论是不是NULL都无所谓
 }
 
+void visit(AdjacentGraph G, int v) {
+    cout << G->vertex[v].data << " ";
+}
+
+int *visited;
+
 void DFS(AdjacentGraph G, int v0) {
     stack<int> s;
-    int *visited = new int[G->vexnum];
-    memset(visited, 0, sizeof(int) * G->vexnum);
-    s.push(v0);
     visited[v0] = 1;
-
+    s.push(v0);
     while (!s.empty()) {
         int v = s.top();
         s.pop();
-        cout << G->vertex[v].data << " ";
+        visit(G, v);
         for (ArcNode *temp = (G->vertex[v]).first; temp != NULL; temp = temp->next) {
             if (!visited[temp->adjvex]) {
+                visited[temp->adjvex] = 1;
                 s.push(temp->adjvex);
-                visited[temp->adjvex] = true;
             }
         }
     }
 }
 
-void test(ElemType *vertex, int vexnum, int *edge, int V0) {
-    int v0 = V0 - 1;
+void test(ElemType *vertex, int vexnum, int *edge) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
-    outputEdge(G);
-
-    cout << endl;
-
-    DFS(G, v0);
+    visited = new int[G->vexnum];
+    memset(visited, 0, sizeof(int) * G->vexnum);
+    for (int i = 0; i < G->vexnum; i++) {
+        if (!visited[i])
+            DFS(G, i);
+    }
 }
 
 int main() {
@@ -129,7 +132,7 @@ int main() {
         0, 0, 0, 0, 1,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge, 1);
+    test(vertex, vexnum, edge);
     return 0;
 }
 

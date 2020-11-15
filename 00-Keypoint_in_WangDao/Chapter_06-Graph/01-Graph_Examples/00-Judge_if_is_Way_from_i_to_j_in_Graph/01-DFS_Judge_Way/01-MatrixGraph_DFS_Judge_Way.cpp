@@ -83,25 +83,25 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
     return (flag == -1) ? flag : i;
 }
 
-bool DFS(MatrixGraph G, int a, int b, int visited[]) {
+int *visited;
+
+bool DFS(MatrixGraph G, int a, int b) {
     // 下面两行相当于visit
     if (a == b)
         return true;
     visited[a] = 1;
     for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {  // 一旦w < 0，就会退出循环
-        if (!visited[w] && DFS(G, w, b, visited) == true)
+        if (!visited[w] && DFS(G, w, b))
             return true;
     }
     return false;
 }
 
 bool DFSTraverse(MatrixGraph G, int A, int B) {
-    int *visited = new int[G->vexnum];
-    memset(visited, 0, sizeof(int) * G->vexnum);
-
     int a = A - 1, b = B - 1;  // 把顶点统一转化成下标
-
-    return DFS(G, a, b, visited);
+    visited = new int[G->vexnum];
+    memset(visited, 0, sizeof(int) * G->vexnum);
+    return DFS(G, a, b);
 }
 
 void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {

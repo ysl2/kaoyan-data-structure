@@ -76,10 +76,14 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
     return temp->next != NULL ? temp->next->adjvex : -1;
 }
 
-bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
+int *visited;
+
+bool BFS(AdjacentGraph G, int a, int b) {
+    if (a == b)
+        return true;
     queue<int> q;
+    visited[a] = 1;
     q.push(a);
-    visited[a] = true;
     while (!q.empty()) {
         int v = q.front();
         q.pop();
@@ -88,8 +92,8 @@ bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
             if (temp->adjvex == b)
                 return true;
             if (!visited[temp->adjvex]) {
+                visited[temp->adjvex] = 1;
                 q.push(temp->adjvex);
-                visited[temp->adjvex] = true;
             }
         }
     }
@@ -98,10 +102,10 @@ bool BFS(AdjacentGraph G, int a, int b, int visited[]) {
 
 bool BFSTraverse(AdjacentGraph G, int A, int B) {
     int a = A - 1, b = B - 1;  // 将顶点转化成下标
-    int *visited = new int[G->vexnum];
+    visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
 
-    return BFS(G, a, b, visited);
+    return BFS(G, a, b);
 }
 
 void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {

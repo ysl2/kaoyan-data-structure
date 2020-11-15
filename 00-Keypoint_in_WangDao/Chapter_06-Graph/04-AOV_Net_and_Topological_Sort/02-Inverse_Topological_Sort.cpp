@@ -83,9 +83,8 @@ int *visited;
 
 void DFS(MatrixGraph G, int v0) {
     visited[v0] = 1;  // 不输出顶点信息，仅做已访问标记
-    int v = v0;
-    for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
-        if (visited[w] == 0)
+    for (int w = FirstNeighbor(G, v0); w >= 0; w = NextNeighbor(G, v0, w)) {
+        if (!visited[w])
             DFS(G, w);
     }
     cout << G->vertex[v0].data << " ";  // 在函数退栈之前输出顶点信息
@@ -95,7 +94,7 @@ void DFSTraverse(MatrixGraph G) {
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
     for (int i = 0; i < G->vexnum; i++) {
-        if (visited[i] == 0)
+        if (visited[i])
             DFS(G, i);
     }
 }
@@ -111,7 +110,7 @@ void test(ElemType *vertex, int vexnum, int *edge) {
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 0, 1, 0,
         0, 0, 1, 1, 0,

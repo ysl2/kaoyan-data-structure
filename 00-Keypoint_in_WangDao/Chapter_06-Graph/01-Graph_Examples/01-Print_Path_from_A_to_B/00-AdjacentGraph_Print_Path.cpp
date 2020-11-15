@@ -1,6 +1,7 @@
 // 2020-10-17
 #include <iostream>
 #include <string.h>
+#include <vector>
 using namespace std;
 
 typedef int ElemType;
@@ -80,39 +81,38 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
 }
 
 int *visited;
-int *path;
+vector<int> v;  // 这里用vector模拟栈。因为如果直接用栈，就不能遍历元素。因此选择vector
 
-void outputPath(int distance) {
-    for (int i = 0; i <= distance; i++)
-        cout << path[i] << " ";
+void outputPath() {
+    for (int i = 0; i < v.size(); i++)
+        cout << v[i] << " ";
     cout << endl;
 }
 
-void DFS(AdjacentGraph G, int a, int b, int distance) {
+void DFS(AdjacentGraph G, int a, int b) {
     // 下面这两句相当于visit
-    path[++distance] = G->vertex[a].data;
+    visited[a] = 1;
+    v.push_back(G->vertex[a].data);
     // 这里G->vertex[a].data的原因是需要输出顶点名称而不是顶点编号。
     // 而顶点名称和顶点编号的关系是：它们的数组下标相同，
     // 因此通过相同的数组下标可以构建数组编号和数组名称之间的联系
-    visited[a] = 1;
     if (a == b)
-        outputPath(distance);
+        outputPath();
     for (ArcNode *temp = G->vertex[a].first; temp != NULL; temp = temp->next) {
-        if (visited[temp->adjvex] == 0)
-            DFS(G, temp->adjvex, b, distance);
+        if (!visited[temp->adjvex])
+            DFS(G, temp->adjvex, b);
     }
-    visited[a] = 0;  // 恢复顶点，使顶点重新可用。
-    // 通过这条语句，可以输出所有从a到b的简单路径。如果不加这条语句，将只能输出一条路径。
+    visited[a] = 0;
+    v.pop_back();
+    // 恢复顶点，使顶点重新可用。
+    // 通过上面这两条语句，可以输出所有从a到b的简单路径。如果不加这两条语句，将只能输出一条路径。
 }
 
-void findAndPrintAllPath(AdjacentGraph G, int A, int B) {
+void DFSTraverse(AdjacentGraph G, int A, int B) {
     int a = A - 1, b = B - 1;
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
-    path = new int[G->vexnum];
-    memset(path, 0, sizeof(int) * G->vexnum);
-
-    DFS(G, a, b, -1);
+    DFS(G, a, b);
 }
 
 void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
@@ -121,7 +121,7 @@ void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
 
     cout << endl;
 
-    findAndPrintAllPath(G, A, B);
+    DFSTraverse(G, A, B);
 }
 
 int main() {

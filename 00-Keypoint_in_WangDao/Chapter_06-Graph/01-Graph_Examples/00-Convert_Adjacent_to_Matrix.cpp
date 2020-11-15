@@ -145,7 +145,7 @@ void test(ElemType *vertex, int vexnum, int *edge) {
 
 int main() {
     ElemType vertex[] = {1, 3, 5, 7, 9};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
         0, 0, 1, 0, 1,

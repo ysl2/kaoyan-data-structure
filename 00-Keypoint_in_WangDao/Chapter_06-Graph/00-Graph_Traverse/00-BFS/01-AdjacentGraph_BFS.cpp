@@ -90,21 +90,21 @@ ArcNode *NextNeighborNode(AdjacentGraph G, ArcNode *w) {
 
 int *visited;
 
-void visit(int v) {
-    cout << v + 1 << " ";
+void visit(AdjacentGraph G, int v) {
+    cout << G->vertex[v].data << " ";
 }
 
 void BFS(AdjacentGraph G, int v0) {
-    queue<ElemType> q;
-    visit(v0);
-    visited[v0] = true;
+    queue<int> q;
+    visit(G, v0);
+    visited[v0] = 1;
     q.push(v0);
     while (!q.empty()) {
         int v = q.front();
         q.pop();
         for (ArcNode *temp = G->vertex[v].first; temp != NULL; temp = temp->next) {
             if (!visited[temp->adjvex]) {
-                visit(temp->adjvex);
+                visit(G, temp->adjvex);
                 visited[temp->adjvex] = 1;
                 q.push(temp->adjvex);
             }

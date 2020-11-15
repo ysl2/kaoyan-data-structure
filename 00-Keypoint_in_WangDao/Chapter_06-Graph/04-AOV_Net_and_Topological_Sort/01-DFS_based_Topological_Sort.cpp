@@ -96,11 +96,11 @@ int *getIndegreeArray(MatrixGraph G) {
 
 struct Time {
     int vertexData;
-    int finishtime;
+    int finishTime;
 };
 
 int *visited;
-Time *finishTime;  // 由于祖先的结束时间大于子孙的结束时间，因此将经过DFS后的finishTime数组中的值从大到小排序，就是拓扑序列
+Time *timeCounter;  // 由于祖先的结束时间大于子孙的结束时间，因此将经过DFS后的timeCounter数组中的值从大到小排序，就是拓扑序列
 int time;
 
 // 基于DFS的拓扑排序
@@ -111,14 +111,14 @@ void DFS(MatrixGraph G, int v0) {
             DFS(G, w);
     }
     time++;
-    finishTime[v0].vertexData = v0 + 1;
-    finishTime[v0].finishtime = time;
+    timeCounter[v0].vertexData = G->vertex[v0].data;
+    timeCounter[v0].finishTime = time;
 }
 
 void DFSTraverse(MatrixGraph G) {
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
-    finishTime = new Time[G->vexnum];
+    timeCounter = new Time[G->vexnum];
     time = 0;
     for (int i = 0; i < G->vexnum; i++) {
         if (!visited[i])
@@ -126,36 +126,37 @@ void DFSTraverse(MatrixGraph G) {
     }
 }
 
+// 对结点从大到小排序。这里选择归并排序
 Time *B;
 
 void merge(Time a[], int low, int mid, int high) {
     for (int i = low; i <= high; i++) {
         B[i].vertexData = a[i].vertexData;
-        B[i].finishtime = a[i].finishtime;
+        B[i].finishTime = a[i].finishTime;
     }
     int i = low, j = mid + 1, k = low;
     while (i <= mid && j <= high) {
-        if (B[i].finishtime >= B[j].finishtime) {
+        if (B[i].finishTime >= B[j].finishTime) {
             a[k].vertexData = B[i].vertexData;
-            a[k].finishtime = B[i].finishtime;
+            a[k].finishTime = B[i].finishTime;
             i++;
             k++;
         } else {
             a[k].vertexData = B[j].vertexData;
-            a[k].finishtime = B[j].finishtime;
+            a[k].finishTime = B[j].finishTime;
             j++;
             k++;
         }
     }
     while (i <= mid) {
         a[k].vertexData = B[i].vertexData;
-        a[k].finishtime = B[i].finishtime;
+        a[k].finishTime = B[i].finishTime;
         i++;
         k++;
     }
     while (j <= high) {
         a[k].vertexData = B[j].vertexData;
-        a[k].finishtime = B[j].finishtime;
+        a[k].finishTime = B[j].finishTime;
         j++;
         k++;
     }
@@ -182,12 +183,12 @@ void printTopologicalSortResult(Time *a, int length) {
 void test(ElemType *vertex, int vexnum, int *edge) {
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
     DFSTraverse(G);
-    printTopologicalSortResult(finishTime, G->vexnum);
+    printTopologicalSortResult(timeCounter, G->vexnum);
 }
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 0, 1, 0,
         0, 0, 1, 1, 0,
@@ -210,13 +211,13 @@ int main() {
 
 // bool visited[maxSize];
 // int time;
-// int finishTime[maxSize];
-// // 将经过DFS后的finishTime数组中的值从大到小排序，就是拓扑序列
+// int timeCounter[maxSize];
+// // 将经过DFS后的timeCounter数组中的值从大到小排序，就是拓扑序列
 
 // void DFSTraverse(Graph G) {
 //     for (int i = 0; i < maxSize; i++) {
 //         visited[i] = false;
-//         finishTime = INFINITY;  // 将初值置为无穷大
+//         timeCounter = INFINITY;  // 将初值置为无穷大
 //         // INFINITY为无穷大，这里假设INFINITY表示顶点不存在
 //         // 当输出结果遍历到INFINITY时，
 //         // 说明从这个结点开始（包括此结点）往后已经不存在了，就停止输出
@@ -238,6 +239,6 @@ int main() {
 //         }
 //     }
 //     time++;
-//     finishTime[v0] = time;
+//     timeCounter[v0] = time;
 // }
 

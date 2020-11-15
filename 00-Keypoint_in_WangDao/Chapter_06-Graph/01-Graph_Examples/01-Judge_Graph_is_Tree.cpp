@@ -84,13 +84,13 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
 int *visited;
 int Vnum, Enum;
 
-void DFS(MatrixGraph G, int v, int &Vnum, int &Enum) {
+void DFS(MatrixGraph G, int v0) {
     Vnum++;
-    visited[v] = true;
-    for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
+    visited[v0] = true;
+    for (int w = FirstNeighbor(G, v0); w >= 0; w = NextNeighbor(G, v0, w)) {
         Enum++;
         if (visited[w] == 0)
-            DFS(G, w, Vnum, Enum);
+            DFS(G, w);
     }
 }
 
@@ -99,14 +99,15 @@ bool isTree(MatrixGraph G) {
     Vnum = 0, Enum = 0;
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
-    DFS(G, 1, Vnum, Enum);
-    return Vnum == G->vexnum && Enum / 2 == G->vexnum - 1;
+    DFS(G, 1);
+    return Vnum == G->vexnum && Enum / 2.0 == (G->vexnum - 1) * 1.0;
     // 返回true的条件：（图是树的条件）
     // 1.遍历一次统计的顶点数等于整个图的顶点数，即图是连通的
     // 2.遍历一次能得到n-1条边。（如果n个顶点的图是树，则其边数等于n-1）
     // 本算法采用第二条作为判断依据
     // 在第二条中，因为是无向图，所以每条边走了两遍。因此最终应该除2
     // 无论是邻接矩阵还是邻接表，只要是无向图，那么存储的边数都是两倍的，最终计算的时候都应该除2
+    // 由于对整数除法的方式是直接截断（即不保留小数部分），因此需要把int强行转换为double，这样能保留小数部分
 }
 
 void test(ElemType *vertex, int vexnum, int *edge) {
@@ -123,7 +124,7 @@ void test(ElemType *vertex, int vexnum, int *edge) {
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5, 6, 7};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 3, 4, 0, 0, 0, 0,
         3, 0, 0, 8, 7, 0, 0,

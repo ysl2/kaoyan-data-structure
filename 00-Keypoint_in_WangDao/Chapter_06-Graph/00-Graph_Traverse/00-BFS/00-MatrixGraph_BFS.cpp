@@ -84,22 +84,21 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
 
 int *visited;
 
-void visit(int v) {
-    cout << v + 1 << " ";
+void visit(MatrixGraph G, int v) {
+    cout << G->vertex[v].data << " ";
 }
 
 void BFS(MatrixGraph G, int v0) {
     queue<int> q;
-    visit(v0);
+    visit(G, v0);
     visited[v0] = 1;
     q.push(v0);
-
     while (!q.empty()) {
         int v = q.front();
         q.pop();
         for (int w = FirstNeighbor(G, v); w >= 0; w = NextNeighbor(G, v, w)) {
             if (!visited[w]) {
-                visit(w);
+                visit(G, w);
                 visited[w] = 1;
                 q.push(w);
             }
@@ -107,26 +106,24 @@ void BFS(MatrixGraph G, int v0) {
     }
 }
 
-void BFSTraverse(MatrixGraph G, int v0) {
+void BFSTraverse(MatrixGraph G) {
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
-
     for (int i = 0; i < G->vexnum; i++) {
         if (!visited[i])
             BFS(G, i);
     }
 }
 
-void test(ElemType *vertex, int vexnum, int *edge, int V0) {
-    int v0 = V0 - 1;
+void test(ElemType *vertex, int vexnum, int *edge) {
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
-    BFSTraverse(G, v0);
+    BFSTraverse(G);
     cout << endl;
 }
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5, 6, 7};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0, 0, 0,
         0, 0, 0, 1, 0, 0, 0,
@@ -136,7 +133,7 @@ int main() {
         0, 0, 0, 0, 0, 0, 1,
         0, 0, 0, 0, 0, 0, 0};
 
-    test(vertex, vexnum, edge, 1);
+    test(vertex, vexnum, edge);
 
     return 0;
 }

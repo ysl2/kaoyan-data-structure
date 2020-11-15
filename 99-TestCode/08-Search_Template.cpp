@@ -8,6 +8,12 @@ typedef struct {
     int length;
 } SqTable;
 
+void outputTable(SqTable T) {
+    for (int i = 0; i < T.length; i++)
+        cout << T.data[i] << " ";
+    cout << endl;
+}
+
 SqTable getTable(int arr[], int length) {
     SqTable T;
     T.data = arr;
@@ -15,16 +21,9 @@ SqTable getTable(int arr[], int length) {
     return T;
 }
 
-int search(SqTable T, ElemType key) {
-    int i;
-    for (i = 0; i < T.length && T.data[i] != key; i++)
-        ;
-    return i == T.length ? -1 : i;
-}
-
 void test(ElemType a[], int length, ElemType key) {
     SqTable T = getTable(a, length);
-    cout << search(T, key) << endl;
+    outputTable(T);
 }
 
 int main() {
@@ -35,4 +34,4 @@ int main() {
 }
 
 // 输出结果：
-// 5
+
