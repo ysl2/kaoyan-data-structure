@@ -33,7 +33,8 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
-bool reverseList(LinkList &L) {
+// 创建新结点
+bool reverseList1(LinkList &L) {
     if (L == NULL || L->next == NULL)
         return false;
     LinkList B = new LinkNode;
@@ -49,37 +50,55 @@ bool reverseList(LinkList &L) {
     return true;
 }
 
-void test(ElemType a[], int length) {
+// 不创建新结点
+void reverseList2(LinkList &L) {
+    LinkNode *p = L->next;
+    L->next = NULL;
+    while (p != NULL) {
+        LinkNode *temp = p->next;
+        p->next = L->next;
+        L->next = p;
+        p = temp;
+    }
+}
+
+void test(ElemType a[], int length, int index) {
     LinkList L = rearInsertCreate(a, length);
+    if (index == 1)
+        reverseList1(L);
+    else
+        reverseList2(L);
     outPut(L);
-    reverseList(L);
-    outPut(L);
+    cout << endl;
 }
 
 int main() {
     ElemType arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     int length = sizeof(arr) / sizeof(int);
 
-    test(arr, length);
+    test(arr, length, 1);
+    test(arr, length, 2);
 
     return 0;
 }
 
 // 输出结果：
-// 1 2 3 4 5 6 7 8 9
 // 9 8 7 6 5 4 3 2 1
 
-//-----------------------------------------------
-void headInsert(LinkList &L, LinkNode *&p) {
-    LinkNode *temp = p->next;
-    p->next = L->next;
-    L->next = p;
-    p = temp;
-}
+// 9 8 7 6 5 4 3 2 1
 
-void reverse(LinkList &L) {
-    LinkNode *p = L->next;
-    L->next = NULL;
-    while (p != NULL)
-        headInsert(L, p);
-}
+
+// //-----------------------------------------------
+// void headInsert(LinkList &L, LinkNode *&p) {
+//     LinkNode *temp = p->next;
+//     p->next = L->next;
+//     L->next = p;
+//     p = temp;
+// }
+
+// void reverse(LinkList &L) {
+//     LinkNode *p = L->next;
+//     L->next = NULL;
+//     while (p != NULL)
+//         headInsert(L, p);
+// }

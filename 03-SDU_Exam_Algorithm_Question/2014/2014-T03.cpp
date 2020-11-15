@@ -78,7 +78,7 @@ void test(ElemType *vertex, int vexnum, int *edge, int V0) {
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     /*
         注意下标的匹配关系 :
 

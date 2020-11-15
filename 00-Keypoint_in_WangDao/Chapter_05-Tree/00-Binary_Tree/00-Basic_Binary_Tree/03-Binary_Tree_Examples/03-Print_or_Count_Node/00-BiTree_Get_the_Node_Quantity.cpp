@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
-using std::cout;
-using std::endl;
+#include <stack>
+using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
@@ -81,7 +81,7 @@ void visit1(BiTree T) {
     // std::cout << T->data << " ";
 }
 
-// 计算二叉树的结点个数
+// 计算二叉树的结点个数（先序、中序、后序、层序都行，这里仅演示先序）
 void getNumber1(BiTree T) {
     if (T == NULL)
         return;
@@ -90,13 +90,31 @@ void getNumber1(BiTree T) {
     getNumber1(T->rchild);
 }
 
+// 也可以用非递归方式做（先序、中序、后序、层序都行，这里仅演示先序）
+int getNumber2(BiTree T) {
+    stack<BiTNode *> s;
+    BiTNode *p = T;
+    while (p != NULL || !s.empty()) {
+        if (p != NULL) {
+            visit1(p);
+            s.push(p);
+            p = p->lchild;
+        } else {
+            p = s.top();
+            s.pop();
+            p = p->rchild;
+        }
+    }
+    return count;
+}
+
 // 这是我自己当时第一遍做王道的时候写的
 // 用于输出所有双分支结点个数
-int getNumber2(BiTree T) {
+int getNumber3(BiTree T) {
     if (T == NULL)
         return 0;
-    int left = getNumber2(T->lchild);
-    int right = getNumber2(T->rchild);
+    int left = getNumber3(T->lchild);
+    int right = getNumber3(T->rchild);
     return (T->lchild != NULL && T->rchild != NULL) ? left + right + 1 : left + right;
 }
 
@@ -117,7 +135,12 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     getNumber1(T);
     cout << count << endl;
 
-    cout << getNumber2(T) << endl;
+    count = 0;
+
+    getNumber2(T);
+    cout << count << endl;
+
+    cout << getNumber3(T) << endl;
 }
 
 int main() {

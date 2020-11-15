@@ -82,11 +82,12 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
     return (flag == -1) ? flag : i;
 }
 
+// 距离顶点v的最后一个顶点，就是BFS的最后一个顶点
 int *visited;
 stack<int> s;
 
 void visit(int v) {
-    s.push(v + 1);
+    s.push(v + 1);  // 这里由于要得到的是顶点的名称，而不是顶点的下标，因此要加1。比如，顶点名称为3的下标其实是2，实际操作都是以2操作的，真正遍历的时候要恢复为3
 }
 
 void BFS(MatrixGraph G, int v0) {
@@ -123,7 +124,7 @@ int getTheFarestVertex(MatrixGraph G, int v0) {
 }
 
 void test(ElemType *vertex, int vexnum, int *edge, int V0) {
-    int v0 = V0 - 1;
+    int v0 = V0 - 1;  // 根据顶点名称获取顶点的下标
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
     cout << getTheFarestVertex(G, v0) << endl;
 }

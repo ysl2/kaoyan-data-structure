@@ -64,6 +64,17 @@ void countNodeNumber(BiTree T) {
     countNodeNumber(T->rchild);
 }
 
+/*
+    // 我自己第一遍写的（山大算法题真题）
+    int traverseBiTree(BiTree T) {
+        if (T == NULL)
+            return 0;
+        int left = traverseBiTree(T->lchild);
+        int right = traverseBiTree(T->rchild);
+        return left + right + 1;
+    }
+*/
+
 // 计算二叉树的深度
 int countNodeDepth(BiTree T) {
     if (T == NULL)
@@ -72,6 +83,17 @@ int countNodeDepth(BiTree T) {
     int right = countNodeDepth(T->rchild);
     return (left > right) ? left + 1 : right + 1;
 }
+
+/*
+    // 我自己第一遍写的（山大算法题真题）
+    int getMaxDepth(BiTree T) {
+        if (T == NULL)
+            return 0;
+        int left = getMaxDepth(T->lchild);
+        int right = getMaxDepth(T->rchild);
+        return left > right ? left + 1 : right + 1;
+    }
+*/
 
 // 判断是否是满二叉树
 bool isFull(BiTree T) {

@@ -21,6 +21,7 @@ void swap(ElemType *A, int i, int j) {
 // 由于题目和问题“数字的回文”等价，只是一个用char类型表示，另一个用int类型表示。为了简化代码，这里采用int类型作为问题
 
 // 方法1：采用入栈出栈的方式。这样做会导致空间复杂度较高。空间复杂度是O(n)
+//参考王道”栈与队列“部分的课后题
 bool judgeIsSym1(ElemType a[], int length) {
     stack<int> s;
     int i = 0;
