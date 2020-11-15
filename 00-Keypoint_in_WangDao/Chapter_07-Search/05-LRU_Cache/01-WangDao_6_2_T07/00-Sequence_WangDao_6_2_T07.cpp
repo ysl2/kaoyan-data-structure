@@ -14,6 +14,15 @@ void outputTable(SqTable T) {
     cout << endl;
 }
 
+SqTable getTable(int arr[], int length) {
+    SqTable T;
+    T.data = arr;
+    T.length = length;
+    return T;
+}
+
+// 本题类似于LRU缓存。（并不完全是）
+// 关键词：LRU缓存、页面置换算法
 int search(SqTable T, ElemType value) {
     int i;
     for (i = 0; i < T.length && T.data[i] != value; i++)
@@ -25,15 +34,6 @@ int search(SqTable T, ElemType value) {
         return i - 1;  // 这里返回的是交换后的新位置
     } else
         return i == T.length ? -1 : i;  // 否则，返回原先的位置
-}
-
-// 本题类似于LRU缓存。（并不完全是）
-// 关键词：LRU缓存、页面置换算法
-SqTable getTable(int arr[], int length) {
-    SqTable T;
-    T.data = arr;
-    T.length = length;
-    return T;
 }
 
 void test(ElemType a[], int length, ElemType key) {
