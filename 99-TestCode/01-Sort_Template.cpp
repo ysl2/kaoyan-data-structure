@@ -21,7 +21,7 @@ void test(ElemType a[], int length) {
 
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length = sizeof(A) / sizeof(int);
+    int length = sizeof(A) / sizeof(A[0]);
     test(A, length);
     return 0;
 }
