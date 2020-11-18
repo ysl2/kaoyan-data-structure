@@ -35,8 +35,8 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
 
 // 采用计数排序的思路
 void complementarySet(LinkList &A, LinkList B) {
-    int max = B->next->data;
-    int min = B->next->data;
+    ElemType max = B->next->data;
+    ElemType min = B->next->data;
     LinkNode *p = B->next;
     while (p != NULL) {
         if (p->data > max)
@@ -46,8 +46,8 @@ void complementarySet(LinkList &A, LinkList B) {
         p = p->next;
     }
     int length = max - min + 1;
-    int *set = new int[length];
-    memset(set, 0, sizeof(int) * length);
+    ElemType *set = new ElemType[length];
+    memset(set, 0, sizeof(set[0]) * length);
     p = B->next;
     while (p != NULL) {
         set[p->data - min] = 1;
@@ -77,9 +77,9 @@ void test(ElemType arr1[], int length1, ElemType arr2[], int length2) {
 
 int main() {
     ElemType arr1[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length1 = sizeof(arr1) / sizeof(int);
+    int length1 = sizeof(arr1) / sizeof(arr1[0]);
     ElemType arr2[] = {2, 3, 4};
-    int length2 = sizeof(arr2) / sizeof(int);
+    int length2 = sizeof(arr2) / sizeof(arr2[0]);
 
     test(arr1, length1, arr2, length2);
 

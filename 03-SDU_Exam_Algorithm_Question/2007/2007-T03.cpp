@@ -54,12 +54,10 @@ void adjustMinHeap(struct MinHeap *minHeap, int index) {
     int less = index;
     int left = getLeftIndex(index);
     int right = getRightIndex(index);
-    if (left < minHeap->size && minHeap->array[left]->freq < minHeap->array[less]->freq) {
+    if (left < minHeap->size && minHeap->array[left]->freq < minHeap->array[less]->freq)
         less = left;
-    }
-    if (right < minHeap->size && minHeap->array[right]->freq < minHeap->array[less]->freq) {
+    if (right < minHeap->size && minHeap->array[right]->freq < minHeap->array[less]->freq)
         less = right;
-    }
     if (less != index) {
         swapMinHeapNode(&minHeap->array[less], &minHeap->array[index]);
         adjustMinHeap(minHeap, less);
@@ -78,9 +76,8 @@ int isLeaf(struct MinHeapNode *node) {
 
 void printArr(int arr[], int n) {
     int i;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < n; ++i)
         printf("%d", arr[i]);
-    }
     printf("\n");
 }
 
@@ -107,17 +104,15 @@ void insertMinHeap(struct MinHeap *minHeap, struct MinHeapNode *minHeapNode) {
 void buildMinHeap(struct MinHeap *minHeap) {
     int index = minHeap->size - 1;
     int i;
-    for (i = (index - 1) / 2; i >= 0; --i) {
+    for (i = (index - 1) / 2; i >= 0; --i)
         adjustMinHeap(minHeap, i);
-    }
 }
 
 // 创建一个容量为size的最小堆，并插入data[]中的元素到最小堆
 struct MinHeap *createAndBuildMinHeap(char data[], int freq[], int size) {
     struct MinHeap *minHeap = newMinHeap(size);
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
         minHeap->array[i] = newNode(data[i], freq[i]);
-    }
     minHeap->size = size;
     buildMinHeap(minHeap);
     return minHeap;

@@ -32,7 +32,7 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
     return L;
 }
 
-void linklistBubbleSort(LinkList &L) {
+void linklistBubbleSort1(LinkList &L) {
     if (L == NULL || L->next == NULL)
         return;
     LinkNode *rear = L->next;
@@ -47,7 +47,7 @@ void linklistBubbleSort(LinkList &L) {
                 p->next = temp->next;
                 pre->next = temp;
                 temp->next = p;
-                p = temp;
+                pre = temp;
                 flag = true;
             } else {
                 p = p->next;
@@ -57,23 +57,46 @@ void linklistBubbleSort(LinkList &L) {
         // 如果本趟没有元素发生交换，则提前结束
         if (flag == false)
             return;
-        rear = p;
+        rear = p;  // 关键步骤。走到这一步时，p->next == rear，因此通过这一句可以让rear向前移动一个位置
         pre = L;
         p = L->next;
     }
 }
 
-void test(ElemType a[], int length) {
+// 山大资料给的答案
+void linklistBubbleSort2(LinkList &L, int length) {
+    for (int i = 0; i < length - 1; i++) {
+        bool flag = false;
+        LinkNode *p = L->next;
+        for (int j = 0; j < length - 1 - i; j++, p = p->next) {
+            LinkNode *q = p->next;
+            if (p->data > q->data) {
+                ElemType temp = p->data;
+                p->data = q->data;
+                q->data = temp;
+                flag = true;
+            }
+        }
+        if (!flag)
+            return;
+    }
+}
+
+void test(ElemType a[], int length, int index) {
     LinkList L = rearInsertCreate(a, length);
-    linklistBubbleSort(L);
+    if (index == 0)
+        linklistBubbleSort1(L);
+    else
+        linklistBubbleSort2(L, length);
     outPut(L);
 }
 
 int main() {
     ElemType arr[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length = sizeof(arr) / sizeof(int);
+    int length = sizeof(arr) / sizeof(arr[0]);
 
-    test(arr, length);
+    test(arr, length, 0);
+    test(arr, length, 1);
 
     return 0;
 }

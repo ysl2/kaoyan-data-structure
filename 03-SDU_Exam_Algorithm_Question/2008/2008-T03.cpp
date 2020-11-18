@@ -97,7 +97,7 @@ void visit(int v) {
 void BFS(AdjacentGraph G, int v0) {
     queue<ElemType> q;
     visit(v0);
-    visited[v0] = true;
+    visited[v0] = 1;
     q.push(v0);
     while (!q.empty()) {
         int v = q.front();
@@ -119,6 +119,7 @@ void BFSTraverse(AdjacentGraph G) {
         if (!visited[i])
             BFS(G, i);
     }
+    delete[] visited;
 }
 
 void test(ElemType *vertex, int vexnum, int *edge) {
