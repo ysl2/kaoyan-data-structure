@@ -41,7 +41,7 @@ void test(int ticket[], int ticketNumber, int peopleNumber) {
 }
 
 int main() {
-    int ticket[] = {0, 0, 0, 1, 1, 1, 2, 2, 2, 2};
+    int ticket[] = {0, 0, 0, 1, 1, 1, 1, 2, 2, 2};
     int ticketNumber = sizeof(ticket) / sizeof(ticket[0]);
 
     int peopleNumber = 3;
@@ -52,4 +52,4 @@ int main() {
 }
 
 // 输出结果：
-// 2 1 0
+// 1 2 0
