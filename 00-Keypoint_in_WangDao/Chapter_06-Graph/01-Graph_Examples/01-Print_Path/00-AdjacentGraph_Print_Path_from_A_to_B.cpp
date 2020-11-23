@@ -1,7 +1,7 @@
-
-// 2020-10-16
+// 2020-10-17
 #include <iostream>
 #include <string.h>
+#include <vector>
 using namespace std;
 
 typedef int ElemType;
@@ -64,11 +64,15 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
 }
 
 // 这里的v是数组下标，而不是顶点
+// 这里为了代码简洁，没有采用结点传递方式，而是采用了值传递方式。值传递方式的弊端在于执行效率低。
+// 实际上，采用结点传递方式只需要改一下返回值即可。
 int FirstNeigbor(AdjacentGraph G, int v) {
     return G->vertex[v].first != NULL ? G->vertex[v].first->adjvex : -1;
 }
 
 // 这里的v是数组下标，而不是顶点
+// 这里为了代码简洁，没有采用结点传递方式，而是采用了值传递方式。值传递方式的弊端在于执行效率低。
+// 实际上，采用结点传递方式只需要改一下返回值即可。
 int NextNeighbor(AdjacentGraph G, int v, int w) {
     ArcNode *temp = G->vertex[v].first;
     for (; temp != NULL && temp->adjvex != w; temp = temp->next)
@@ -77,66 +81,48 @@ int NextNeighbor(AdjacentGraph G, int v, int w) {
 }
 
 int *visited;
+vector<int> v;  // 这里用vector模拟栈。因为如果直接用栈，就不能遍历元素。因此选择vector
 
-bool DFS(AdjacentGraph G, int a, int b) {
-    // 下面两行相当于visit
-    if (a == b)
-        return true;
-    visited[a] = 1;
-    for (int w = FirstNeigbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
-        if (!visited[w] && DFS(G, w, b))
-            return true;
-    }
-    return false;
+void outputPath() {
+    for (int i = 0; i < v.size(); i++)
+        cout << v[i] << " ";
+    cout << endl;
 }
 
-bool DFSTraverse(AdjacentGraph G, int A, int B) {
-    int a = A - 1, b = B - 1;  // 将顶点转化成下标
+void DFS(AdjacentGraph G, int a, int b) {
+    // 下面这两句相当于visit
+    visited[a] = 1;
+    v.push_back(G->vertex[a].data);
+    // 这里G->vertex[a].data的原因是需要输出顶点名称而不是顶点编号。
+    // 而顶点名称和顶点编号的关系是：它们的数组下标相同，
+    // 因此通过相同的数组下标可以构建数组编号和数组名称之间的联系
+    if (a == b)
+        outputPath();
+    for (ArcNode *temp = G->vertex[a].first; temp != NULL; temp = temp->next) {
+        if (!visited[temp->adjvex])
+            DFS(G, temp->adjvex, b);
+    }
+    visited[a] = 0;
+    v.pop_back();
+    // 恢复顶点，使顶点重新可用。
+    // 通过上面这两条语句，可以输出所有从a到b的简单路径。如果不加这两条语句，将只能输出一条路径。
+}
+
+// 输出所有长度为k的简单路径
+void DFSTraverse(AdjacentGraph G, int A, int B) {
+    int a = A - 1, b = B - 1;
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(visited[0]) * G->vexnum);
-
-    return DFS(G, a, b);
+    DFS(G, a, b);
 }
-
-/*
-    // 或者采用全局变量的方式
-
-    int *visited;
-    bool flag = false;
-
-    void DFS(AdjacentGraph G, int a, int b) {
-        // 下面这两个if相当于visit
-        if (flag == true)
-            return;
-        if (a == b) {
-            flag = true;
-            return;
-        }
-        visited[a] = 1;
-        for (ArcNode *temp = G->vertex[a].first; temp != NULL; temp = temp->next) {
-            if (!visited[temp->adjvex])
-                DFS(G, temp->adjvex, b);
-        }
-    }
-
-    bool DFSTraverse(AdjacentGraph G, int A, int B) {
-        int a = A - 1, b = B - 1;
-        visited = new int[G->vexnum];
-        memset(visited, 0, sizeof(int) * G->vexnum);
-        flag = false;
-
-        DFS(G, a, b);
-        return flag;
-    }
-*/
 
 void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
+    outputEdge(G);
 
-    if (DFSTraverse(G, A, B) == true)
-        cout << "true" << endl;
-    else
-        cout << "false" << endl;
+    cout << endl;
+
+    DFSTraverse(G, A, B);
 }
 
 int main() {
@@ -144,17 +130,22 @@ int main() {
     int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
-        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 1,
         1, 0, 0, 1, 0,
-        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 1,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge, 1, 3);
     test(vertex, vexnum, edge, 1, 5);
     return 0;
 }
 
 // 输出结果：
-// true
-// false
+// 1|2 3
+// 2|3 5
+// 3|1 4
+// 4|5
+// 5|2 3
 
+// 1 2 3 4 5
+// 1 2 5
+// 1 3 4 5

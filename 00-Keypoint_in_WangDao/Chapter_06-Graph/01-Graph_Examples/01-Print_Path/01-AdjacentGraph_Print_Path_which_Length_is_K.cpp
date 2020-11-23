@@ -89,18 +89,18 @@ void outputPath() {
     cout << endl;
 }
 
-void DFS(AdjacentGraph G, int a, int b) {
+void DFS(AdjacentGraph G, int a, int k) {
     // 下面这两句相当于visit
     visited[a] = 1;
     v.push_back(G->vertex[a].data);
     // 这里G->vertex[a].data的原因是需要输出顶点名称而不是顶点编号。
     // 而顶点名称和顶点编号的关系是：它们的数组下标相同，
     // 因此通过相同的数组下标可以构建数组编号和数组名称之间的联系
-    if (a == b)
+    if (v.size() == k)
         outputPath();
     for (ArcNode *temp = G->vertex[a].first; temp != NULL; temp = temp->next) {
         if (!visited[temp->adjvex])
-            DFS(G, temp->adjvex, b);
+            DFS(G, temp->adjvex, k);
     }
     visited[a] = 0;
     v.pop_back();
@@ -108,25 +108,27 @@ void DFS(AdjacentGraph G, int a, int b) {
     // 通过上面这两条语句，可以输出所有从a到b的简单路径。如果不加这两条语句，将只能输出一条路径。
 }
 
-void DFSTraverse(AdjacentGraph G, int A, int B) {
-    int a = A - 1, b = B - 1;
+void DFSTraverse(AdjacentGraph G, int k) {
     visited = new int[G->vexnum];
-    memset(visited, 0, sizeof(int) * G->vexnum);
-    DFS(G, a, b);
+    memset(visited, 0, sizeof(visited[0]) * G->vexnum);
+    for (int i = 0; i < G->vexnum; i++) {
+        if (!visited[i])
+            DFS(G, i, k);
+    }
 }
 
-void test(ElemType *vertex, int vexnum, int *edge, int A, int B) {
+void test(ElemType *vertex, int vexnum, int *edge, int k) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
     outputEdge(G);
 
     cout << endl;
 
-    DFSTraverse(G, A, B);
+    DFSTraverse(G, k);
 }
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
         0, 0, 1, 0, 1,
@@ -134,7 +136,7 @@ int main() {
         0, 0, 0, 0, 1,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge, 1, 5);
+    test(vertex, vexnum, edge, 3);
     return 0;
 }
 
@@ -145,6 +147,16 @@ int main() {
 // 4|5
 // 5|2 3
 
-// 1 2 3 4 5
+// 1 2 3
 // 1 2 5
-// 1 3 4 5
+// 1 3 4
+// 2 3 1
+// 2 3 4
+// 2 5 3
+// 3 1 2
+// 3 4 5
+// 4 5 2
+// 4 5 3
+// 5 2 3
+// 5 3 1
+// 5 3 4
