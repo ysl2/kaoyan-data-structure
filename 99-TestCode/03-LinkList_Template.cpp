@@ -40,7 +40,7 @@ void test(ElemType a[], int length) {
 
 int main() {
     ElemType arr[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length = sizeof(arr) / sizeof(int);
+    int length = sizeof(arr) / sizeof(arr[0]);
 
     test(arr, length);
 

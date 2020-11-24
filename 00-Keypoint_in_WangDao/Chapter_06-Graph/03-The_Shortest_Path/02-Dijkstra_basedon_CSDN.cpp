@@ -57,30 +57,6 @@ MatrixGraph createMatrix(ElemType *vertex, int vexnum, int *edge) {
     return G;
 }
 
-// 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
-int FirstNeighbor(MatrixGraph G, int v) {
-    int i, flag = -1;
-    for (i = 0; i < G->vexnum; i++) {
-        if (*(*(G->edge + v) + i) != 0) {
-            flag = 1;
-            break;
-        }
-    }
-    return (flag == -1) ? flag : i;
-}
-
-// 返回的是二维数组的下标值。如果需要返回顶点，需要 + 1
-int NextNeighbor(MatrixGraph G, int v, int w) {
-    int i, flag = -1;
-    for (i = w + 1; i < G->vexnum; i++) {
-        if (*(*(G->edge + v) + i) != 0) {
-            flag = 1;
-            break;
-        }
-    }
-    return (flag == -1) ? flag : i;
-}
-
 void printArray(int *a, int length) {
     for (int i = 0; i < length; i++)
         cout << a[i] << " ";
