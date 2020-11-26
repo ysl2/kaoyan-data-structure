@@ -78,6 +78,17 @@ int NextNeighbor(MatrixGraph G, int v, int w) {
     return (flag == -1) ? flag : i;
 }
 
+int LastNeighbor(MatrixGraph G, int v, int w) {
+    int i, flag = -1;
+    for (i = G->vexnum - 1; i >= w + 1; i--) {
+        if (*(*(G->edge + v) + i) != 0) {
+            flag = 1;
+            break;
+        }
+    }
+    return (flag == -1) ? flag : i;
+}
+
 void test(ElemType *vertex, int vexnum, int *edge) {
     MatrixGraph G = createMatrix(vertex, vexnum, edge);
     outputEdge(G);
