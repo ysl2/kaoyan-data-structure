@@ -11,9 +11,9 @@ using namespace std;
 // 但是无论是否是真实的二维还是模拟的二维，遍历方式都是按照一维数组的方式来的，即首地址 + 偏移量
 typedef int ElemType;
 typedef struct {
-    int number;  // 顶点的编号，这一项用户不能自己定义，是固定的从1开始的数字
+    int number;     // 顶点的编号，这一项用户不能自己定义，是固定的从1开始的数字
     ElemType data;  // 顶点名称。这一项是从用户输入的vertex数组中写入的，并不要求非要int型，也可以是A，B，C这种
-} VertexType;  // 上面这两项，在遍历的时候不会打印。但是真实存在，用于对结点信息进行补充描述
+} VertexType;       // 上面这两项，在遍历的时候不会打印。但是真实存在，用于对结点信息进行补充描述
 
 typedef struct {
     VertexType *vertex;
@@ -40,7 +40,6 @@ typedef struct {
     VexNode *vertex;
     int arcnum, vexnum;
 } Adjacent, *AdjacentGraph;
-
 
 void outputEdge(MatrixGraph G) {
     for (int i = 0; i < G->vexnum; i++) {
@@ -123,12 +122,12 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
 }
 
 // 转换：将邻接表转换为邻接矩阵
-MatrixGraph converseAdjacentToMatrix(AdjacentGraph G1) {
+MatrixGraph convertAdjacentToMatrix(AdjacentGraph G1) {
     MatrixGraph G2 = new Matrix;
     initMatrixGraph(G2, G1->vexnum);
     for (int i = 0; i < G1->vexnum; i++) {  // 初始化顶点表
         G2->vertex[i].number = i;
-        G2->vertex[i].data = G1->vertex->data;
+        G2->vertex[i].data = G1->vertex[i].data;
     }
     for (int i = 0; i < G1->vexnum; i++) {  // 初始化边表
         for (ArcNode *temp = G1->vertex[i].first; temp != NULL; temp = temp->next)
@@ -137,14 +136,40 @@ MatrixGraph converseAdjacentToMatrix(AdjacentGraph G1) {
     return G2;
 }
 
+// 转换：将邻接矩阵转换为邻接表
+AdjacentGraph convertMatrixToAdjacent(MatrixGraph G1) {
+    AdjacentGraph G2 = new Adjacent;
+    initAdjacentGraph(G2, G1->vexnum);
+    for (int i = 0; i < G1->vexnum; i++)
+        G2->vertex[i].data = G1->vertex[i].data;
+    for (int i = 0; i < G1->vexnum; i++) {
+        for (int j = G1->vexnum - 1; j >= 0; j--) {
+            if (G1->edge[i][j] != 0) {
+                ArcNode *p = (ArcNode *)malloc(sizeof(ArcNode));
+                p->adjvex = j;
+                p->info = G1->edge[i][j];
+                p->next = G2->vertex[i].first;
+                G2->vertex[i].first = p;
+            }
+        }
+    }
+    return G2;
+}
+
 void test(ElemType *vertex, int vexnum, int *edge) {
     AdjacentGraph G1 = createAdjacent(vertex, vexnum, edge);
-    MatrixGraph G2 = converseAdjacentToMatrix(G1);
+    MatrixGraph G2 = convertAdjacentToMatrix(G1);
     outputEdge(G2);
+
+    cout << endl;
+
+    MatrixGraph G3 = createMatrix(vertex, vexnum, edge);
+    AdjacentGraph G4 = convertMatrixToAdjacent(G3);
+    outputEdge(G4);
 }
 
 int main() {
-    ElemType vertex[] = {1, 3, 5, 7, 9};
+    ElemType vertex[] = {1, 2, 3, 4, 5};
     int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
@@ -164,66 +189,8 @@ int main() {
 // 0 0 0 0 1
 // 0 1 1 0 0
 
-
-// //--------------------------------------------------------------------------------------------------------------------------
-// typedef int VexType;
-// typedef int EdgeType;
-
-// typedef struct {
-//     VexType *vertex;
-//     EdgeType **edge;
-//     int vexnum, arcnum;
-// } MatrixGraph;
-
-// //邻接表的结构体定义：
-// typedef struct ArcNode {
-//     int index;  // 这里指向的是竖向的下标，所以是int类型
-//     struct ArcNode *next;
-// } ArcNode;
-// typedef struct VexNode {
-//     VexType data;  // 这里存的是竖向的结点信息，而不是下标值（与上面区分开）
-//     ArcNode *first;
-// } VexNode;
-// typedef struct {
-//     VexNode *vertex;  // 这里加了*号，因为将来会是一个数组（动态分配）
-//     int arcnum, vexnum;
-// } * AdjacentGraph;
-// // 如果这里没有加*号，那么下面的应该是G.vexnum
-// // 如果这里加了*号，那么下面的应该是G->vexnum
-
-// // 2020-09-26 将图的邻接表表示成转换成邻接矩阵表示的算法
-// void convert(AdjacentGraph G1, MatrixGraph &G2) {
-//     for (int i = 0; i < G1->vexnum; i++)
-//         for (ArcNode *temp = (G1->vertex[i]).first; temp != 0; temp = temp->next)
-//             G2.edge[i][temp->index] = 1;
-// }
-
-// // 下面注释中，数组动态分配存在问题，不要看了
-
-// // //转换
-// // int **converse(AdjacentGraph &G) {
-// // 	// 采用动态方式申请数组a。静态申请也可以。
-// // 	// 2020-09-04：动态申请有问题。只会开辟空间，但是memset函数未执行
-// // 	// 因此改用静态申请。下面这句是动态申请，划掉。
-// //     //int a[][] = createMatrix(G->vexnum, G->vexnum);
-// // 	int a[G->vexnum][G->vexnum];
-// //     memset(a, 0, sizeof(int) * G->vexnum * G->vexnum);  // 把整个二维数组置0
-// //     for (int i = 0; i < G.vexnum; i++) {
-// //         for (ArcNode *w = (G->vertex[i]).first; w != NULL; w = w->next) {
-// //             a[i][w->index] = 1;
-// //         }
-// //     }
-// //     return a;
-// // }
-
-// // int **createMatrix(int m, int n) {
-// // // 动态申请数组并置初值为0
-// //     int **a = (int **) malloc(sizeof(int *) * m);  // 申请列空间
-// //     for (int i = 0; i < m; i++) {
-// //         *(a + i) = (int *) malloc(sizeof(int) * n);  // 申请行空间
-// //         memset(a + i, 0, sizeof(int) * n);  // 把整行置0
-// // 		// 经过测试发现，在converse函数中仅申请了空间，但未执行memset
-// // 		// 因此此方法存在问题，可能是由于指针问题导致的。
-// //     }
-// //     return a;
-// // }
+// 1|2 3
+// 2|3 5
+// 3|1 4
+// 4|5
+// 5|2 3

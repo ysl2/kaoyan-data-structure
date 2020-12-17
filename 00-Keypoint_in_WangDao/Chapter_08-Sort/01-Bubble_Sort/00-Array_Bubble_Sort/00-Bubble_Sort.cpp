@@ -75,11 +75,11 @@ void test(int a[], int length, int index) {
 
 int main() {
     ElemType A1[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length1 = sizeof(A1) / sizeof(int);
+    int length1 = sizeof(A1) / sizeof(A1[0]);
     ElemType A2[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length2 = sizeof(A2) / sizeof(int);
+    int length2 = sizeof(A2) / sizeof(A2[0]);
     ElemType A3[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length3 = sizeof(A3) / sizeof(int);
+    int length3 = sizeof(A3) / sizeof(A3[0]);
 
     test(A1, length1, 1);
     test(A2, length2, 2);
