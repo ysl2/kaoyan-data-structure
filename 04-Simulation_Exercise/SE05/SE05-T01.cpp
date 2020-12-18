@@ -1,9 +1,8 @@
-#include <iostream>
 #include <string.h>
+#include <iostream>
 using namespace std;
 
 typedef int ElemType;
-
 typedef struct LinkNode {
     ElemType data;
     struct LinkNode *next;
@@ -35,39 +34,25 @@ LinkList rearInsertCreate(ElemType arr[], int length) {
 }
 
 // 集合补集运算算法：A = A - B
-// 采用计数排序的思路
+// 本题是求补集运算，参考山大算法真题2008-T01
+//! 但是山大那个题没有说是有序的，本题已经告诉了元素是递增有序
 void complementarySet(LinkList &A, LinkList B) {
-    ElemType max = B->next->data;
-    ElemType min = B->next->data;
-    LinkNode *p = B->next;
-    while (p != NULL) {
-        if (p->data > max)
-            max = p->data;
-        if (p->data < min)
-            min = p->data;
-        p = p->next;
-    }
-    int length = max - min + 1;
-    ElemType *set = new ElemType[length];
-    memset(set, 0, sizeof(set[0]) * length);
-    p = B->next;
-    while (p != NULL) {
-        set[p->data - min] = 1;
-        p = p->next;
-    }
-    p = A->next;
+    LinkNode *p = A->next;
+    LinkNode *q = B->next;
     LinkNode *pre = A;
-    while (p != NULL) {
-        if (set[p->data - min] == 1) {
-            pre->next = p->next;
-            delete p;
-            p = pre->next;
-        } else {
-            pre = pre->next;
+    while (p != NULL && q != NULL) {
+        if (p->data < q->data) {
+            pre = p;
             p = p->next;
+        } else if (p->data > q->data) {
+            q = q->next;
+        } else {
+            pre->next = p->next;
+            LinkNode *temp = p;
+            p = p->next;
+            free(temp);
         }
     }
-    delete[] set;
 }
 
 void test(ElemType arr1[], int length1, ElemType arr2[], int length2) {
@@ -78,7 +63,7 @@ void test(ElemType arr1[], int length1, ElemType arr2[], int length2) {
 }
 
 int main() {
-    ElemType arr1[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
+    ElemType arr1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     int length1 = sizeof(arr1) / sizeof(arr1[0]);
     ElemType arr2[] = {2, 3, 4};
     int length2 = sizeof(arr2) / sizeof(arr2[0]);
@@ -89,4 +74,4 @@ int main() {
 }
 
 // 输出结果：
-// 0 6 8 1 5 7 9
+// 0 1 5 6 7 8 9
