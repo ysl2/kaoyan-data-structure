@@ -97,7 +97,7 @@ void BiTreeToExpression(BiTree T) {
 }
 
 // 王道知识点中，树的例子部分，有直接将表达式输出的例子
-// 下面这个算法有问题
+// 下面这个算法是预测题的算法（我自己改了一下），有问题
 float postEval(BiTree T) {
     if (T == NULL)
         return 0;
