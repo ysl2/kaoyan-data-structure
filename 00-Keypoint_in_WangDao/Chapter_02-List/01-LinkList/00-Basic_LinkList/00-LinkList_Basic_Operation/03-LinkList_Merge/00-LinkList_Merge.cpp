@@ -32,7 +32,8 @@ void rearInsertCreate(LinkList &L, ElemType arr[], int length) {
     p->next = NULL;
 }
 
-//合并两个递增有序的单链表，使其合并后依然保持有序
+// 合并两个递增有序的单链表，使其合并后依然保持有序
+// 本题也是求A = A ∪ B的算法
 // 山大书上采用定义了一个C链表返回的方式，实际上这并不是必须要这么做，也可以直接用A返回：
 void merge(LinkList &A, LinkList &B) {
     LinkNode *p = A->next;
@@ -73,9 +74,9 @@ void merge(LinkList &A, LinkList &B) {
 
 void test() {
     ElemType arr1[] = {-7, 3, 12, 23};
-    int length1 = sizeof(arr1) / sizeof(int);
+    int length1 = sizeof(arr1) / sizeof(arr1[0]);
     ElemType arr2[] = {-2, 4, 9, 15};
-    int length2 = sizeof(arr2) / sizeof(int);
+    int length2 = sizeof(arr2) / sizeof(arr2[0]);
     LinkList L1 = NULL;
     LinkList L2 = NULL;
     rearInsertCreate(L1, arr1, length1);
