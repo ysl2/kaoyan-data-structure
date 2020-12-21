@@ -116,7 +116,6 @@ int main() {
     // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
-    // TODO
     ElemType x = 'D';
     test(preOrder1, inOrder1, length1, x);
 
