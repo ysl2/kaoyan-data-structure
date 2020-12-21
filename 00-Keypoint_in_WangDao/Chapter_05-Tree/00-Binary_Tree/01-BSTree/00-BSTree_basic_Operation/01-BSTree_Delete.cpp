@@ -62,29 +62,69 @@ void PreOrder(BSTree T) {
     PreOrder(T->rchild);
 }
 
-// 非递归
-BSTNode *BSTreeSearch(BSTree T, int key) {
-    while (T != NULL) {
-        if (T->key == key)
-            break;
-        if (T->key < key)
-            T = T->rchild;
-        else
-            T = T->lchild;
-    }
-    return T;
-}
-
-// 递归
-BSTNode *BSTreeSearchRecurrence(BSTree T, int key) {
+bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
     if (T == NULL)
-        return NULL;
-    if (T->key == key)
-        return T;
-    return (T->key < key) ? BSTreeSearchRecurrence(T->rchild, key) : BSTreeSearchRecurrence(T->lchild, key);
+        return false;
+    if (T->key == value) {
+        result = T;
+        return true;
+    }
+    if (getNodeByValue(T->lchild, value, result) == true)
+        return true;
+    return getNodeByValue(T->rchild, value, result);
+}
+/*
+    基本思想:考虑包含被删除元素的节点p的三种情况:
+    （1）p是树叶:丢弃树叶节点；
+    （2）p只有一个非空子树:如果p没有父节点（即p是根节点），则将p丢弃，p的唯一子树的根节点成为新的搜索树的根节点。如果p有父节点pp，则修改pp的指针，使得pp指向p的唯一孩子，然后删除节点p
+    （3）p有两个非空子树:只需将该元素替换为它的左子树中的最大元素或右子树中的最小元素。可以按下述方法来查找到左（右）子树中的最大（小）元素:首先移动到子树的根，然后沿着各节点的右（左）孩子指针移动，直到右（左）孩子指针为0为止。
+*/
+
+void BSTreeDelete(BSTree &T, ElemType k, ElemType &e) {
+    BSTNode *p = T;
+    BSTNode *pp = 0;
+    while (p && p->key != k) {
+        pp = p;
+        if (k < p->key)
+            p = p->lchild;
+        else
+            p = p->rchild;
+    }
+    if (!p)
+        return;  // 没有关键值为k的元素
+    e = p->key;  // 保存欲删除的元素
+    // p有两个孩子
+    if (p->lchild && p->rchild) {  // 转换成有0或1个孩子的情形
+        // 在p的左子树中寻找最大元素
+        BSTNode *s = p->lchild;
+        BSTNode *ps = p;
+        while (s->rchild) {
+            ps = s;
+            s = s->rchild;
+        }
+        p->key = s->key;
+        p = s;
+        pp = ps;
+    }
+    // p最多有一个孩子
+    BSTNode *c;  // 在c中保存孩子指针
+    if (p->lchild)
+        c = p->lchild;
+    else
+        c = p->rchild;
+    // 删除p
+    if (p == T)
+        T = c;
+    else {  // p是pp的左孩子还是pp的右孩子？
+        if (p == pp->lchild)
+            pp->lchild = c;
+        else
+            pp->rchild = c;
+    }
+    free(p);
 }
 
-void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType k, int index) {
+void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType k) {
     BSTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
@@ -98,18 +138,20 @@ void test(ElemType *preOrder, ElemType *inOrder, int length, ElemType k, int ind
 
     cout << endl;
     // 在此处写要测试的函数...
-    BSTNode *result = NULL;
-    if (index == 0)
-        result = BSTreeSearch(T, k);
-    else if (index == 1)
-        result = BSTreeSearchRecurrence(T, k);
-    if (result == NULL)
-        cout << "NULL" << endl;
-    else
-        cout << result->key << endl;
-
+    ElemType result;
+    BSTreeDelete(T, k, result);
+    cout << result << endl;
     cout << endl;
-    cout << "--------------------------" << endl;
+
+    PreOrder(T);
+    cout << endl;
+
+    InOrder(T);
+    cout << endl;
+
+    PostOrder(T);
+    cout << endl;
+    cout << endl;
 }
 
 int main() {
@@ -123,12 +165,8 @@ int main() {
     // ElemType inOrder2[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
 
-    ElemType k1 = 66;
-    test(preOrder1, inOrder1, length1, k1, 0);
-    test(preOrder1, inOrder1, length1, k1, 1);
-    ElemType k2 = 19;
-    test(preOrder1, inOrder1, length1, k2, 0);
-    test(preOrder1, inOrder1, length1, k2, 1);
+    ElemType k = 20;
+    test(preOrder1, inOrder1, length1, k);
 
     // test(preOrder2, inOrder2, length2);
 
@@ -140,27 +178,8 @@ int main() {
 // 20 28 40 54 66 79
 // 28 40 20 79 66 54
 
-// 66
+// 20
 
-// --------------------------
-// 54 20 40 28 66 79
-// 20 28 40 54 66 79
-// 28 40 20 79 66 54
-
-// 66
-
-// --------------------------
-// 54 20 40 28 66 79
-// 20 28 40 54 66 79
-// 28 40 20 79 66 54
-
-// NULL
-
-// --------------------------
-// 54 20 40 28 66 79
-// 20 28 40 54 66 79
-// 28 40 20 79 66 54
-
-// NULL
-
-// --------------------------
+// 54 40 28 66 79
+// 28 40 54 66 79
+// 28 40 79 66 54
