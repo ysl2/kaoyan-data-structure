@@ -1,6 +1,6 @@
 #include <iostream>
-#include <stack>
 #include <queue>
+#include <stack>
 using namespace std;
 
 typedef char ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
@@ -28,9 +28,9 @@ BiTNode *construct(ElemType *preOrder, ElemType *midOrder, int len) {
     }
     if (*rootMidOrder != rootKey)  //在中根序列未找到根节点,输入错误
         return NULL;
-    if (leftLen > 0) //构建左子树
+    if (leftLen > 0)  //构建左子树
         T->lchild = construct(preOrder + 1, midOrder, leftLen);
-    if (len - leftLen - 1 > 0) //构建右子树
+    if (len - leftLen - 1 > 0)  //构建右子树
         T->rchild = construct(preOrder + leftLen + 1, rootMidOrder + 1, len - leftLen - 1);
     return T;
 }
@@ -75,27 +75,39 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
     return getNodeByValue(T->rchild, value, result);
 }
 
-// 自上至下，自左至右的层次遍历算法
-void reverseLevelOrder(BiTree T) {
+// Z字形层序遍历：根节点所在的层为第1层。奇数层从左向右遍历，偶数层从右向左遍历
+// 需要用栈，而不是队列。如果用队列不能达到题目要求。
+void ZLevelOrder(BiTree T) {
     if (T == NULL)
         return;
-    stack<BiTNode *> s;
-    queue<BiTNode *> q;
-    q.push(T);
-    BiTNode *p = T;
-    while (!q.empty()) {
-        p = q.front();
-        q.pop();
-        s.push(p);  // 与正序层次遍历的区别在这里。正序在这一步会直接输出，而反序的会压栈
-        if (p->lchild != NULL)
-            q.push(p->lchild);
-        if (p->rchild != NULL)
-            q.push(p->rchild);
-    }
-    while (!s.empty()) {
-        p = s.top();
-        s.pop();
-        visit(p);  // 反序真正输出是在这一步
+    int layer = 1;
+    stack<BiTNode *> s1;  // 存奇数结点
+    s1.push(T);
+    stack<BiTNode *> s2;
+    while (!s1.empty() || !s2.empty()) {
+        if (layer % 2 != 0) {  // 奇数层
+            while (!s1.empty()) {
+                BiTNode *p = s1.top();
+                s1.pop();
+                if (p != NULL) {
+                    cout << p->data << " ";
+                    s2.push(p->lchild);
+                    s2.push(p->rchild);
+                }
+            }
+        } else {
+            while (!s2.empty()) {
+                BiTNode *p = s2.top();
+                s2.pop();
+                if (p != NULL) {
+                    cout << p->data << " ";
+                    // 注意下面这两句话的顺序
+                    s1.push(p->rchild);
+                    s1.push(p->lchild);
+                }
+            }
+        }
+        layer++;  //! 注意：最关键的一句，千万别漏
     }
 }
 
@@ -113,7 +125,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
 
     // 在此处写要测试的函数...
     cout << endl;
-    reverseLevelOrder(T);
+    ZLevelOrder(T);
 
     cout << endl;
     cout << endl;
@@ -142,4 +154,4 @@ int main() {
 // F E B G C H D
 // F E G H D C B
 
-// H D G F C E B
+// B C E F G D H

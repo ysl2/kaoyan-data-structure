@@ -4,11 +4,8 @@ using namespace std;
 typedef int ElemType;
 
 void outPut(ElemType *A, int length) {
-    static int i = 0;
-    cout << i++ << ":  ";
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
         cout << A[i] << " ";
-    }
     cout << endl;
 }
 
@@ -30,11 +27,11 @@ void directlyInsertSortWITHOUTGuard(int a[], int length) {
 
 int main() {
     ElemType A[] = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length = sizeof(A) / sizeof(int);
+    int length = sizeof(A) / sizeof(A[0]);
     directlyInsertSortWITHOUTGuard(A, length);
     outPut(A, length);
     return 0;
 }
 
 // 输出结果：
-// 0:  0 1 2 3 4 5 6 7 8 9
+// 0 1 2 3 4 5 6 7 8 9
