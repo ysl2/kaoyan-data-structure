@@ -4,11 +4,8 @@ using namespace std;
 typedef int ElemType;
 
 void outPut(ElemType *A, int length) {
-    static int i = 1;
-    cout << i++ << ":  ";
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
         cout << A[i] << " ";
-    }
     cout << endl;
 }
 
@@ -51,6 +48,7 @@ bool is_min_heap(int tree[], int n) {  // 只能判断是不是小顶堆
 // 右子节点c2：2 * i + 1
 // 当2 * i <= n时，左孩子存在。当2 * i + 1 <= n时，右孩子存在
 // 堆默认已经是完全二叉树了，因此不用再针对是否是完全二叉树进行判断
+// 因为对于顺序存储的树，只要数据部分没有空的位置，就说明是完全二叉树
 
 // isHeap参考：https://blog.csdn.net/Daniel_2046/article/details/80963737
 void isHeap(int tree[], int n) {           // 大顶堆、小顶堆、不是堆，都能判断
@@ -71,6 +69,8 @@ void isHeap(int tree[], int n) {           // 大顶堆、小顶堆、不是堆�
     else if (flag == 0)
         printf("Not Heap\n");
 }
+
+
 
 // 下面这三个函数是堆排序的代码：
 
@@ -140,9 +140,9 @@ int main() {
     // int tree3[] = {-1, 10, 28, 15, 12, 34, 9, 8, 56};
     int tree3[] = {-1, 0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
 
-    int length1 = sizeof(tree1) / sizeof(int);
-    int length2 = sizeof(tree2) / sizeof(int);
-    int length3 = sizeof(tree3) / sizeof(int);
+    int length1 = sizeof(tree1) / sizeof(tree1[0]);
+    int length2 = sizeof(tree2) / sizeof(tree2[0]);
+    int length3 = sizeof(tree3) / sizeof(tree3[0]);
 
     test(tree1, length1);
     test(tree2, length2);

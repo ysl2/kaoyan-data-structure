@@ -111,7 +111,7 @@ void buildMinHeap(struct MinHeap *minHeap) {
 // 创建一个容量为size的最小堆，并插入data[]中的元素到最小堆
 struct MinHeap *createAndBuildMinHeap(char data[], int freq[], int size) {
     struct MinHeap *minHeap = newMinHeap(size);
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; ++i)
         minHeap->array[i] = newNode(data[i], freq[i]);
     minHeap->size = size;
     buildMinHeap(minHeap);

@@ -1,9 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <queue>
-using std::cout;
-using std::endl;
-using std::queue;
+#include <stack>
+using namespace std;
 
 typedef int ElemType;  // 把char强制转换成int。这样我可以使用上面写的测试用例，不然我还得重新写
 typedef struct BiTNode {
@@ -70,7 +69,12 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
+// 本题是判断一个链式存储的树是否是最小堆
+// 需要同时满足：
+// ①是完全二叉树
+// ②是最小树（每个结点的值都小于或等于其子结点的值）
 
+// ①判断是否是完全二叉树
 bool isCompleteTree(BiTree T) {
     if (T == NULL)
         return true;
@@ -95,6 +99,37 @@ bool isCompleteTree(BiTree T) {
     return true;
 }
 
+// ②判断是否是最小树
+bool isMinTree (BiTree T) {
+    stack<BiTNode *> s;
+    BiTNode *p = T;
+    while (p != NULL || !s.empty()) {
+        if (p != NULL) {
+            s.push(p);
+            p = p->lchild;
+        } else {
+            p = s.top();
+            s.pop();
+            if (p->lchild != NULL && p->rchild != NULL) {
+                if (p->lchild->data < p->data || p->rchild->data < p->data)
+                    return false;
+            } else if (p->lchild != NULL) {
+                if (p->lchild->data < p->data)
+                    return false;
+            } else if (p->rchild != NULL) {
+                if (p->rchild->data < p->data)
+                    return false;
+            }
+            p = p->rchild;
+        }
+    }
+    return true;
+}
+
+bool isMinHeap(BiTree T) {
+    return isCompleteTree(T) && isMinTree(T);
+}
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
@@ -107,7 +142,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     PostOrder(T);
     cout << endl;
 
-    if (isCompleteTree(T))
+    if (isMinHeap(T))
         cout << "true" << endl;
     else
         cout << "false" << endl;
@@ -141,3 +176,4 @@ int main() {
 // 70 69 72 66 71 67 68
 // 70 72 69 71 68 67 66
 // true
+
