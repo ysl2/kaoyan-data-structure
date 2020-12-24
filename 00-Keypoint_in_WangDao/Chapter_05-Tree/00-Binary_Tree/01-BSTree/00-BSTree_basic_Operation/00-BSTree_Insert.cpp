@@ -73,12 +73,6 @@ bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
         return true;
     return getNodeByValue(T->rchild, value, result);
 }
-/*
-    基本思想:考虑包含被删除元素的节点p的三种情况:
-    （1）p是树叶:丢弃树叶节点；
-    （2）p只有一个非空子树:如果p没有父节点（即p是根节点），则将p丢弃，p的唯一子树的根节点成为新的搜索树的根节点。如果p有父节点pp，则修改pp的指针，使得pp指向p的唯一孩子，然后删除节点p
-    （3）p有两个非空子树:只需将该元素替换为它的左子树中的最大元素或右子树中的最小元素。可以按下述方法来查找到左（右）子树中的最大（小）元素:首先移动到子树的根，然后沿着各节点的右（左）孩子指针移动，直到右（左）孩子指针为0为止。
-*/
 
 bool BSTreeInsert(BSTree &T, ElemType key) {
     if (T == NULL) {

@@ -70,7 +70,6 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-
 bool isCompleteTree(BiTree T) {
     if (T == NULL)
         return true;

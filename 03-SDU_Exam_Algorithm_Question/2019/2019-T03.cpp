@@ -64,7 +64,7 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
 // 这里的v是数组下标，而不是顶点
 // 这里为了代码简洁，没有采用结点传递方式，而是采用了值传递方式。值传递方式的弊端在于执行效率低。
 // 实际上，采用结点传递方式只需要改一下返回值即可。
-int FirstNeigbor(AdjacentGraph G, int v) {
+int FirstNeighbor(AdjacentGraph G, int v) {
     return G->vertex[v].first != NULL ? G->vertex[v].first->adjvex : -1;
 }
 

@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+#include <iterator>
 #include <vector>
 using namespace std;
 #define maxSize 30
@@ -74,7 +75,7 @@ void PreOrder(BiTree T) {
     PreOrder(T->rchild);
 }
 
-int getDepth(BiTree T) {
+int getDepth1(BiTree T) {
     if (T == NULL)
         return 0;
     // 由于C++提供的队列无法随机访问，因此需要自己定义一个以数组为基础的队列，以保证随机访问的特性
@@ -96,6 +97,28 @@ int getDepth(BiTree T) {
     return level;
 }
 
+// 下面这个是我自己写的，用vector来模拟队列
+int getDepth2(BiTree T) {
+    if (T == NULL)
+        return 0;
+    vector<pair<BiTNode *, int>> v;
+    v.push_back({T, 1});
+    int depth = 0;
+    while (!v.empty()) {
+        BiTNode *p = v.front().first;
+        int layer = v.front().second;
+        depth = (depth > layer) ? depth : layer;
+        // 下面这两行是删除vector中的第一个元素，相当于队列出栈
+        vector<pair<BiTNode *, int>>::iterator it = v.begin();
+        v.erase(it);
+        if (p->lchild != NULL)
+            v.push_back({p->lchild, layer + 1});
+        if (p->rchild != NULL)
+            v.push_back({p->rchild, layer + 1});
+    }
+    return depth;
+}
+
 void test(ElemType *preOrder, ElemType *inOrder, int length) {
     BiTree T = construct(preOrder, inOrder, length);
 
@@ -109,7 +132,10 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
     cout << endl;
 
     // 在此处写要测试的函数...
-    cout << endl << getDepth(T) << endl;
+    cout << endl;
+
+    cout << getDepth1(T) << endl;
+    cout << getDepth2(T) << endl;
 }
 
 int main() {
@@ -133,4 +159,4 @@ int main() {
 // F E G H D C B
 
 // 4
-
+// 4

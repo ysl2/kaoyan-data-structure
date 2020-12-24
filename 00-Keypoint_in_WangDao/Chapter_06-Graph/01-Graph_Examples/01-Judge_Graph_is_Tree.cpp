@@ -100,7 +100,7 @@ bool isTree(MatrixGraph G) {
     visited = new int[G->vexnum];
     memset(visited, 0, sizeof(int) * G->vexnum);
     DFS(G, 1);
-    return Vnum == G->vexnum && Enum / 2.0 == (G->vexnum - 1) * 1.0;
+    return (Vnum == G->vexnum) && (Enum / 2.0 == (G->vexnum - 1) * 1.0);
     // 返回true的条件：（图是树的条件）
     // 1.遍历一次统计的顶点数等于整个图的顶点数，即图是连通的
     // 2.遍历一次能得到n-1条边。（如果n个顶点的图是树，则其边数等于n-1）

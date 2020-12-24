@@ -68,6 +68,7 @@ void PreOrder(BiTree T) {
     PreOrder(T->lchild);
     PreOrder(T->rchild);
 }
+
 // https://leetcode-cn.com/problems/maximum-width-of-binary-tree/solution/ceng-xu-bian-li-dui-lie-cun-chu-mei-ge-jie-dian-de/
 // 计算整个树的最大宽度
 int getWidth(BiTree T) {
@@ -77,8 +78,8 @@ int getWidth(BiTree T) {
     int ans = 1;
     q.push({T, 1});
     while (!q.empty()) {
-        int qsize = q.size();
         ans = max((q.back().second - q.front().second + 1), ans);
+        int qsize = q.size();
         for (int i = 0; i < qsize; i++) {
             BiTNode *temp = q.front().first;
             int pos = q.front().second;
@@ -101,7 +102,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
 int main() {
     ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
     ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
-    int length1 = sizeof(preOrder1) / sizeof(ElemType);
+    int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
 
     test(preOrder1, inOrder1, length1);
 

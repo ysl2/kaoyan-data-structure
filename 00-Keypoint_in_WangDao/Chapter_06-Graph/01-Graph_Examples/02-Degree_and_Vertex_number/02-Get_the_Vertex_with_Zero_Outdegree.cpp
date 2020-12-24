@@ -1,4 +1,3 @@
-// 2020-11-13
 #include <iostream>
 using namespace std;
 
@@ -86,36 +85,33 @@ ArcNode *NextNeighborNode(AdjacentGraph G, ArcNode *w) {
     return w->next;  // 无论是不是NULL都无所谓
 }
 
-int getTheInDegree(AdjacentGraph G, int k) {
+int countAllVerticesWithZeroOutDegree(AdjacentGraph G) {
     int count = 0;
-    for (int i = 0; i < G->vexnum; i++) {
-        for (ArcNode *temp = G->vertex[i].first; temp != NULL; temp = temp->next) {
-            if (temp->adjvex == k)
-                count++;
-        }
+    for (int i = 0; i < G->vexnum; ++i) {
+        if (G->vertex[i].first == NULL)
+            count++;
     }
     return count;
 }
 
-void test(ElemType *vertex, int vexnum, int *edge, int K) {
-    int k = K - 1;
+void test(ElemType *vertex, int vexnum, int *edge) {
     AdjacentGraph G = createAdjacent(vertex, vexnum, edge);
     outputEdge(G);
     cout << endl;
-    cout << getTheInDegree(G, k) << endl;
+    cout << countAllVerticesWithZeroOutDegree(G) << endl;
 }
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
         0, 0, 1, 0, 1,
         1, 0, 0, 1, 0,
-        0, 0, 0, 0, 1,
+        0, 0, 0, 0, 0,
         0, 1, 1, 0, 0};
 
-    test(vertex, vexnum, edge, 1);
+    test(vertex, vexnum, edge);
     return 0;
 }
 
@@ -123,7 +119,8 @@ int main() {
 // 1|2 3
 // 2|3 5
 // 3|1 4
-// 4|5
+// 4|
 // 5|2 3
 
 // 1
+

@@ -84,7 +84,7 @@ void test(ElemType a[], int length, int value) {
 
 int main() {
     ElemType arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(arr) / sizeof(int);
+    int length = sizeof(arr) / sizeof(arr[0]);
 
     test(arr, length, 1);
     test(arr, length, 7);

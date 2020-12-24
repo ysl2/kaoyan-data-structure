@@ -76,17 +76,17 @@ bool getNodeByValue(BiTree T, ElemType value, BiTNode *&result) {
 }
 
 ElemType pre = -99999;  // 负无穷大
-int isBST(BiTree T) {  //基于中序遍历
+bool isBST(BiTree T) {  //基于中序遍历
     if (T == NULL)
-        return 1;
-    int left = isBST(T->lchild);
-    if (left == 0 || pre >= T->data)
-        return 0;
+        return true;
+    bool left = isBST(T->lchild);
+    if (pre >= T->data || left == false)
+        return false;
     pre = T->data;
     return isBST(T->rchild);
 }
 
-int isBSTEntry(BiTree T) {
+bool isBSTEntry(BiTree T) {
     pre = -99999;
     return isBST(T);
 }

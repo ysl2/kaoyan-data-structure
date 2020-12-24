@@ -99,17 +99,14 @@ void BFS(MatrixGraph G, int v0) {
     selected = new int[G->vexnum];
     minDist = new int[G->vexnum];
     parent = new int[G->vexnum];
-
     for (int i = 0; i < G->vexnum; i++) {
         selected[i] = 0;
         minDist[i] = INFINITY;
     }
-
     selected[v0] = 1;
     minDist[v0] = 0;
     parent[v0] = -1;
     q.push(v0);
-
     while (!q.empty()) {
         int v = q.front();
         q.pop();
@@ -135,7 +132,7 @@ void test(ElemType *vertex, int vexnum, int *edge, int V0) {
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5, 6, 7, 8};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 0, 0, 1, 0, 0, 0,
         1, 0, 0, 0, 0, 1, 0, 0,

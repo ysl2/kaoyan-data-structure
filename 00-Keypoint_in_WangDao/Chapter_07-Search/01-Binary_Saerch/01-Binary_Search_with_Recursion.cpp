@@ -26,7 +26,6 @@ int search(SqTable T, ElemType key, int low, int high) {
     return search(T, key, low, mid - 1);
 }
 
-
 void test(ElemType a[], int length, ElemType key) {
     SqTable T = getTable(a, length);
     cout << search(T, key, 0, (T.length - 1)) << endl;

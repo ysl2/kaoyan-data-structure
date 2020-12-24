@@ -64,7 +64,7 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
 }
 
 // 这里的v是数组下标，而不是顶点
-int FirstNeigbor(AdjacentGraph G, int v) {
+int FirstNeighbor(AdjacentGraph G, int v) {
     return G->vertex[v].first != NULL ? G->vertex[v].first->adjvex : -1;
 }
 
@@ -83,7 +83,7 @@ bool DFS(AdjacentGraph G, int a, int b) {
     if (a == b)
         return true;
     visited[a] = 1;
-    for (int w = FirstNeigbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
+    for (int w = FirstNeighbor(G, a); w >= 0; w = NextNeighbor(G, a, w)) {
         if (!visited[w] && DFS(G, w, b))
             return true;
     }

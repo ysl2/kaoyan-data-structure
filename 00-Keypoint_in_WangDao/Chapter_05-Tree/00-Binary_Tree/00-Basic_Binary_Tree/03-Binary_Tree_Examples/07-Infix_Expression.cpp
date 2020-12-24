@@ -93,11 +93,38 @@ void InOrder1(BiTree T, int depth) {
         cout << ')' << " ";
 }
 
+// 下面这个算法是预测题的算法，有问题
+float postEval(BiTNode *bt) {
+    float lv, rv, value = 0;
+    if (bt != NULL) {
+        if (bt->lchild == NULL && bt->rchild == NULL)
+            return bt->data;
+        else {
+            lv = postEval(bt->lchild);
+            rv = postEval(bt->rchild);
+            switch (bt->data) {
+                case '+':
+                    value = lv + rv;
+                    break;
+                case '-':
+                    value = lv - rv;
+                    break;
+                case '*':
+                    value = lv * rv;
+                    break;
+                case '/':
+                    value = lv / rv;
+            }
+        }
+    }
+    return value;
+}
+
 void BiTreeToExpression(BiTree T) {
     InOrder1(T, 1);
 }
 
-void test(ElemType *preOrder, ElemType *inOrder, int length) {
+void test(ElemType *preOrder, ElemType *inOrder, int length, int index = 0) {
     BiTree T = construct(preOrder, inOrder, length);
 
     PreOrder(T);
@@ -111,10 +138,12 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
 
     cout << endl;
     // 在此处写要测试的函数...
-    BiTreeToExpression(T);
-
-    cout << endl;
-    cout <<"--------------------------" << endl;
+    if (index == 0) {
+        BiTreeToExpression(T);
+        cout << endl;
+        cout << "--------------------------" << endl;
+    } else if (index == 1)
+        cout << postEval(T) << endl;
 }
 
 int main() {
@@ -126,11 +155,17 @@ int main() {
     // 满二叉树、完全二叉树
     ElemType preOrder2[] = {'+', '*', 'a', 'b', '-', '-', 'c', 'd'};
     ElemType inOrder2[] = {'a', '*', 'b', '+', '-', 'c', '-', 'd'};
-    int length2 = sizeof(preOrder2) / sizeof(ElemType);
+    int length2 = sizeof(preOrder2) / sizeof(preOrder2[0]);
+
+    ElemType preOrder3[] = {'-', '+', '1', '2', '*', '/', '3', '4', '5'};
+    ElemType inOrder3[] = {'1', '+', '2', '-', '3', '/', '4', '*', '5'};
+    int length3 = sizeof(preOrder3) / sizeof(preOrder3[0]);
 
     test(preOrder1, inOrder1, length1);
 
     test(preOrder2, inOrder2, length2);
+
+    test(preOrder3, inOrder3, length3, 1);
 
     return 0;
 }
@@ -148,4 +183,8 @@ int main() {
 
 // ( a * b ) + ( - ( c - d ) )
 // --------------------------
+// - + 1 2 * / 3 4 5
+// 1 + 2 - 3 / 4 * 5
+// 1 2 + 3 4 / 5 * -
 
+// 47.0192

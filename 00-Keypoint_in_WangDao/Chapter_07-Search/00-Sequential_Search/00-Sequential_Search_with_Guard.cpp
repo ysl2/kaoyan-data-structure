@@ -18,7 +18,7 @@ SqTable getTable(int arr[], int length) {
 int search(SqTable T, ElemType key) {
     T.data[0] = key;
     int i;
-    for (i = T.length; T.data[i] != key; i--)
+    for (i = T.length - 1; T.data[i] != key; --i)
         ;
     return i;
 }

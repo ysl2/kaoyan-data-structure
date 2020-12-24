@@ -73,6 +73,7 @@ bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
         return true;
     return getNodeByValue(T->rchild, value, result);
 }
+
 /*
     基本思想:考虑包含被删除元素的节点p的三种情况:
     （1）p是树叶:丢弃树叶节点；
@@ -82,15 +83,15 @@ bool getNodeByValue(BSTree T, ElemType value, BSTNode *&result) {
 
 void BSTreeDelete(BSTree &T, ElemType k, ElemType &e) {
     BSTNode *p = T;
-    BSTNode *pp = 0;
-    while (p && p->key != k) {
+    BSTNode *pp = NULL;
+    while (p != NULL && p->key != k) {
         pp = p;
         if (k < p->key)
             p = p->lchild;
         else
             p = p->rchild;
     }
-    if (!p)
+    if (p == NULL)
         return;  // 没有关键值为k的元素
     e = p->key;  // 保存欲删除的元素
     // p有两个孩子
@@ -98,7 +99,7 @@ void BSTreeDelete(BSTree &T, ElemType k, ElemType &e) {
         // 在p的左子树中寻找最大元素
         BSTNode *s = p->lchild;
         BSTNode *ps = p;
-        while (s->rchild) {
+        while (s->rchild != NULL) {
             ps = s;
             s = s->rchild;
         }

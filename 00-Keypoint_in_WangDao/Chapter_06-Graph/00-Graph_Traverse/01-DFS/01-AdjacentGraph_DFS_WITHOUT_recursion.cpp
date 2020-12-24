@@ -103,7 +103,7 @@ void DFS(AdjacentGraph G, int v0) {
         int v = s.top();
         s.pop();
         visit(G, v);
-        for (ArcNode *temp = (G->vertex[v]).first; temp != NULL; temp = temp->next) {
+        for (ArcNode *temp = G->vertex[v].first; temp != NULL; temp = temp->next) {
             if (!visited[temp->adjvex]) {
                 visited[temp->adjvex] = 1;
                 s.push(temp->adjvex);
@@ -124,7 +124,7 @@ void test(ElemType *vertex, int vexnum, int *edge) {
 
 int main() {
     ElemType vertex[] = {1, 2, 3, 4, 5};
-    int vexnum = sizeof(vertex) / sizeof(ElemType);
+    int vexnum = sizeof(vertex) / sizeof(vertex[0]);
     int edge[] = {
         0, 1, 1, 0, 0,
         0, 0, 1, 0, 1,

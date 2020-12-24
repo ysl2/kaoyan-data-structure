@@ -203,7 +203,7 @@ void test(ElemType *preOrder, ElemType *inOrder, int length) {
 int main() {
     ElemType preOrder1[] = {'B', 'E', 'F', 'C', 'G', 'D', 'H'};
     ElemType inOrder1[] = {'F', 'E', 'B', 'G', 'C', 'H', 'D'};
-    int length1 = sizeof(preOrder1) / sizeof(ElemType);
+    int length1 = sizeof(preOrder1) / sizeof(preOrder1[0]);
     // ElemType preOrder2[] = {'B', 'E', 'F', 'H', 'C', 'G', 'D'};
     // ElemType inOrder2[] = {'F', 'E', 'H', 'B', 'G', 'C', 'D'};
     // int length2 = sizeof(preOrder2) / sizeof(ElemType);
@@ -225,3 +225,4 @@ int main() {
 // F E B G C H D
 // F E G H D C B
 // F G H
+

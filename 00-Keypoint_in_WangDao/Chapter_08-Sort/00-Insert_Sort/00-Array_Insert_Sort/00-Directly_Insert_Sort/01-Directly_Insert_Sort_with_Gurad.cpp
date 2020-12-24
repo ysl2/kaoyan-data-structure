@@ -22,7 +22,7 @@ void directlyInsertSortWithGuard(int a[], int length) {
     for (int i = 2; i < length; i++) {
         a[0] = a[i];
         int j;
-        for (j = i - 1; j >= 0 && a[j] > a[0]; j--)
+        for (j = i - 1; j >= 0 && a[j] > a[0]; --j)
             a[j + 1] = a[j];
         a[j + 1] = a[0];
     }
@@ -30,7 +30,7 @@ void directlyInsertSortWithGuard(int a[], int length) {
 
 int main() {
     ElemType A[] = {-1, 0, 2, 4, 6, 8, 1, 3, 5, 7, 9};
-    int length = sizeof(A) / sizeof(int);
+    int length = sizeof(A) / sizeof(A[0]);
     directlyInsertSortWithGuard(A, length);
     outPut(A, length);
     return 0;

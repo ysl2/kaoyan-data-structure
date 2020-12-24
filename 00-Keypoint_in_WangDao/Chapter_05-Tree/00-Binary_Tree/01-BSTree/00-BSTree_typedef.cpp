@@ -1,6 +1,6 @@
-typedef int ELemType;
+typedef int ElemType;
 typedef struct BSTNode {
-    ELemType key;
-    struct BSTNode *lchind, *rchild;
+    ElemType key;
+    struct BSTNode *lchild, *rchild;
 } BSTNode, *BSTree;
 

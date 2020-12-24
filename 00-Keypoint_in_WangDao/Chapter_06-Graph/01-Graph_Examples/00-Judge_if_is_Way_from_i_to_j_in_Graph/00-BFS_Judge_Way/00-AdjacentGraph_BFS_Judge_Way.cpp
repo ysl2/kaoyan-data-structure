@@ -64,7 +64,7 @@ AdjacentGraph createAdjacent(ElemType *vertex, int vexnum, int *edge) {
 }
 
 // 这里的v是数组下标，而不是顶点
-int FirstNeigbor(AdjacentGraph G, int v) {
+int FirstNeighbor(AdjacentGraph G, int v) {
     return G->vertex[v].first != NULL ? G->vertex[v].first->adjvex : -1;
 }
 
